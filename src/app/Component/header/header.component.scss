@@ -1,32 +1,18 @@
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-  
+// 
   /* Navbar Styling */
   .navbar {
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
     align-items: center;
     padding: 15px 0;
-    background-color: #f8f8f8;
+    // background-color: #f8f8f8;
   }
   
   .navbar-brand {
     display: flex;
     align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    text-decoration: none;
   }
-  
-  .navbar-brand img {
-    width: 40px;
-    margin-right: 10px;
-  }
-  
+ 
   .nav-links {
     display: flex;
     list-style: none;
@@ -41,10 +27,11 @@
     color: #333;
     padding: 10px 15px;
     display: block;
+    transition: all 200ms ease;
   }
   
   .nav-links a:hover {
-    color: #007bff;
+   font-weight: 600;
   }
   
   /* Dropdown Styling */
@@ -59,15 +46,18 @@
     padding: 15px;
     width: 800px;
     z-index: 1000;
+    transition: all 500ms ease-in-out !important;
   }
   
   .dropdown:hover .dropdown-content {
     display: flex;
+    transition: all 500ms ease-in-out !important;
   }
   
   .dropdown-column {
     flex: 1;
     margin-right: 20px;
+    transition: all 500ms ease-in-out !important;
   }
   
   .dropdown-column h4 {
@@ -83,14 +73,23 @@
     text-decoration: none;
     margin-bottom: 5px;
     display: block;
+    transition: all 200ms ease;
   }
   
   .dropdown-column a:hover {
-    color: #007bff;
+  font-weight: 600;
+  color: #555;
+  
+ 
+    
   }
+  // .ri-arrow-down-s-line{
+  //   transform: rotate(180deg) !important;
+  // }
   
   .dropdown-content {
     display: flex;
+    transition: all 200ms ease;
     flex-wrap: wrap;
   }
   
@@ -113,10 +112,11 @@
       display: none;
       flex-direction: column;
       width: 100%;
-      background-color: #f8f8f8;
+      background-color: #fff;
       position: absolute;
       top: 100%;
       left: 0;
+      z-index: 1;
       border-top: 1px solid #ddd;
     }
   
@@ -126,7 +126,7 @@
   
     .dropdown .dropdown-content {
       position: static;
-      width: 100%;
+      width: 90%;
     }
   
     .menu-toggle {

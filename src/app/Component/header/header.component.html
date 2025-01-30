@@ -2,7 +2,7 @@
     <div class="container">
       <!-- Logo -->
       <a href="#" class="navbar-brand">
-        <img src="logo.png" alt="Krist Logo" class="logo"> Krist
+        <img src="./assets/logo.svg" alt="Krist Logo" > 
       </a>
   
       <!-- Hamburger Menu for Mobile -->
@@ -16,7 +16,7 @@
       <ul class="nav-links" [ngClass]="{ 'active': mobileMenuActive }">
         <li><a href="#">Home</a></li>
         <li class="dropdown" (mouseenter)="toggleDropdown(true)" (mouseleave)="toggleDropdown(false)">
-          <a href="#" class="dropbtn">Shop</a>
+          <a href="#" class="dropbtn">Shop <i class="ri-arrow-down-s-line ri-lg"></i></a>
           <div class="dropdown-content" *ngIf="dropdownActive">
             <div class="dropdown-column">
               <h4>Men</h4>
@@ -67,6 +67,27 @@
         <li><a href="#">Our Story</a></li>
         <li><a href="#">Blog</a></li>
         <li><a href="#">Contact Us</a></li>
+
+        
+        <li class="d-md-none ">
+          <button type="button" class="w-50 btn btn-dark mb-3">Login</button>
+        </li>
+      </ul>
+
+
+      <ul class="nav-links align-items-center gap-3" >
+        <li>
+          <i class="ri-search-2-line ri-lg"></i>
+        </li>
+        <li>
+          <i class="ri-heart-line ri-lg"></i>
+        </li>
+        <li>
+          <i class="ri-shopping-bag-3-line ri-lg"></i>
+        </li>
+        <li>
+          <button type="button" class="btn btn-dark">Login</button>
+        </li>
       </ul>
     </div>
   </nav>
