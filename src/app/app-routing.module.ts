@@ -1,17 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './Component/home/home.component';
 
-const routes: Routes = [];
-// const routes: Routes = [
-//   { path: '', component: HomeComponent },
-//   { path: 'shop/men', component: MenComponent },
-//   { path: 'shop/women', component: WomenComponent },
-//   { path: 'shop/kids', component: KidsComponent },
-//   { path: 'shop/footwear', component: FootwearComponent },
-//   { path: 'our-story', component: OurStoryComponent },
-//   { path: 'blog', component: BlogComponent },
-//   { path: 'contact', component: ContactComponent },
-// ];
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'man',
+    loadChildren: () =>
+      import('./Component/man/man.module').then((m) => m.ManModule),
+  },
+  {
+    path: 'woman',
+    loadChildren: () =>
+      import('./Component/woman/woman.module').then((m) => m.WomanModule),
+  },
+];
+
+
 
 
 @NgModule({
