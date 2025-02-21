@@ -17,6 +17,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./Component/woman/woman.module').then((m) => m.WomanModule),
   },
+  { path: '**', redirectTo: '' }
 ];
 
 

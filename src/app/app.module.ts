@@ -14,6 +14,8 @@ import { FilterComponent } from './Component/filter/filter.component';
 import { ManModule } from './Component/man/man.module';
 import { WomanModule } from './Component/woman/woman.module';
 import { HomeComponent } from './Component/home/home.component';
+import { FooterPart2Component } from './Component/footer-part2/footer-part2.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,11 +28,14 @@ import { HomeComponent } from './Component/home/home.component';
     ShalwarKameezComponent,
     UnstitchedFabricComponent,
     FilterComponent,
-    HomeComponent
+    HomeComponent,
+    FooterPart2Component,
+   
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule
     // ManModule,
     // WomanModule
   ],

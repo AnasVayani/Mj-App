@@ -1,1 +1,28 @@
-<p>filter works!</p>
+<div class="filters p-3 border rounded" [ngClass]="{ '': !showFilters && isMobile(), 'show': showFilters }">
+    <h5 class="fw-bold">Product Categories</h5>
+    <div *ngFor="let category of categories">
+      <input type="checkbox" [(ngModel)]="selectedCategories[category]" (change)="markFilterChange()"> {{ category }}
+    </div>
+  
+    <h5 class="fw-bold mt-3">Filter by Price</h5>
+    <div class="price-slider">
+      <input type="range" class="form-range min-range" min="0" max="2000" [(ngModel)]="minPrice" (input)="updatePriceRange()">
+      <input type="range" class="form-range max-range" min="0" max="2000" [(ngModel)]="maxPrice" (input)="updatePriceRange()">
+      <div class="slider-track"></div>
+    </div>
+    <p>Price: ${{ minPrice }} - ${{ maxPrice }}</p>
+  
+    <h5 class="fw-bold mt-3">Filter by Color</h5>
+    <div *ngFor="let color of colors">
+      <input type="checkbox" [(ngModel)]="selectedColors[color]" (change)="markFilterChange()"> {{ color }}
+    </div>
+  
+    <h5 class="fw-bold mt-3">Filter by Size</h5>
+    <div *ngFor="let size of sizes">
+      <input type="checkbox" [(ngModel)]="selectedSizes[size]" (change)="markFilterChange()"> {{ size }}
+    </div>
+  
+    <button class="btn btn-dark w-100 mt-3 d-md-none" [disabled]="!showResetButton" (click)="applyFilters()">Apply</button>
+    <button class="btn btn-outline-danger w-100 mt-2" (click)="resetFilters()" [disabled]="!showResetButton">Reset</button>
+  </div>
+  
