@@ -1,1 +1,56 @@
-<p>tshirts works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12 d-md-none mb-2 d-flex gap-2">
+            <button class="btn btn-dark w-100" (click)="toggleFilters()">Filters</button>
+            <!-- <button class="btn btn-outline-danger w-100" [disabled]="!showResetButton" (click)="resetFilters()">Reset</button> -->
+          </div>
+          
+  
+      <div class="col-md-3" >
+        <app-filter [showFilters]="showFilters"  (filtersUpdated)="applyFilters($event)" (filtersReset)="resetFilters()" ></app-filter>
+      </div>
+      
+      
+      
+      
+  
+      <div class="col-md-9">
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4" *ngFor="let product of paginatedProducts">
+                <div class="card border-0 shadow-sm position-relative">
+                  <div class="image-container">
+                    <img [src]="product.image" class="card-img-top">
+                    
+                    <!-- Overlay with Buttons -->
+                    <div class="overlay">
+                      <div class="icon-buttons">
+                        <i class="ri-star-line"></i>
+                        <i class="ri-refresh-line"></i>
+                        <i class="ri-eye-line"></i>
+                      </div>
+                      <button class="add-to-cart-btn btn mb-2">Add to Cart</button>
+                    </div>
+                  </div>
+              
+                  <div class="card-body">
+                    <h6 class="fw-bold">{{ product.name }}</h6>
+                    <p class="mb-1">{{product.desc}} </p>
+                    <p class="text-muted">
+                      <span class="text-dark me-2">${{ product.price }}</span>
+                      <del>${{ product.oldPrice }}</del> 
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+        </div>
+  
+        <div class="d-flex justify-content-center my-4">
+          <button class="btn btn-outline-dark me-2" (click)="prevPage()" [disabled]="currentPage === 1">←</button>
+          <button *ngFor="let page of totalPages()" class="btn" [class.btn-dark]="currentPage === page" (click)="goToPage(page)">{{ page }}</button>
+          <button class="btn btn-outline-dark ms-2" (click)="nextPage()" [disabled]="currentPage === totalPages().length">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

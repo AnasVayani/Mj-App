@@ -1,1 +1,161 @@
-<p>home works!</p>
+<div class="container py-5">
+  <!-- Hero Section -->
+  <div class="row align-items-center mb-5">
+    <div class="col-md-6 text-center text-md-start">
+      <h2 class="font-weight-bold">Classic Exclusive</h2>
+      <h1 class="display-4 font-weight-bold">Women's Collection</h1>
+      <p>UPTO 40% OFF</p>
+      <button class="btn btn-dark btn-lg">Shop Now</button>
+    </div>
+    <div class="col-md-6">
+      <img src="./assets/images/home-banner.png" alt="Women's Collection" class="img-fluid rounded">
+    </div>
+  </div>
+
+  <!-- Categories Section -->
+ 
+  <div class="row py-5">
+    <h3 class="mb-4">Shop by Categories</h3>
+    <div class="col-6 col-md-3 mb-4">
+      <div class="card position-relative border-0 shadow-sm">
+        <img src="./assets/images/home-banner.png" alt="Casual Wear" class="card-img-top">
+        <div class="overlay-text">
+          <button class="btn btn-primary  btn-responsive">Casual Wear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3 mb-4">
+      <div class="card position-relative border-0 shadow-sm">
+        <img src="./assets/images/home-banner.png" alt="Western Wear" class="card-img-top">
+        <div class="overlay-text">
+          <button class="btn btn-primary  btn-responsive">Western Wear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3 mb-4">
+      <div class="card position-relative border-0 shadow-sm">
+        <img src="./assets/images/home-banner.png" alt="Ethnic Wear" class="card-img-top">
+        <div class="overlay-text">
+          <button class="btn btn-primary  btn-responsive">Ethnic Wear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3 mb-4">
+      <div class="card position-relative border-0 shadow-sm">
+        <img src="./assets/images/home-banner.png" alt="Kids Wear" class="card-img-top">
+        <div class="overlay-text">
+          <button class="btn btn-primary  btn-responsive">Kids Wear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+ 
+  <div class="row my-5">
+    <h2 class="text-center my-4">Our Bestseller</h2>
+    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let product of products">
+      <div class="product-card">
+        <div class="product-image position-relative">
+          <img [src]="product.image" [alt]="product.name" class="img-fluid w-100">
+          <div class="image-overlay"></div> <!-- Black Gradient Overlay -->
+          <div class="overlay-icons">
+            <i class="ri-heart-line wishlist-icon"></i>
+            <i class="ri-eye-line view-icon"></i>
+          </div>
+          <button class="add-to-cart btn btn-light">Add to Cart</button>
+        </div>
+        <div class="product-details">
+          <h6 class="fw-bold">{{ product.name }}</h6>
+          <p class="text-muted">{{ product.description }}</p>
+          <p class="price">
+            <span class="current-price">${{ product.currentPrice }}</span>
+            <span class="old-price text-muted">${{ product.oldPrice }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row deals-section py-5">
+    <div class="content">
+      <h2>Deals of the Month</h2>
+      <p>
+        It is a long established fact that a reader will be distracted by the readable content
+        of a page when looking at its layout. The point of using Lorem Ipsum is that it has a
+        more-or-less normal distribution of letters.
+      </p>
+
+      <div class="countdown">
+        <div class="time-box" *ngFor="let time of countdown">
+          <div class="time">{{ time.value }}</div>
+          <div class="label">{{ time.label }}</div>
+        </div>
+      </div>
+
+      <a href="#" class="view-products">
+        View All Products
+        <i class="ri-arrow-right-line"></i>
+      </a>
+    </div>
+
+    <div class="image-container">
+      <img src="./assets/product/product-img.png" alt="Deals of the Month">
+    </div>
+  </div>
+
+  <div class="row testimonial-section py-5">
+    <h2>What our Customers say’s</h2>
+
+    <div class="testimonial-slider-wrapper">
+      <div class="testimonial-slider" #slider>
+        <div *ngFor="let review of reviews" class="testimonial-card">
+          <div class="stars">
+            <i class="ri-star-fill" *ngFor="let star of [1,2,3,4,5]"></i>
+          </div>
+          <p class="testimonial-text">{{ review.text }}</p>
+          <div class="user-info">
+            <img [src]="review.image" alt="User">
+            <div class="user-details">
+              <div class="name">{{ review.name }}</div>
+              <div class="role">{{ review.role }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slider-controls">
+      <button class="control-btn prev" (click)="prevSlide()">
+        <i class="ri-arrow-left-line"></i>
+      </button>
+      <button class="control-btn next" (click)="nextSlide()">
+        <i class="ri-arrow-right-line"></i>
+      </button>
+    </div>
+  </div>
+
+
+
+  <div class="row insta-section py-5">
+    <h2 class="text-center mb-4">Our Instagram Stories</h2>
+    <div class="row">
+      <div class="col-6 col-md-3 mb-4" *ngFor="let story of stories">
+        <div class="instagram-story">
+          <img [src]="story" alt="Instagram Story" class="img-fluid" />
+          <div class="overlay">
+            <i class="ri-instagram-line"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-footer-part2/>
