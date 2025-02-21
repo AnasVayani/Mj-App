@@ -36,7 +36,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
     HttpClientModule,
     // ManModule,
     // WomanModule
