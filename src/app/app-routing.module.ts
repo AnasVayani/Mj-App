@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './Component/home/home.component';
+import { ProductComponent } from './Component/product/product.component';
+import { ProductDetailComponent } from './Component/product-detail/product-detail.component';
+import { AddtoCartComponent } from './Component/addto-cart/addto-cart.component';
+import { CheckoutComponent } from './Component/checkout/checkout.component';
 
 const routes: Routes = [
   {
@@ -8,15 +12,22 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'man',
-    loadChildren: () =>
-      import('./Component/man/man.module').then((m) => m.ManModule),
+    path: 'product',
+    component: ProductComponent
   },
   {
-    path: 'woman',
-    loadChildren: () =>
-      import('./Component/woman/woman.module').then((m) => m.WomanModule),
+    path: 'product-detail',
+    component: ProductDetailComponent
   },
+  {
+    path: 'cart',
+    component: AddtoCartComponent
+  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent
+  },
+ 
   { path: '**', redirectTo: '' }
 ];
 

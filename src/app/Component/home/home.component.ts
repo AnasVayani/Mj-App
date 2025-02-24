@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -118,6 +118,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
   ];
   ngOnInit(): void {
     this.startCountdown();
+    this.cloneSlides();
   }
 
 
@@ -147,9 +148,15 @@ export class HomeComponent implements OnInit,AfterViewInit {
   transitionEnabled = true;
 
   ngAfterViewInit() {
-    this.cloneSlides();
+    this.updateSlideWidth(); // Adjust width dynamically
   }
-
+  @HostListener('window:resize')
+  updateSlideWidth() {
+    if (this.slider) {
+      this.moveSlide();
+    }
+  }
+  
   cloneSlides() {
     // Clone first and last slides for smooth infinite effect
     const firstClone = { ...this.reviews[0] };

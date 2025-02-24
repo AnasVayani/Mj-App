@@ -5,17 +5,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Component/header/header.component';
 import { FooterComponent } from './Component/footer/footer.component';
-import { TshirtsComponent } from './Component/man/tshirts/tshirts.component';
-import { SweatshirtsComponent } from './Component/man/sweatshirts/sweatshirts.component';
-import { HoodiesComponent } from './Component/man/hoodies/hoodies.component';
-import { ShalwarKameezComponent } from './Component/man/shalwar-kameez/shalwar-kameez.component';
-import { UnstitchedFabricComponent } from './Component/man/unstitched-fabric/unstitched-fabric.component';
+
+
 import { FilterComponent } from './Component/filter/filter.component';
-import { ManModule } from './Component/man/man.module';
-import { WomanModule } from './Component/woman/woman.module';
+
 import { HomeComponent } from './Component/home/home.component';
 import { FooterPart2Component } from './Component/footer-part2/footer-part2.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { ProductComponent } from './Component/product/product.component';
+import { ProductDetailComponent } from './Component/product-detail/product-detail.component';
+import { TshirtsComponent } from './Component/tshirts/tshirts.component';
+import { RelatedProductComponent } from './Component/related-product/related-product.component';
+import { CartNotificationComponent } from './Component/cart-notification/cart-notification.component';
+import { AddtoCartComponent } from './Component/addto-cart/addto-cart.component';
+import { CheckoutComponent } from './Component/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -23,21 +27,25 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     TshirtsComponent,
-    SweatshirtsComponent,
-    HoodiesComponent,
-    ShalwarKameezComponent,
-    UnstitchedFabricComponent,
+    
+
     FilterComponent,
     HomeComponent,
     FooterPart2Component,
+    ProductComponent,
+    ProductDetailComponent,
+    RelatedProductComponent,
+    CartNotificationComponent,
+    AddtoCartComponent,
+    CheckoutComponent,
    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
-    // ManModule,
-    // WomanModule
+    FormsModule,
+    ReactiveFormsModule
+   
   ],
   providers: [],
   bootstrap: [AppComponent]

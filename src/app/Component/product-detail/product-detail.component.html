@@ -1,0 +1,226 @@
+<!-- <div class="container product-detail">
+    <div class="row">
+        <div class="col-md-6">
+            <img [src]="product?.image" class="img-fluid product-image">
+        </div>
+        <div class="col-md-6">
+            <h2>{{ product?.name }}</h2>
+            <p>{{ product?.desc }}</p>
+            <p class="text-muted">
+                <span class="text-dark me-2">${{ product?.price }}</span>
+                <del>${{ product?.oldPrice }}</del>
+            </p>
+            <button class="btn btn-dark">Add to Cart</button>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div class="container product-detail">
+    <div class="row">
+        <!-- Left Side: Product Image & Thumbnails -->
+        <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+            <div class="product-image">
+                <img [src]="selectedImage" class="img-fluid main-img" alt="Dress">
+            </div>
+            <div class="thumbnails d-flex justify-content-center mt-3">
+                <img *ngFor="let img of thumbnails" [src]="img" class="thumb-img" alt="Thumb"
+                    [class.active]="selectedImage === img" (click)="changeImage(img)">
+            </div>
+        </div>
+
+        <!-- Right Side: Product Details -->
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <h2 class="product-title">YK Disney</h2>
+            <p class="product-subtitle">Girls Pink Moana Printed Dress</p>
+            <div class="rating">
+                <span class="stars me-3">
+                    <i class="ri-star-fill" *ngFor="let star of [1,2,3,4,5]"></i>
+                </span>
+                <span class="reviews">(121 Reviews)</span>
+            </div>
+            <p class="price">
+                <span class="current-price">$80.00</span>
+                <span class="old-price">$100.00</span>
+            </p>
+            <p class="description">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam rem similique nostrum labore nesciunt
+                quas illo deserunt dolor voluptas cupiditate, est dolorum repellat nemo eos nisi eius ipsum et in,
+                voluptatum vitae.
+            </p>
+
+            <!-- Color Options -->
+            <div class="color-options">
+                <label>Color:</label>
+                <div class="colors">
+                    <span class="color-box" style="background-color: red;"></span>
+                    <span class="color-box" style="background-color: blue;"></span>
+                    <span class="color-box" style="background-color: orange;"></span>
+                    <span class="color-box" style="background-color: green;"></span>
+                    <span class="color-box" style="background-color: yellow;"></span>
+                </div>
+            </div>
+
+            <!-- Size Options -->
+            <div class="size-options mt-3">
+                <label>Size:</label>
+                <div class="sizes">
+                    <button *ngFor="let size of ['S', 'M', 'L', 'XL', 'XXL']" (click)="selectSize(size)"
+                        [class.selected]="selectedSize === size" class="size-btn">
+                        {{ size }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quantity and Cart Button -->
+            <div class="cart-actions mt-4">
+                <div class="quantity">
+                    <button class="qty-btn" (click)="decreaseQuantity()">−</button>
+                    <span class="qty-value">{{ quantity }}</span>
+                    <button class="qty-btn" (click)="increaseQuantity()">+</button>
+                </div>
+                <button class="btn btn-dark add-to-cart w-100 px-md-4 px-5" [disabled]="!selectedSize"
+                    (click)="addToCart()">
+                    Add to Cart
+                </button>
+                <button class="btn wishlist">
+                    <i class="ri-heart-line wishlist-icon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#description">Description</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#additional-info">Additional Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#reviews">Reviews</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active px-2 pt-3" id="description">
+                    <p>
+                        It is a long established fact that a reader will be distracted by readable content.
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos, culpa laudantium quasi,
+                        veritatis consequuntur vero quia velit ab architecto sapiente numquam vel veniam. Quo asperiores
+                        necessitatibus consequatur recusandae dolorum maxime adipisci molestiae.
+                    </p>
+                </div>
+                <div class="tab-pane fade px-2 pt-3" id="additional-info">
+                    <div>
+                        <div class="d-flex gap-3">
+                            <h6 class="fw-semibold m-0"> Color </h6>
+                            <div class="d-flex gap-1">
+                                <span> Red, </span>
+                                <span> Orange, </span>
+                                <span> Blue, </span>
+                                <span> Red </span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-4">
+                            <h6 class="fw-semibold m-0"> Size </h6>
+                            <div class="d-flex gap-1">
+                                <span> S, </span>
+                                <span> M, </span>
+                                <span> XL, </span>
+                                <span> XXL </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade px-2 pt-3" id="reviews">
+                    <div *ngFor="let review of reviews" class="review-card">
+                        <div class="d-flex align-items-start border-bottom pb-3">
+                          <img [src]="review.avatar" class="avatar" />
+                          <div class="ms-3">
+                            <h6 class="fw-bold">{{ review.name }}</h6>
+                            <div class="starrs">
+                              <i
+                                *ngFor="let star of [1,2,3,4,5]"
+                                class="ri-star-fill"
+                                [class.text-warning]="star <= review.rating"
+                              ></i>
+                            </div>
+                            <p class="mt-2"><strong>{{ review.comment }}</strong></p>
+                            <small class="text-muted">Posted on {{ review.date }}</small>
+                          </div>
+                        </div>
+                      </div>
+                    
+                      <!-- <hr /> -->
+                    
+                      <!-- Add Review Form -->
+                      <h5>Add your Review</h5>
+                      <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+                        <div class="mb-3">
+                          <label class="form-label">Your Rating</label>
+                          <div class="stars">
+                            <i
+                              *ngFor="let star of [1,2,3,4,5]"
+                              class="ri-star-fill star-icon"
+                              [class.text-warning]="star <= selectedRating"
+                              (click)="setRating(star)"
+                            ></i>
+                          </div>
+                          <small *ngIf="reviewForm.get('rating')?.invalid" class="text-danger">
+                            Please select a rating.
+                          </small>
+                        </div>
+                    
+                        <div class="mb-3">
+                          <input
+                            type="text"
+                            formControlName="name"
+                            class="form-control"
+                            placeholder="Enter Your Name"
+                          />
+                          <small *ngIf="reviewForm.get('name')?.invalid && reviewForm.get('name')?.touched" class="text-danger">
+                            Name is required.
+                          </small>
+                        </div>
+                    
+                        <div class="mb-3">
+                          <input
+                            type="email"
+                            formControlName="email"
+                            class="form-control"
+                            placeholder="Enter Your Email"
+                          />
+                          <small *ngIf="reviewForm.get('email')?.invalid && reviewForm.get('email')?.touched" class="text-danger">
+                            Enter a valid email.
+                          </small>
+                        </div>
+                    
+                        <div class="mb-3">
+                          <textarea
+                            formControlName="review"
+                            class="form-control"
+                            placeholder="Enter Your Review"
+                            rows="4"
+                          ></textarea>
+                          <small *ngIf="reviewForm.get('review')?.invalid && reviewForm.get('review')?.touched" class="text-danger">
+                            Review is required.
+                          </small>
+                        </div>
+                    
+                        <button class="btn btn-dark px-5" type="submit" [disabled]="reviewForm.invalid">
+                          Submit
+                        </button>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-related-product/>
+<app-footer-part2 />

@@ -1,0 +1,90 @@
+<div class="container checkout-container">
+    <h2 class="checkout-title">Shipping Address</h2>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" [style.width]="progressWidth" aria-valuenow="25"
+                aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+
+    <!-- Checkout Steps -->
+    <div *ngIf="step === 1">
+        <!-- Step 1: Shipping Address -->
+        <div class="shipping-address">
+            <h4>Select a delivery address</h4>
+            <p>Is this the address you’d like to use? If so, click “Deliver Here” or add a new address.</p>
+
+            <div class="row">
+                <div class="col-md-6" *ngFor="let address of addresses; let i = index">
+                    <div class="address-card" [class.selected]="selectedAddress === i" (click)="selectAddress(i)">
+                        <input type="radio" [checked]="selectedAddress === i">
+                        <div>
+                            <h5>{{ address.name }}</h5>
+                            <p>{{ address.street }}</p>
+                        </div>
+                        <div class="address-actions">
+                            <button class="btn btn-outline-dark btn-sm">Edit</button>
+                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-dark w-100 mt-3" (click)="nextStep()">Deliver Here</button>
+
+            <h4 class="mt-4">Add a new address</h4>
+            <form [formGroup]="addressForm" (ngSubmit)="addAddress()">
+                <input formControlName="name" type="text" class="form-control mb-2" placeholder="Enter Name">
+                <input formControlName="mobile" type="text" class="form-control mb-2" placeholder="Enter Mobile Number">
+                <input formControlName="street" type="text" class="form-control mb-2"
+                    placeholder="Flat, House no., Building">
+                <input formControlName="area" type="text" class="form-control mb-2"
+                    placeholder="Area, Colony, Street, Sector">
+                <select formControlName="city" class="form-control mb-2">
+                    <option>Select City</option>
+                    <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+                </select>
+                <input formControlName="zip" type="text" class="form-control mb-2" placeholder="Enter Pin Code">
+                <select formControlName="state" class="form-control mb-2">
+                    <option>Select State</option>
+                </select>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="default">
+                    <label class="form-check-label">Use as my default address</label>
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100 mt-3">Add New Address</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Placeholder for Step 2 (Payment Method) -->
+    <div *ngIf="step === 2">
+        <h4>Payment Method (To be implemented)</h4>
+        <button class="btn btn-dark" (click)="nextStep()">Next</button>
+    </div>
+
+    <!-- Placeholder for Step 3 (Review Order) -->
+    <div *ngIf="step === 3">
+        <h4>Review Order (To be implemented)</h4>
+        <button class="btn btn-dark" (click)="nextStep()">Next</button>
+    </div>
+
+    <!-- Placeholder for Step 4 (Order Confirmation Popup) -->
+    <div *ngIf="step === 4">
+        <h4>Order Confirmation (Popup to be implemented)</h4>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+        <p><strong>Subtotal:</strong> ${{ subtotal }}</p>
+        <div class="discount-section">
+            <input type="text" class="form-control" [(ngModel)]="discountCode" placeholder="Enter Discount Code">
+            <button class="btn btn-dark" (click)="applyDiscount()">Apply</button>
+        </div>
+        <p><strong>Delivery Charge:</strong> ${{ deliveryCharge }}</p>
+        <p><strong>Grand Total:</strong> ${{ grandTotal }}</p>
+    </div>
+</div>

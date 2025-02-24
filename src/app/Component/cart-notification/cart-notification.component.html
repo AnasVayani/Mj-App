@@ -1,0 +1,28 @@
+<div class="cart-dropdown">
+    <button class="cart-btn" (click)="toggleCart()">
+        🛒 <span class="cart-count">{{ cartItems.length }}</span>
+    </button>
+
+    <div class="cart-dropdown-menu" *ngIf="cartOpen">
+        <p class="cart-title">You have {{ cartItems.length }} items in your cart</p>
+
+        <!-- Scrollable Cart Items -->
+        <div class="cart-items">
+            <div class="cart-item" *ngFor="let item of cartItems; let i = index">
+                <img [src]="item.image" class="cart-item-img" alt="Product">
+                <div class="cart-item-info">
+                    <p class="cart-item-title">{{ item.title }}</p>
+                    <p class="cart-item-size">Size: {{ item.size }}</p>
+                    <p class="cart-item-price">${{ item.price }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Section -->
+        <div class="cart-footer">
+            <p class="cart-subtotal">Subtotal: ${{ getSubtotal() }}</p>
+            <button class="btn btn-dark">View Cart</button>
+            <button class="btn btn-primary">Checkout</button>
+        </div>
+    </div>
+</div>
