@@ -1,5 +1,8 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonService } from 'src/app/services/commonService';
+
+
 
 @Component({
   selector: 'app-home',
@@ -117,7 +120,14 @@ export class HomeComponent implements OnInit,AfterViewInit {
     'assets/product/product-img.png',
     'assets/product/product-img.png',
   ];
-  constructor(private router: Router) {}
+
+  
+ 
+  headersSection : any = {}
+  bestSelling : any= {}
+
+  constructor(private router: Router, private commonService : CommonService) {}
+
 
   ngOnInit(): void {
     const selectedCountry = localStorage.getItem('selectedCountry');
@@ -126,10 +136,38 @@ export class HomeComponent implements OnInit,AfterViewInit {
     }
     this.startCountdown();
     this.cloneSlides();
+    debugger;
+    this.getSectionHeadings();
+    this.getBestSellingProducts();
+  }
+
+
+  getSectionHeadings(){
+    this.commonService.getBanner().subscribe(
+      response =>{
+        this.headersSection = response;
+        console.log('Banner', this.headersSection)
+      },
+      (err)=>{
+        console.log("there is an error ", err)
+      }
+  
+  )
   }
 
 
 
+  getBestSellingProducts(){
+    this.commonService.getBestSeller().subscribe(
+      data =>{
+        this.bestSelling = data;
+        console.log("Best Selling Produts ==>" , this.bestSelling);
+      },
+      (err)=>{
+        console.log("Error Best Selling ==>", err);
+      }
+  )
+  }
   startCountdown(): void {
     setInterval(() => {
       const now = new Date().getTime();

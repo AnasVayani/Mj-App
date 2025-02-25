@@ -20,7 +20,7 @@
           <div class="dropdown-content" *ngIf="dropdownActive">
             <div class="dropdown-column" *ngIf="menCategories.length > 0">
               <h4>Men</h4>
-              <a *ngFor="let category of menCategories" [routerLink]="'/man/' + category.name.toLowerCase()">
+              <a *ngFor="let category of menCategories" [routerLink]="'/product'">
                 {{ category.name }}
               </a>
             </div>
@@ -28,7 +28,7 @@
             <!-- Women Categories -->
             <div class="dropdown-column" *ngIf="womenCategories.length > 0">
               <h4>Women</h4>
-              <a *ngFor="let category of womenCategories" [routerLink]="'/woman/' + category.name.toLowerCase()">
+              <a *ngFor="let category of womenCategories" [routerLink]="'/product'">
                 {{ category.name }}
               </a>
             </div>

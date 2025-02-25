@@ -21,6 +21,11 @@ export class CommonService {
     return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetWomenProducts`);
   }
 
+
+  getBanner(): Observable<any> {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetProductBanner`);
+  }
+
   getProducts(
     pageSize: number,
     pageNumber: number,
@@ -47,5 +52,9 @@ export class CommonService {
     return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetProducts`, { params });
   }
   
+  getBestSeller(): Observable<any> {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetBestSellingProducts`);
+  }
+
   
 }

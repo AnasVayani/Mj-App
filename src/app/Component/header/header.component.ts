@@ -2,8 +2,6 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { Modal } from 'bootstrap';
-
-import { ActivatedRoute } from '@angular/router';
 import { CommonService } from 'src/app/services/commonService';
 
 interface Category {
@@ -21,19 +19,7 @@ export class HeaderComponent implements OnInit {
   menCategories: Category[] = [];
   womenCategories: Category[] = [];
   SearchModal: Modal | null = null;
-  
-  constructor(private router: Router, private commonService: CommonService){
-    this.itemTitles = this.items.map((item) => item.title); // ✅ Precompute array
-  }
-  ngOnInit(): void {
-    debugger;
-    const modalElement = document.getElementById('searchModal');
-    if (modalElement) {
-      this.SearchModal = new bootstrap.Modal(modalElement);
-    }
-    this.getAllCategories()
-    throw new Error('Method not implemented.');
-  }
+
   mobileMenuActive = false;
   dropdownActive = false;
   searchQuery: string = '';
@@ -133,6 +119,16 @@ export class HeaderComponent implements OnInit {
   itemTitles: string[] = []; // ✅ Store precomputed item titles
   filteredItems = [...this.items];
 
+  constructor(private router: Router, private commonService: CommonService){
+    this.itemTitles = this.items.map((item) => item.title); // ✅ Precompute array
+  }
+  ngOnInit(): void {
+    const modalElement = document.getElementById('searchModal');
+    if (modalElement) {
+      this.SearchModal = new bootstrap.Modal(modalElement);
+    }
+    this.getAllCategories()
+  }
   filterResults(query: string) {
     this.searchQuery = query.trim();
     this.filteredItems = this.items.filter((item) =>

@@ -23,6 +23,7 @@ import { CheckoutComponent } from './Component/checkout/checkout.component';
 import { SelectCountryComponent } from './Component/select-country/select-country.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { SearchComponent } from './Component/search/search.component'; 
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { SearchComponent } from './Component/search/search.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    HttpClientModule
    
   ],
   providers: [],

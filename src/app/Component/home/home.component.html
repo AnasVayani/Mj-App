@@ -1,20 +1,20 @@
 <div class="container py-5">
   <!-- Hero Section -->
   <div class="row align-items-center mb-5">
-    <div class="col-md-6 text-center text-md-start">
-      <h2 class="font-weight-bold">Classic Exclusive</h2>
-      <h1 class="display-4 font-weight-bold">Women's Collection</h1>
-      <p>UPTO 40% OFF</p>
+    <div class="col-md-6 text-center text-md-start" >
+      <h2 class="font-weight-bold">{{headersSection.heading}}</h2>
+      <h1 class="display-4 font-weight-bold">{{headersSection.subHeading}}</h1>
+      <p>{{headersSection.text}}</p>
       <button class="btn btn-dark btn-lg">Shop Now</button>
     </div>
     <div class="col-md-6">
-      <img src="./assets/images/home-banner.png" alt="Women's Collection" class="img-fluid rounded">
+      <img [src]="headersSection.imageUrl" alt="Women's Collection" class="img-fluid rounded">
     </div>
   </div>
 
   <!-- Categories Section -->
  
-  <div class="row justify-content-center  py-5">
+  <div class="row py-5">
     <h3 class="mb-4">Shop by Categories</h3>
     <div class="col-6 col-md-3 mb-4">
       <div class="card position-relative border-0 shadow-sm">
@@ -56,7 +56,7 @@
 
 
  
-  <div class="row justify-content-center my-5">
+  <div class="row my-5">
     <h2 class="text-center my-4">Our Bestseller</h2>
     <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let product of products">
       <div class="product-card">
@@ -82,7 +82,7 @@
   </div>
 
 
-  <div class="row justify-content-center deals-section py-5">
+  <div class="row deals-section py-5">
     <div class="content">
       <h2>Deals of the Month</h2>
       <p>
@@ -109,7 +109,7 @@
     </div>
   </div>
 
-  <div class="row  testimonial-section py-5">
+  <div class="row testimonial-section py-5">
     <h2>What our Customers say’s</h2>
 
     <div class="testimonial-slider-wrapper">
@@ -142,7 +142,7 @@
 
 
 
-  <div class="row justify-content-center insta-section py-5">
+  <div class="row insta-section py-5">
     <h2 class="text-center mb-4">Our Instagram Stories</h2>
     <div class="row">
       <div class="col-6 col-md-3 mb-4" *ngFor="let story of stories">
