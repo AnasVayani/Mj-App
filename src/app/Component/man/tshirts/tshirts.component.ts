@@ -1,14 +1,25 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 
+import { ActivatedRoute } from '@angular/router';
+import { CommonService } from 'src/app/services/commonService';
+
 interface Product {
+  id: number;
   name: string;
-  desc:string;
-  image: string;
+  type: string;
+  hashTag: string;
+  desc: string;
+  discount: number;
+  imageUrl: string[];
   price: number;
   oldPrice: number;
-  category: string;
+  category: {
+    id: number;
+    name: string;
+  };
   color: string;
   size: string;
+  productDetails: any[];
 }
 
 @Component({
@@ -16,29 +27,39 @@ interface Product {
   templateUrl: './tshirts.component.html',
   styleUrls: ['./tshirts.component.scss'],
 })
-export class TshirtsComponent  {
+export class TshirtsComponent  implements OnInit{
+  products: Product[] = [];
+  currentPage: number = 1;
+  pageSize: number = 1;
+  categoryId: number = 1; // Example category ID for T-Shirts
+  type: number = 1; // Example type filter
+  sizeFilter: string = ''; // If you want to filter by size
+
+
   showFilters: boolean = true;
   screenWidth: number = window.innerWidth; // Store screen width
   showApplyButton: boolean = false;
   showResetButton: boolean = false;
-
-  products: Product[] = [
-    { name: 'Allen Solly',        desc:'lorem',   image: 'assets/product/product-img.png', price: 80, oldPrice: 100, category: 'Men', color: 'Red', size: 'M' },
-    { name: 'Adidas Shoes',       desc:'lorem',   image: 'assets/product/product-img.png', price: 60, oldPrice: 75, category: 'Men', color: 'Blue', size: 'L' },
-    { name: 'Roadstar T-Shirt',   desc:'lorem',   image: 'assets/product/product-img.png', price: 38, oldPrice: 40, category: 'Men', color: 'Black', size: 'XL' },
-    { name: 'Flora Hand Purse',   desc:'lorem',   image: 'assets/product/product-img.png', price: 35, oldPrice: 45, category: 'Women', color: 'Orange', size: 'M' },
-    { name: 'Nike Hoodie',        desc:'lorem',   image: 'assets/product/product-img.png', price: 55, oldPrice: 65, category: 'Men', color: 'Green', size: 'L' },
-    { name: 'Puma Jacket',        desc:'lorem',   image: 'assets/product/product-img.png', price: 90, oldPrice: 120, category: 'Men', color: 'Black', size: 'M' },
-    { name: 'Levi’s Jeans',       desc:'lorem',   image: 'assets/product/product-img.png', price: 70, oldPrice: 90, category: 'Men', color: 'Blue', size: 'L' },
-    { name: 'H&M Dress',          desc:'lorem',   image: 'assets/product/product-img.png', price: 100, oldPrice: 150, category: 'Women', color: 'Red', size: 'S' },
-    { name: 'Gucci Belt',         desc:'lorem',   image: 'assets/product/product-img.png', price: 120, oldPrice: 160, category: 'Bags', color: 'Black', size: 'M' },
-    { name: 'LV Handbag',         desc:'lorem',   image: 'assets/product/product-img.png', price: 250, oldPrice: 300, category: 'Women', color: 'Brown', size: 'L' },
-    { name: 'Ray-Ban Sunglasses', desc:'lorem',   image: 'assets/product/product-img.png', price: 85, oldPrice: 95, category: 'Men', color: 'Black', size: 'M' },
-  ];
+  _products: any[] = [];
+  category: string = '';
+  
+  // products: Product[] = [
+  //   { name: 'Allen Solly',        desc:'lorem',   image: 'assets/product/product-img.png', price: 80, oldPrice: 100, category: 'Men', color: 'Red', size: 'M' },
+  //   { name: 'Adidas Shoes',       desc:'lorem',   image: 'assets/product/product-img.png', price: 60, oldPrice: 75, category: 'Men', color: 'Blue', size: 'L' },
+  //   { name: 'Roadstar T-Shirt',   desc:'lorem',   image: 'assets/product/product-img.png', price: 38, oldPrice: 40, category: 'Men', color: 'Black', size: 'XL' },
+  //   { name: 'Flora Hand Purse',   desc:'lorem',   image: 'assets/product/product-img.png', price: 35, oldPrice: 45, category: 'Women', color: 'Orange', size: 'M' },
+  //   { name: 'Nike Hoodie',        desc:'lorem',   image: 'assets/product/product-img.png', price: 55, oldPrice: 65, category: 'Men', color: 'Green', size: 'L' },
+  //   { name: 'Puma Jacket',        desc:'lorem',   image: 'assets/product/product-img.png', price: 90, oldPrice: 120, category: 'Men', color: 'Black', size: 'M' },
+  //   { name: 'Levi’s Jeans',       desc:'lorem',   image: 'assets/product/product-img.png', price: 70, oldPrice: 90, category: 'Men', color: 'Blue', size: 'L' },
+  //   { name: 'H&M Dress',          desc:'lorem',   image: 'assets/product/product-img.png', price: 100, oldPrice: 150, category: 'Women', color: 'Red', size: 'S' },
+  //   { name: 'Gucci Belt',         desc:'lorem',   image: 'assets/product/product-img.png', price: 120, oldPrice: 160, category: 'Bags', color: 'Black', size: 'M' },
+  //   { name: 'LV Handbag',         desc:'lorem',   image: 'assets/product/product-img.png', price: 250, oldPrice: 300, category: 'Women', color: 'Brown', size: 'L' },
+  //   { name: 'Ray-Ban Sunglasses', desc:'lorem',   image: 'assets/product/product-img.png', price: 85, oldPrice: 95, category: 'Men', color: 'Black', size: 'M' },
+  // ];
 
   filteredProducts: Product[] = [...this.products];
   paginatedProducts: Product[] = [];
-  currentPage: number = 1;
+  // currentPage: number = 1;
   itemsPerPage: number = 10;
 
   categories: string[] = ['Men', 'Women', 'Kids', 'Bags', 'Belts'];
@@ -51,13 +72,61 @@ export class TshirtsComponent  {
   minPrice = 0;
   maxPrice = 2000;
 
-  constructor() {
+  constructor(private commonService: CommonService, private route: ActivatedRoute) {
     this.paginate();
     this.filterProducts();
     this.checkScreenSize();
+    
+  }
+  ngOnInit(): void {
+    this.route.url.subscribe(urlSegments => {
+      if (urlSegments.length > 0) {
+        this.category = urlSegments[0].path; // Get 'man' or 'woman' from the URL
+
+        if (this.category === 'man') {
+          this.categoryId = 1;
+        } else if (this.category === 'woman') {
+          this.categoryId = 2;
+        } else {
+          this.categoryId = 0;
+        }
+
+        if (this.categoryId) {
+          this.getProducts();
+        }
+      }
+    });
+  }
+  
+  fetchProducts(): void {
+    this.commonService.getProducts(this.pageSize, this.currentPage, this.categoryId, this.type, "", "", 0, 0, this.sizeFilter)
+      .subscribe((data: Product[]) => {
+        this.products = data;
+      }, error => {
+        console.error("Error fetching products:", error);
+      });
   }
 
- 
+  getProducts(): void {
+    if (this.categoryId === 1) {
+      this.commonService.getMenProducts().subscribe(
+        response => {
+          this.products = response;
+          console.log('Men Products:', this.products);
+        },
+        error => console.error('Error fetching men’s products:', error)
+      );
+    } else if (this.categoryId === 2) {
+      this.commonService.getWomenProducts().subscribe(
+        response => {
+          this.products = response;
+          console.log('Women Products:', this.products);
+        },
+        error => console.error('Error fetching women’s products:', error)
+      );
+    }
+  }
+  
 
   @HostListener('window:resize', ['$event'])
   checkScreenSize() {
@@ -144,7 +213,7 @@ export class TshirtsComponent  {
 
   filterProducts() {
     this.filteredProducts = this.products.filter(product => {
-      const categoryMatch = !Object.values(this.selectedCategories).includes(true) || this.selectedCategories[product.category];
+      const categoryMatch = !Object.values(this.selectedCategories).includes(true) || this.selectedCategories[product.category.name];
       const colorMatch = !Object.values(this.selectedColors).includes(true) || this.selectedColors[product.color];
       const sizeMatch = !Object.values(this.selectedSizes).includes(true) || this.selectedSizes[product.size];
       const priceMatch = product.price >= this.minPrice && product.price <= this.maxPrice;
@@ -172,18 +241,16 @@ export class TshirtsComponent  {
     this.paginate();
   }
 
-  prevPage() {
+  prevPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.paginate();
+      this.getProducts();
     }
   }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages().length) {
-      this.currentPage++;
-      this.paginate();
-    }
+  nextPage(): void {
+    this.currentPage++;
+    this.getProducts();
   }
 
   toggleFilters() {

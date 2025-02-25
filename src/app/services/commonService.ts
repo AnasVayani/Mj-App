@@ -1,14 +1,51 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment'
+import { environment } from 'src/environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
-export class commonService {
-  constructor(private httpclient: HttpClient) {}
+export class CommonService {
+  constructor(private httpClient: HttpClient) {}
 
-  getProducts(categoryId: number,  type: number,  name: String = "",  hashTag: String = "",  fromPrice: number = 0,  toPrice: number = 0): Observable<any>{
-    return this.httpclient.get<any>(`${environment.apiUrl}/Product/GetProducts`)
+  getAll(): Observable<any> {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Category/GetAll`);
   }
+
+  getMenProducts(): Observable<any> {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetMenProducts`);
+  }
+
+  getWomenProducts(): Observable<any> {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetWomenProducts`);
+  }
+
+  getProducts(
+    pageSize: number,
+    pageNumber: number,
+    categoryId?: number,
+    type?: number,
+    name: string = '',
+    hashTag: string = '',
+    fromPrice?: number,
+    toPrice?: number,
+    size?: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('pageSize', pageSize.toString())
+      .set('pageNumber', pageNumber.toString());
+
+    if (categoryId !== undefined) params = params.set('categoryId', categoryId.toString());
+    if (type !== undefined) params = params.set('type', type.toString());
+    if (name) params = params.set('name', name);
+    if (hashTag) params = params.set('hashTag', hashTag);
+    if (fromPrice !== undefined) params = params.set('fromPrice', fromPrice.toString());
+    if (toPrice !== undefined) params = params.set('toPrice', toPrice.toString());
+    if (size) params = params.set('size', size);
+
+    return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetProducts`, { params });
+  }
+  
+  
 }

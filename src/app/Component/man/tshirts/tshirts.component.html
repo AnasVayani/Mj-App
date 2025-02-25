@@ -16,10 +16,11 @@
   
       <div class="col-md-9">
         <div class="row justify-content-center">
-            <div class="col-md-4 mb-4" *ngFor="let product of paginatedProducts">
+            <div class="col-md-4 mb-4" *ngFor="let product of products">
                 <div class="card border-0 shadow-sm position-relative">
                   <div class="image-container">
-                    <img [src]="product.image" class="card-img-top">
+                    <img [src]="product.imageUrl" class="card-img-top" alt="{{ product.name }}">
+
                     
                     <!-- Overlay with Buttons -->
                     <div class="overlay">

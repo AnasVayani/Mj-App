@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { commonService } from 'src/app/services/commonService';
+import { CommonService } from 'src/app/services/commonService';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,15 +8,15 @@ import { commonService } from 'src/app/services/commonService';
 export class AppComponent implements OnInit{
   title = 'mj-app';
 
-  constructor(private commonService: commonService){
+  constructor(private CommonService: CommonService){
     
   }
   ngOnInit(): void {
-    this.commonService.getProducts(1, 1).subscribe({
-      next: (res) => {
+    this.CommonService.getProducts(1, 1, 1, 1).subscribe({
+      next: (res: any) => {
         console.log('Products:', res);
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error calling products:', err);
       }
     });
