@@ -281,17 +281,19 @@
   display: flex;
   gap: 20px;
   transition: transform 0.5s ease-in-out;
+  width: max-content;
 }
 
 .testimonial-card {
-  flex: 0 0 100%;
+  flex: 0 0 auto;
   padding: 20px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: left;
   margin: 0 auto;
-  max-width: 400px;
+  min-width: 300px; // Adjust based on your design
+  max-width: 400px !important;
 }
 
 .stars {
@@ -364,6 +366,10 @@
     flex-wrap: nowrap;
     overflow-x: auto;
     scroll-behavior: smooth;
+  }
+  .testimonial-card {
+    width: 90%;
+    max-width: 90%;
   }
 }
 

@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonService } from 'src/app/services/commonService';
+import { NavigationEnd, Router } from '@angular/router';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit{
-  title = 'mj-app';
-
-  constructor(private CommonService: CommonService){
-    
-  }
-  ngOnInit(): void {
-    this.CommonService.getProducts(1, 1, 1, 1).subscribe({
-      next: (res: any) => {
-        console.log('Products:', res);
-      },
-      error: (err: any) => {
-        console.error('Error calling products:', err);
+export class AppComponent implements OnInit {
+  showHeaderFooter: boolean = true;
+  constructor(private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.showHeaderFooter = event.url !== '/select-country';
       }
     });
+  }
+
+  ngOnInit() {
+    const selectedCountry = localStorage.getItem('selectedCountry');
+
+    // Redirect to country selection if no country is selected and the user is on home ('/')
+    if (!selectedCountry && this.router.url === '/') {
+      this.router.navigate(['/select-country']);
+    }
   }
 }

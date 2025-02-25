@@ -20,6 +20,10 @@
   
   .nav-links li {
     position: relative;
+    i{
+      cursor: pointer;
+    }
+
   }
   
   .nav-links a {
@@ -164,5 +168,113 @@
 
   .menu-toggle {
     display: flex;
+  }
+}
+
+
+
+/* Centered Modal with 80% Width */
+.custom-modal-width {
+  max-width: 80%;
+
+  .modal-content {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 768px) { // Tablet & Mobile
+    max-width: 95%;
+    .modal-content {
+      height: 80vh;
+    }
+  }
+}
+
+/* Input Group with Search Bar */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  ng-autocomplete {
+    flex-grow: 1;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+}
+
+/* Search Results */
+.search-results {
+  max-height: 500px;
+  overflow-y: auto;
+  @media (max-width: 768px) {
+    max-height: 350px !important;
+  }
+  .list-group-item {
+    display: flex;
+    align-items: center;
+    border: none;
+    padding: 10px;
+    transition: background 0.3s;
+    flex-wrap: wrap; // ✅ Ensures responsiveness
+
+    &:hover {
+      background: #f8f9fa;
+    }
+
+    .item-image {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+
+      @media (min-width: 768px) { // Tablet & Desktop
+        width: 100px;
+        height: 100px;
+      }
+
+      @media (max-width: 576px) { // Mobile screens
+        width: 60px;
+        height: 60px;
+      }
+    }
+
+    .ms-3 {
+      flex: 1; 
+      min-width: 0; 
+
+      h6 {
+        font-size: 18px;
+        font-weight: bold;
+
+        @media (min-width: 768px) { 
+          font-size: 22px;
+        }
+
+        @media (max-width: 576px) { 
+          font-size: 16px;
+        }
+      }
+
+      p {
+        font-size: 14px;
+        color: #6c757d;
+
+        @media (min-width: 768px) { 
+          font-size: 18px;
+        }
+
+        @media (max-width: 576px) { 
+          font-size: 12px;
+        }
+      }
+    }
   }
 }

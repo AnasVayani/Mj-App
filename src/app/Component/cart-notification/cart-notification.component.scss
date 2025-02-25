@@ -1,0 +1,111 @@
+.cart-dropdown {
+    position: relative;
+    display: inline-block;
+
+    .cart-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .cart-count {
+        background: red;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 8px;
+        font-size: 12px;
+        position: absolute;
+        top: -5px;
+        right: -10px;
+    }
+
+    .cart-dropdown-menu {
+        position: absolute;
+        right: 0;
+        top: 40px;
+        width: 300px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        z-index: 1000;
+
+        .cart-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .cart-items {
+            max-height: 200px; // Only show 3 items initially
+            overflow-y: auto;  // Enable scrolling if >3 items
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            .cart-item-img {
+                width: 50px;
+                height: 50px;
+                border-radius: 5px;
+                margin-right: 10px;
+            }
+
+            .cart-item-info {
+                flex-grow: 1;
+                font-size: 14px;
+            }
+
+            .cart-item-title {
+                font-weight: bold;
+            }
+
+            .cart-item-size, .cart-item-price {
+                color: gray;
+                font-size: 12px;
+            }
+        }
+
+        .cart-footer {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            text-align: center;
+
+            .cart-subtotal {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 768px) {
+    .cart-dropdown-menu {
+        width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-dropdown-menu {
+        width: 220px;
+    }
+
+    .cart-item-title {
+        font-size: 12px;
+    }
+
+    .cart-item-size, .cart-item-price {
+        font-size: 10px;
+    }
+}
