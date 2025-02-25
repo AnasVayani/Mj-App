@@ -41,16 +41,27 @@
         <li><a href="#">Blog</a></li>
         <li><a href="#">Contact Us</a></li>
 
-        
+        <div class="d-flex align-items-center p-2 gap-3 d-md-none">
+          <li class="d-md-none ">
+            <i class="ri-search-2-line ri-lg" (click)="openSearchModal()"></i>
+          </li>
+          <li class="d-md-none ">
+            <i class="ri-heart-line ri-lg"></i>
+          </li>
+          <li class="d-md-none "> 
+            <i class="ri-shopping-bag-3-line ri-lg" routerLink="/cart"></i>
+          </li>
+        </div>
         <li class="d-md-none ">
           <button type="button" class="w-50 btn btn-dark mb-3">Login</button>
         </li>
+
       </ul>
 
 
       <ul class="nav-links align-items-center gap-3" >
         <li>
-          <i class="ri-search-2-line ri-lg"></i>
+          <i class="ri-search-2-line ri-lg" (click)="openSearchModal()"></i>
         </li>
         <li>
           <i class="ri-heart-line ri-lg"></i>
@@ -65,3 +76,55 @@
     </div>
   </nav>
   
+
+
+
+
+
+
+
+
+
+  <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg custom-modal-width">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="searchModalLabel">Search Products</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Search Input with Button -->
+          <div class="d-flex">
+            <ng-autocomplete
+              [(ngModel)]="searchQuery"
+              [data]="itemTitles"  
+              (inputChanged)="filterResults(searchQuery)"
+              placeholder="Search for items..."
+              class="form-control w-100 border-0"
+            ></ng-autocomplete>
+            
+            <button class="btn btn-dark ms-2" (click)="CloseModal() " >
+              <i class="ri-search-line"></i>
+            </button>
+          </div>
+          
+          <div class="search-results mt-3" *ngIf="searchQuery && filteredItems.length > 0">
+            <ul class="list-group">
+              <li class="list-group-item d-flex align-items-center" *ngFor="let item of filteredItems">
+                <img [src]="item.image" alt="{{ item.title }}" class="item-image" />
+                <div class="ms-3">
+                  <h6 class="mb-0">{{ item.title }}</h6>
+                  <p class="mb-0 text-muted">PKR {{ item.price }}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="no-results text-danger mt-3" *ngIf="searchQuery && filteredItems.length === 0">
+            No Records Found
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>

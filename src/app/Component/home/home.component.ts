@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -116,7 +117,13 @@ export class HomeComponent implements OnInit,AfterViewInit {
     'assets/product/product-img.png',
     'assets/product/product-img.png',
   ];
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
+    const selectedCountry = localStorage.getItem('selectedCountry');
+    if (!selectedCountry) {
+      this.router.navigate(['/select-country']);
+    }
     this.startCountdown();
     this.cloneSlides();
   }

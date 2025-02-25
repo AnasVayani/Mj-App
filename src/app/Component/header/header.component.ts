@@ -1,13 +1,147 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  SearchModal: Modal | null = null;
   mobileMenuActive = false;
   dropdownActive = false;
+
+  searchQuery: string = '';
+
+  items = [
+    {
+      title: 'Charcoal Grey Silk Kurti',
+      price: 3685,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Peach Silk Kurti',
+      price: 2215,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Pink Silk Kurti',
+      price: 4745,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Plum Silk Kurti',
+      price: 3845,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'White Paper Cotton Kurti',
+      price: 3685,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Aqua Cotton Kurti',
+      price: 5005,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Charcoal Grey Silk Kurti',
+      price: 3685,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Peach Silk Kurti',
+      price: 2215,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Pink Silk Kurti',
+      price: 4745,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Plum Silk Kurti',
+      price: 3845,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'White Paper Cotton Kurti',
+      price: 3685,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Aqua Cotton Kurti',
+      price: 5005,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Charcoal Grey Silk Kurti',
+      price: 3685,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Peach Silk Kurti',
+      price: 2215,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Pink Silk Kurti',
+      price: 4745,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Plum Silk Kurti',
+      price: 3845,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'White Paper Cotton Kurti',
+      price: 3685,
+      image: 'assets/product/product-img.png',
+    },
+    {
+      title: 'Aqua Cotton Kurti',
+      price: 5005,
+      image: 'assets/product/product-img.png',
+    },
+  ];
+
+  itemTitles: string[] = []; // ✅ Store precomputed item titles
+  filteredItems = [...this.items];
+
+  constructor(private router: Router) {
+    this.itemTitles = this.items.map((item) => item.title); // ✅ Precompute array
+  }
+  ngOnInit(): void {
+    const modalElement = document.getElementById('searchModal');
+    if (modalElement) {
+      this.SearchModal = new bootstrap.Modal(modalElement);
+    }
+  }
+
+  filterResults(query: string) {
+    this.searchQuery = query.trim();
+    this.filteredItems = this.items.filter((item) =>
+      item.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
+  openSearchModal() {
+    
+    if (this.SearchModal) {
+      // const modal = new bootstrap.Modal(modalElement);
+      this.SearchModal.show();
+    }
+  }
+
+  CloseModal() {
+    this.router.navigate(['/search']);
+    if (this.SearchModal) {
+      // const modal = new bootstrap.Modal(modalElement);
+      this.SearchModal.hide();
+    }
+  }
 
   toggleMobileMenu() {
     this.mobileMenuActive = !this.mobileMenuActive;

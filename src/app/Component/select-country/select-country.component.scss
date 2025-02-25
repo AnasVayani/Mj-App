@@ -1,0 +1,122 @@
+.country-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: black;
+  color: white;
+  text-align: center;
+
+  .logo img {
+    //   width: 150px; /* Adjust size */
+    // margin-bottom: 20px;
+  }
+
+  // General styling for the dropdown container
+  // General styling for the dropdown container
+  .dropdown-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // margin-top: 50px;
+  }
+
+  // Custom dropdown styling
+  .custom-dropdown {
+    position: relative;
+    width: 250px;
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid #fff;
+      background-color: transparent;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      transition: all 0.3s ease-in-out;
+
+      &:focus {
+        border-color: #d3b925;
+        box-shadow: 0px 0px 8px rgba(245, 166, 35, 0.6);
+      }
+    }
+
+    // Style for dropdown options
+    select option {
+      background: black !important;
+      color: #fff !important;
+      font-size: 16px;
+      padding: 10px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    // Hover effect on dropdown options
+    select option:hover {
+      background-color: #f5a623 !important;
+      color: #000 !important;
+    }
+
+    // Keep selected option white
+    select option:checked {
+      background: #d3b925 !important;
+      
+    }
+  }
+
+  // Arrow indicator for dropdown
+  .custom-dropdown::after {
+    content: "▼";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000;
+    pointer-events: none;
+  }
+
+  // Enter button styling
+  .enter-btn {
+    margin-top: 20px;
+    // padding: 12px 24px;
+    // border-radius: 8px;
+    background: #d3b925;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background: #bba425;
+      box-shadow: 0px 0px 8px rgba(245, 166, 35, 0.4);
+    }
+
+    &:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+  }
+
+  // Arrow indicator for dropdown
+  .custom-dropdown::after {
+    content: "▼";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    pointer-events: none;
+  }
+
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+}

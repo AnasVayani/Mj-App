@@ -5,37 +5,44 @@ import { ProductComponent } from './Component/product/product.component';
 import { ProductDetailComponent } from './Component/product-detail/product-detail.component';
 import { AddtoCartComponent } from './Component/addto-cart/addto-cart.component';
 import { CheckoutComponent } from './Component/checkout/checkout.component';
+import { SelectCountryComponent } from './Component/select-country/select-country.component';
+import { SearchComponent } from './Component/search/search.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+  },
+  {
+    path: 'select-country',
+    component: SelectCountryComponent,
+  },
+  {
+    path: 'search',
+    component: SearchComponent,
   },
   {
     path: 'product',
-    component: ProductComponent
+    component: ProductComponent,
   },
   {
     path: 'product-detail',
-    component: ProductDetailComponent
+    component: ProductDetailComponent,
   },
   {
     path: 'cart',
-    component: AddtoCartComponent
+    component: AddtoCartComponent,
   },
   {
     path: 'checkout',
-    component: CheckoutComponent
+    component: CheckoutComponent,
   },
- 
-  { path: '**', redirectTo: '' }
+
+  { path: '**', redirectTo: '' },
 ];
-
-
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

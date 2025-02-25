@@ -20,6 +20,9 @@ import { RelatedProductComponent } from './Component/related-product/related-pro
 import { CartNotificationComponent } from './Component/cart-notification/cart-notification.component';
 import { AddtoCartComponent } from './Component/addto-cart/addto-cart.component';
 import { CheckoutComponent } from './Component/checkout/checkout.component';
+import { SelectCountryComponent } from './Component/select-country/select-country.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { SearchComponent } from './Component/search/search.component'; 
 
 @NgModule({
   declarations: [
@@ -38,13 +41,16 @@ import { CheckoutComponent } from './Component/checkout/checkout.component';
     CartNotificationComponent,
     AddtoCartComponent,
     CheckoutComponent,
+    SelectCountryComponent,
+    SearchComponent,
    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AutocompleteLibModule
    
   ],
   providers: [],
