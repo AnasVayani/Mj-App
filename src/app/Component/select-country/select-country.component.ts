@@ -13,6 +13,7 @@ export class SelectCountryComponent {
   constructor(private router: Router) {}
 
   enterSite() {
+    debugger;
     if (!this.selectedCountry) {
       this.errorMessage = 'Please select a country to proceed!';
     } else {

@@ -9,14 +9,15 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent implements OnInit {
   showHeaderFooter: boolean = true;
   constructor(private router: Router) {
+    
+  }
+
+  ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showHeaderFooter = event.url !== '/select-country';
       }
     });
-  }
-
-  ngOnInit() {
     const selectedCountry = localStorage.getItem('selectedCountry');
 
     // Redirect to country selection if no country is selected and the user is on home ('/')

@@ -133,6 +133,27 @@ export class HeaderComponent implements OnInit {
   itemTitles: string[] = []; // ✅ Store precomputed item titles
   filteredItems = [...this.items];
 
+  filterResults(query: string) {
+    this.searchQuery = query.trim();
+    this.filteredItems = this.items.filter((item) =>
+      item.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
+  openSearchModal() {
+    
+    if (this.SearchModal) {
+      // const modal = new bootstrap.Modal(modalElement);
+      this.SearchModal.show();
+    }
+  }
+
+  CloseModal() {
+    this.router.navigate(['/search']);
+    if (this.SearchModal) {
+      // const modal = new bootstrap.Modal(modalElement);
+      this.SearchModal.hide();
+    }
+  }
  
   getAllCategories(): void {
     this.commonService.getAll().subscribe(
