@@ -1,90 +1,349 @@
-<div class="container checkout-container">
-    <h2 class="checkout-title">Shipping Address</h2>
-
-    <!-- Progress Bar -->
-    <div class="progress-bar-container">
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" [style.width]="progressWidth" aria-valuenow="25"
-                aria-valuemin="0" aria-valuemax="100"></div>
+<div class="container checkout-container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <h1 *ngIf="currentStep === 1">Shipping Address</h1>
+            <h1 *ngIf="currentStep === 2">Payment Method</h1>
+            <h1 *ngIf="currentStep === 3">Review Your Order</h1>
         </div>
-    </div>
+        <div class="col-lg-8">
+            <!-- <div class="steps-indicator mb-5 mt-3">
+                <div class="mb-3" [class.active]="currentStep === 1">Address</div>
+                <div class="mb-3" [class.active]="currentStep === 2">Payment Method</div>
+                <div class="mb-3" [class.active]="currentStep === 3">Review</div>
+            </div> -->
 
-    <!-- Checkout Steps -->
-    <div *ngIf="step === 1">
-        <!-- Step 1: Shipping Address -->
-        <div class="shipping-address">
-            <h4>Select a delivery address</h4>
-            <p>Is this the address you’d like to use? If so, click “Deliver Here” or add a new address.</p>
 
-            <div class="row">
-                <div class="col-md-6" *ngFor="let address of addresses; let i = index">
-                    <div class="address-card" [class.selected]="selectedAddress === i" (click)="selectAddress(i)">
-                        <input type="radio" [checked]="selectedAddress === i">
-                        <div>
-                            <h5>{{ address.name }}</h5>
-                            <p>{{ address.street }}</p>
-                        </div>
-                        <div class="address-actions">
-                            <button class="btn btn-outline-dark btn-sm">Edit</button>
-                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+            <div class="steps-indicator d-flex justify-content-between align-items-baseline my-4 px-4">
+                <div class="step" [class.active]="currentStep >= 1" [class.inactive]="currentStep < 1">
+                  <div class="icon">
+                    <i class="ri-home-2-line fs-3"></i>
+                  </div>
+                  <p>Address</p>
+                </div>
+              
+                <div class="line"></div>
+              
+                <div class="step" [class.active]="currentStep >= 2" [class.inactive]="currentStep < 2">
+                  <div class="icon">
+                    <i class="ri-wallet-3-line fs-3"></i>
+                  </div>
+                  <p>Payment Method</p>
+                </div>
+              
+                <div class="line"></div>
+              
+                <div class="step" [class.active]="currentStep >= 3" [class.inactive]="currentStep < 3">
+                  <div class="icon">
+                    <i class="ri-file-list-line fs-3"></i>
+                  </div>
+                  <p>Review</p>
+                </div>
+              </div>
+              
+              
+
+
+
+
+
+
+
+
+            <!-- Step 1: Shipping Address -->
+            <div *ngIf="currentStep === 1">
+                <!-- <h2>Shipping Address</h2> -->
+                <div class="row">
+                    <div *ngFor="let address of addresses; let i = index" class="col-md-6">
+                        <div class="address-card h-100 p-4" [class.selected]="address.selected"
+                            (click)="selectAddress(i)">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4 class="fw-semibold m-0">{{ address.name }}</h4>
+                                <input type="checkbox" class="form-check-input" [checked]="selectedAddress === i" />
+                            </div>
+                            <p>{{ address.address }}</p>
+                            <div class="d-flex gap-2 align-items-center justify-content-center btn-g">
+                                <button class="btn btn-light w-100">Edit</button>
+                                <button class="btn btn-danger w-100">Delete</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <button class="btn btn-dark px-5 py-2  mt-3" (click)="nextStep()"
+                    [disabled]="selectedAddress === null">Deliver Here</button>
+
+                <h3 class="mt-5">Add a new address</h3>
+                <form [formGroup]="checkoutForm">
+                    <div class="mb-3">
+                        <label for="Name" class="form-label">Name</label>
+                        <input formControlName="name" id="Name" placeholder="Enter Name" class="form-control mb-2" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile" class="form-label">
+                            Mobile Number
+                        </label>
+                        <input formControlName="mobile" id="mobile" type="tel"
+                            placeholder="Enter Mobile Number 10 Digits" class="form-control mb-2" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="flat" class="form-label">
+                            Flat, House No., Building, Company, Apartment
+                        </label>
+                        <input formControlName="flat" id="flat"
+                            placeholder="Flat, House no, Building, Company, Apartment" class="form-control mb-2" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="area" class="form-label">
+                            Area, Colony, Street, Sector, Village
+                        </label>
+                        <input formControlName="area" id="area" placeholder="Area, Colony, Street, Sector, Village"
+                            class="form-control mb-2" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">
+                            City
+                        </label>
+                        <select formControlName="city" id="city" class="form-control form-select mb-2">
+                            <option value="">Select City</option>
+                            <option value="New York">New York</option>
+                            <option value="Los Angeles">Los Angeles</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pinCode" class="form-label">
+                            Pin Code
+                        </label>
+                        <input formControlName="pinCode" id="pinCode" placeholder="Enter Pin Code"
+                            class="form-control mb-2" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="state" class="form-label">
+                            State
+                        </label>
+                        <select formControlName="state" id="state" class="form-control form-select mb-2">
+                            <option value="">Select State</option>
+                            <option value="California">California</option>
+                            <option value="Texas">Texas</option>
+                        </select>
+
+                    </div>
+
+
+
+
+
+
+                    <div class="form-check">
+                        <input type="checkbox" formControlName="default" class="form-check-input" />
+                        <label class="form-check-label">Use as my default address</label>
+                    </div>
+                    <button class="btn btn-dark mt-3 px-5 py-2" [disabled]="checkoutForm.invalid">Add New
+                        Address</button>
+                </form>
             </div>
 
-            <button class="btn btn-dark w-100 mt-3" (click)="nextStep()">Deliver Here</button>
+            <!-- Step 2: Placeholder -->
+            <div *ngIf="currentStep === 2">
+                <h2>Payment Method </h2>
+                <div class=" payment-container">
+                    <h4 class="mb-4 fw-bold">Select a payment method</h4>
 
-            <h4 class="mt-4">Add a new address</h4>
-            <form [formGroup]="addressForm" (ngSubmit)="addAddress()">
-                <input formControlName="name" type="text" class="form-control mb-2" placeholder="Enter Name">
-                <input formControlName="mobile" type="text" class="form-control mb-2" placeholder="Enter Mobile Number">
-                <input formControlName="street" type="text" class="form-control mb-2"
-                    placeholder="Flat, House no., Building">
-                <input formControlName="area" type="text" class="form-control mb-2"
-                    placeholder="Area, Colony, Street, Sector">
-                <select formControlName="city" class="form-control mb-2">
-                    <option>Select City</option>
-                    <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
-                </select>
-                <input formControlName="zip" type="text" class="form-control mb-2" placeholder="Enter Pin Code">
-                <select formControlName="state" class="form-control mb-2">
-                    <option>Select State</option>
-                </select>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" formControlName="default">
-                    <label class="form-check-label">Use as my default address</label>
+                    <!-- Payment Methods -->
+                    <div class="payment-methods">
+                        <!-- Credit/Debit Card -->
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" id="creditCard" name="paymentMethod"
+                                [value]="'creditCard'" [checked]="selectedPayment === 'creditCard'"
+                                (change)="selectPayment('creditCard')" />
+                            <label class="form-check-label fw-semibold" for="creditCard">
+                                Debit/Credit Card
+                            </label>
+                        </div>
+
+                        <!-- Credit Card Form -->
+                        <form *ngIf="selectedPayment === 'creditCard'" [formGroup]="paymentForm">
+                            <div class="mb-3">
+                                <label class="form-label">Card Number</label>
+                                <input type="text" class="form-control" placeholder="xxxx xxxx xxxx xxxx"
+                                    formControlName="cardNumber" />
+                                <small
+                                    *ngIf="paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched"
+                                    class="text-danger">Enter a valid card number</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Card Name</label>
+                                <input type="text" class="form-control" placeholder="Enter Cardholder Name"
+                                    formControlName="cardName" />
+                                <small
+                                    *ngIf="paymentForm.get('cardName')?.invalid && paymentForm.get('cardName')?.touched"
+                                    class="text-danger">Enter a valid name</small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Expiry Date</label>
+                                    <input type="text" class="form-control" placeholder="MM/YY"
+                                        formControlName="expiryDate" />
+                                    <small
+                                        *ngIf="paymentForm.get('expiryDate')?.invalid && paymentForm.get('expiryDate')?.touched"
+                                        class="text-danger">Format: MM/YY</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">CVV</label>
+                                    <input type="password" class="form-control" placeholder="•••"
+                                        formControlName="cvv" />
+                                    <small *ngIf="paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched"
+                                        class="text-danger">Enter a valid CVV</small>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-dark w-100" [disabled]="paymentForm.invalid">Add Card</button>
+                        </form>
+
+                        <!-- Other Payment Options -->
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="radio" id="googlePay" name="paymentMethod"
+                                [value]="'googlePay'" [checked]="selectedPayment === 'googlePay'"
+                                (change)="selectPayment('googlePay')" />
+                            <label class="form-check-label fw-semibold" for="googlePay"> Google Pay </label>
+                        </div>
+
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="radio" id="paypal" name="paymentMethod"
+                                [value]="'paypal'" [checked]="selectedPayment === 'paypal'"
+                                (change)="selectPayment('paypal')" />
+                            <label class="form-check-label fw-semibold" for="paypal"> Paypal </label>
+                        </div>
+
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="radio" id="cashOnDelivery" name="paymentMethod"
+                                [value]="'cashOnDelivery'" [checked]="selectedPayment === 'cashOnDelivery'"
+                                (change)="selectPayment('cashOnDelivery')" />
+                            <label class="form-check-label fw-semibold" for="cashOnDelivery">
+                                Cash on Delivery
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Continue Button -->
+                    <button class="btn btn-dark w-100 mt-4 mb-3"
+                        [disabled]="selectedPayment === 'creditCard' && paymentForm.invalid">
+                        Continue
+                    </button>
                 </div>
 
-                <button type="submit" class="btn btn-dark w-100 mt-3">Add New Address</button>
-            </form>
+                <button class="btn btn-dark" (click)="nextStep()">Next</button>
+            </div>
+
+            <!-- Step 3: Placeholder -->
+            <div *ngIf="currentStep === 3">
+                <div class=" order-summary-container">
+                    <h5 class="fw-bold mb-3">Estimated delivery: <span class="fw-normal">{{ estimatedDelivery }}</span>
+                    </h5>
+
+                    <!-- Order Items -->
+                    <div class="order-items">
+                        <div *ngFor="let item of orderItems" class="order-item">
+                            <img [src]="item.image" alt="{{ item.name }}" class="item-image" />
+                            <div class="item-details">
+                                <h6 class="fw-bold">{{ item.name }}</h6>
+                                <p class="mb-0">${{ item.price.toFixed(2) }}</p>
+                                <p class="text-muted mb-0">Size: {{ item.size }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="section">
+                        <h6 class="fw-bold">Shipping Address</h6>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="mb-0 fw-semibold">{{ shippingAddress.name }}</p>
+                                <p class="text-muted mb-0">{{ shippingAddress.address }}</p>
+                            </div>
+                            <button class="btn btn-light btn-sm edit-btn" (click)="editAddress()">
+                                <i class="ri-edit-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="section border-top mb-3">
+                        <h6 class="fw-bold">Payment Method</h6>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-0 fw-semibold">{{ paymentMethod.type }} ({{ paymentMethod.maskedNumber }})</p>
+                            <button class="btn btn-light btn-sm edit-btn" (click)="editPayment()">
+                                <i class="ri-edit-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <button class="btn btn-dark" (click)="nextStep()">Next</button> -->
+            </div>
+
+          
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+            <div class="summary-box">
+                <p class="summary-item border-bottom pb-2"><strong>Subtotal:</strong> <span>$100</span></p>
+
+                <div class="discount-section">
+                    <label for="discount">Enter Discount Code</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="XXXX-XXXX">
+                        <button class="btn btn-dark px-4">Apply</button>
+                    </div>
+                </div>
+
+                <p class="summary-item border-bottom pb-2"><strong>Delivery Charge:</strong> <span>$200</span></p>
+                <p class="summary-item grand-total my-4"><strong>Grand Total:</strong> ${{ 300 }}</p>
+
+                <button class="btn btn-dark w-100" *ngIf="currentStep >= 3 " (click)="openModal()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+  <!-- Step 4: Order Confirmation Popup -->
+  <div >
+    <!-- <div class="popup">
+        <h3>Order Confirmation</h3>
+        <p>Your order has been placed successfully!</p>
+        <button class="btn btn-dark" (click)="submitCheckout()">OK</button>
+    </div> -->
+
+    <!-- Order Confirmation Popup -->
+    <div class="modal fade" id="orderConfirmationModal" tabindex="-1" aria-labelledby="orderConfirmationLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+
+                <!-- Icon -->
+                <div class="icon-circle mx-auto mb-3 bg-dark">
+                    <i class="ri-shopping-bag-line text-white"></i>
+                </div>
+
+                <!-- Title -->
+                <h4 class="fw-bold">Your order is confirmed</h4>
+
+                <!-- Message -->
+                <p class="text-muted">
+                    Thanks for shopping! Your order hasn’t shipped yet, but we will send you an email when
+                    it’s done.
+                </p>
+
+                <!-- Buttons -->
+                <button class="btn btn-dark w-100 mb-2">View Order</button>
+                <button class="btn btn-outline-dark w-100" data-bs-dismiss="modal" routerLink="/">Back to Home</button>
+
+            </div>
         </div>
     </div>
 
-    <!-- Placeholder for Step 2 (Payment Method) -->
-    <div *ngIf="step === 2">
-        <h4>Payment Method (To be implemented)</h4>
-        <button class="btn btn-dark" (click)="nextStep()">Next</button>
-    </div>
-
-    <!-- Placeholder for Step 3 (Review Order) -->
-    <div *ngIf="step === 3">
-        <h4>Review Order (To be implemented)</h4>
-        <button class="btn btn-dark" (click)="nextStep()">Next</button>
-    </div>
-
-    <!-- Placeholder for Step 4 (Order Confirmation Popup) -->
-    <div *ngIf="step === 4">
-        <h4>Order Confirmation (Popup to be implemented)</h4>
-    </div>
-
-    <!-- Order Summary -->
-    <div class="order-summary">
-        <p><strong>Subtotal:</strong> ${{ subtotal }}</p>
-        <div class="discount-section">
-            <input type="text" class="form-control" [(ngModel)]="discountCode" placeholder="Enter Discount Code">
-            <button class="btn btn-dark" (click)="applyDiscount()">Apply</button>
-        </div>
-        <p><strong>Delivery Charge:</strong> ${{ deliveryCharge }}</p>
-        <p><strong>Grand Total:</strong> ${{ grandTotal }}</p>
-    </div>
 </div>

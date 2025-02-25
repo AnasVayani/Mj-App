@@ -1,131 +1,158 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as bootstrap from 'bootstrap';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
 })
-export class CheckoutComponent {
-  step = 1;
-  progressWidth = '25%';
+export class CheckoutComponent implements OnInit{
+  currentStep = 1;
+  checkoutForm: FormGroup;
+  paymentForm: FormGroup;
+  selectedPayment: string = 'creditCard'; // Default selected payment method
+
+
+  private modalInstance!: Modal;
 
   addresses = [
-    { name: 'Robert Fox', street: '4517 Washington Ave. Kentucky 39495' },
     {
+      id: 1,
+      name: 'Robert Fox',
+      address: '4517 Washington Ave, Manchester, Kentucky 39459',
+      selected: true,
+    },
+    {
+      id: 2,
       name: 'John Willions',
-      street: '3891 Ranchview Dr. Richardson, California 62639',
+      address: '3891 Ranchview Dr, Richardson, California 62639',
+      selected: false,
+    },
+  ];
+  selectedAddress: any = null;
+
+
+  estimatedDelivery = '22 Feb 2022';
+
+  orderItems = [
+    {
+      name: 'Girls Pink Moana Printed Dress',
+      price: 80.0,
+      size: 'S',
+      image: 'assets/product/product-img.png',
+    },
+    {
+      name: 'Women Textured Handheld Bag',
+      price: 80.0,
+      size: 'Regular',
+      image: 'assets/product/product-img.png',
+    },
+    {
+      name: 'Tailored Cotton Casual Shirt',
+      price: 40.0,
+      size: 'M',
+      image: 'assets/product/product-img.png',
     },
   ];
 
-  selectedAddress: number | null = null;
-  addressForm: FormGroup;
-  cities = ['New York', 'Los Angeles', 'Chicago'];
+  shippingAddress = {
+    name: 'Robert Fox',
+    address: '4517 Washington Ave. Manchester, Kentucky 39495',
+  };
 
-  subtotal = 200.0;
-  deliveryCharge = 5.0;
-  discountCode = '';
-  grandTotal = this.subtotal + this.deliveryCharge;
-  cartItems = [
-    {
-      title: 'Product 1',
-      price: 50,
-      quantity: 2,
-      image: 'assets/img/product1.jpg',
-    },
-    {
-      title: 'Product 2',
-      price: 100,
-      quantity: 1,
-      image: 'assets/img/product2.jpg',
-    },
-  ];
+  paymentMethod = {
+    type: 'Debit Card',
+    maskedNumber: '.... .... .... ..89',
+  };
+
+
+
+
 
   constructor(private fb: FormBuilder) {
-    this.addressForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
+    this.checkoutForm = this.fb.group({
+      name: ['', Validators.required],
       mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      street: ['', Validators.required],
+      flat: ['', Validators.required],
       area: ['', Validators.required],
       city: ['', Validators.required],
-      zip: ['', [Validators.required, Validators.pattern('^[0-9]{5,6}$')]],
+      pinCode: ['', Validators.required],
       state: ['', Validators.required],
       default: [false],
     });
+
+    this.paymentForm = this.fb.group({
+      cardNumber: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9 ]{16,19}$')],
+      ],
+      cardName: ['', [Validators.required, Validators.minLength(3)]],
+      expiryDate: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^(0[1-9]|1[0-2])\\/(\\d{2})$'),
+        ],
+      ],
+      cvv: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+      paymentMethod: ['creditCard', Validators.required], // Default selection
+    });
+  }
+  ngOnInit(): void {
+    // debugger
+    const modalElement = document.getElementById('orderConfirmationModal');
+    if (modalElement) {
+      this.modalInstance = new Modal(modalElement);
+    }
   }
 
-  /**
-   * Select an existing address
-   */
+  openModal() {
+    // debugger
+    if (this.modalInstance) {
+      this.modalInstance.show();
+    }
+  }
+
   selectAddress(index: number) {
-    this.selectedAddress = index;
-  }
-
-  /**
-   * Add a new address
-   */
-  addAddress() {
-    if (this.addressForm.valid) {
-      this.addresses.push({
-        name: this.addressForm.value.name,
-        street: `${this.addressForm.value.street}, ${this.addressForm.value.area}`,
+    if (this.selectedAddress === index) {
+      // If the same address is clicked again, unselect it
+      this.selectedAddress = null;
+      this.addresses[index].selected = false;
+    } else {
+      // Select the new address and unselect others
+      this.selectedAddress = index;
+      this.addresses.forEach((address, i) => {
+        address.selected = i === index;
       });
-      this.addressForm.reset();
     }
   }
 
-  /**
-   * Apply discount code
-   */
-  applyDiscount() {
-    if (this.discountCode === 'FLAT50') {
-      this.grandTotal = this.subtotal - 50 + this.deliveryCharge;
-    }
-  }
-
-  /**
-   * Go to next step
-   */
   nextStep() {
-    if (this.step < 4) {
-      this.step++;
-      this.progressWidth = `${this.step * 25}%`;
-    }
+    if (this.currentStep < 4) this.currentStep++;
   }
 
-  /**
-   * Go to previous step
-   */
-  prevStep() {
-    if (this.step > 1) {
-      this.step--;
-      this.progressWidth = `${this.step * 25}%`;
-    }
+  previousStep() {
+    if (this.currentStep > 1) this.currentStep--;
   }
 
-  /**
-   * Select payment method
-   */
+  submitCheckout() {
+    alert('Order Placed Successfully!');
+  }
+
   selectPayment(method: string) {
-    console.log(`Selected Payment Method: ${method}`);
+    this.selectedPayment = method;
+    if (method !== 'creditCard') {
+      this.paymentForm.reset(); // Clear form fields when switching away
+    }
   }
 
-  /**
-   * Open order confirmation popup
-   */
-  openPaymentPopup() {
-    const modal = new bootstrap.Modal(
-      document.getElementById('orderSuccessModal')!
-    );
-    modal.show();
+
+  editAddress() {
+    console.log('Edit Address Clicked');
   }
 
-  /**
-   * Reset the checkout process after successful order
-   */
-  closeModal() {
-    this.step = 1;
-    this.progressWidth = '25%';
+  editPayment() {
+    console.log('Edit Payment Clicked');
   }
 }
