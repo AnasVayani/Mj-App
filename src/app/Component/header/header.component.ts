@@ -7,6 +7,7 @@ import { CommonService } from 'src/app/services/commonService';
 interface Category {
   id: number;
   name: string;
+  type: string;
 }
 
 
@@ -155,8 +156,8 @@ export class HeaderComponent implements OnInit {
     this.commonService.getAll().subscribe(
       (response: Category[]) => {
         // Separating categories based on ID
-        this.menCategories = response.filter(category => category.id === 1);
-        this.womenCategories = response.filter(category => category.id === 2);
+        this.menCategories = response.filter(category => category.type === 'Men');
+        this.womenCategories = response.filter(category => category.type === 'Women');
 
         console.log('Men Categories:', this.menCategories);
         console.log('Women Categories:', this.womenCategories);
