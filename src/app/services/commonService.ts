@@ -39,20 +39,26 @@ export class CommonService {
     hashTag: string = '',
     fromPrice?: number,
     toPrice?: number,
-    size?: string): Observable<any> {
-      var formData = new FormData();
-      formData.append('PageSize', pageSize.toString())
-      formData.append('PageNumber', pageNumber.toString())
-      formData.append('CategoryId', categoryId.toString())
-      formData.append('Type', type.toString())
-      formData.append('Name', name)
-      formData.append('HashTag', hashTag)
-      formData.append('FromPrice', fromPrice?.toString() ?? '')
-      formData.append('ToPrice', toPrice?.toString() ?? '')
-      formData.append('Size', size?.toString() ?? '')
+    size?: string
+): Observable<any> {
+    var formData = new FormData();
+    formData.append('PageSize', pageSize.toString());
+    formData.append('PageNumber', pageNumber.toString());
+    formData.append('CategoryId', categoryId.toString());
+    formData.append('Type', type.toString());
+    formData.append('Name', name);
+    formData.append('HashTag', hashTag);
+    if (fromPrice !== undefined) formData.append('FromPrice', fromPrice.toString());
+    if (toPrice !== undefined) formData.append('ToPrice', toPrice.toString());
+    if (size) formData.append('Size', size);
 
-      return this.httpClient.post<any>(`${environment.apiUrl}/Product/GetProducts`, formData );
-  }
+    return this.httpClient.post<any>(
+        `${environment.apiUrl}/Product/GetProducts`, 
+        formData
+    );
+}
+
+
 
 
 }

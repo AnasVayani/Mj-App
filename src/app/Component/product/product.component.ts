@@ -1,5 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonService } from 'src/app/services/commonService';
+
 
 interface Product {
   name: string;
@@ -22,6 +24,7 @@ export class ProductComponent {
   screenWidth: number = window.innerWidth; // Store screen width
   showApplyButton: boolean = false;
   showResetButton: boolean = false;
+  products_response: any ={};
 
   products: Product[] = [
     {
@@ -140,6 +143,8 @@ export class ProductComponent {
   paginatedProducts: Product[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 10;
+  categoryId: number = 0;
+  type: number = 0;
 
   categories: string[] = ['Men', 'Women', 'Kids', 'Bags', 'Belts'];
   colors: string[] = ['Red', 'Blue', 'Orange', 'Black', 'Green', 'Yellow'];
@@ -151,7 +156,7 @@ export class ProductComponent {
   minPrice = 0;
   maxPrice = 2000;
 
-  constructor(private router:Router) {
+  constructor(private router:Router, private commonService : CommonService,  private route: ActivatedRoute,) {
     this.paginate();
     this.filterProducts();
     this.checkScreenSize();
@@ -162,18 +167,59 @@ export class ProductComponent {
     this.showFilters = window.innerWidth >= 768; // Show filters by default on tablet & web
   }
 
+  ngOnInit(){
+    this.route.queryParams.subscribe((params) => {
+      this.type = params['type'] ? +params['type'] : 0;
+      this.categoryId = params['categoryId'] ? +params['categoryId'] : 0;
+      this.GetProducts();
+    });
+   
+  }
   isMobile(): boolean {
     return window.innerWidth < 768;
   }
 
   applyFilters(filters: any) {
     this.showResetButton = true;
-    this.selectedCategories = filters.selectedCategories;
-    this.selectedColors = filters.selectedColors;
-    this.selectedSizes = filters.selectedSizes;
-    this.minPrice = filters.minPrice;
-    this.maxPrice = filters.maxPrice;
-    this.filterProducts();
+  
+    // Update selected filters based on emitted values
+    this.selectedCategories = filters.categories.reduce((acc: any, category: string) => {
+      acc[category] = true;
+      return acc;
+    }, {});
+  
+    this.selectedColors = filters.hashTag
+      .split(' ')
+      .reduce((acc: any, color: string) => {
+        acc[color.replace('#', '')] = true;
+        return acc;
+      }, {});
+  
+    this.selectedSizes = filters.sizes.reduce((acc: any, size: string) => {
+      acc[size] = true;
+      return acc;
+    }, {});
+  
+    this.minPrice = filters.fromPrice;
+    this.maxPrice = filters.toPrice;
+  
+    this.filterProducts(); // Call filter method
+  }
+  
+
+  GetProducts(){
+
+    if (!this.type || !this.categoryId) return;
+
+    this.commonService.getProducts(10, this.currentPage, this.categoryId, this.type).subscribe(
+      response =>{
+        this.products_response = response
+        console.log( "Products Response",this.products_response)
+      },
+      (err)=>{
+        console.log("Fetching Products Error", err)
+      }
+    )
   }
 
   resetFilters() {

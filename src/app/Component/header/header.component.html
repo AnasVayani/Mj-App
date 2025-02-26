@@ -18,20 +18,26 @@
         <li class="dropdown" (mouseenter)="toggleDropdown(true)" (mouseleave)="toggleDropdown(false)">
           <a  class="dropbtn">Shop <i class="ri-arrow-down-s-line ri-lg"></i></a>
           <div class="dropdown-content" *ngIf="dropdownActive">
+            <!-- Men Categories -->
             <div class="dropdown-column" *ngIf="menCategories.length > 0">
               <h4>Men</h4>
-              <a *ngFor="let category of menCategories" [routerLink]="'/product'">
+              <a *ngFor="let category of menCategories" 
+                [routerLink]="['/product']" 
+                [queryParams]="{ type: 1, categoryId: category.id }">
                 {{ category.name }}
               </a>
             </div>
-  
+
             <!-- Women Categories -->
             <div class="dropdown-column" *ngIf="womenCategories.length > 0">
               <h4>Women</h4>
-              <a *ngFor="let category of womenCategories" [routerLink]="'/product'">
+              <a *ngFor="let category of womenCategories" 
+                [routerLink]="['/product']" 
+                [queryParams]="{ type: 2, categoryId: category.id }">
                 {{ category.name }}
               </a>
             </div>
+
            
            
           </div>

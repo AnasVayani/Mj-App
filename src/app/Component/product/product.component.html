@@ -5,22 +5,23 @@
             <!-- <button class="btn btn-outline-danger w-100" [disabled]="!showResetButton" (click)="resetFilters()">Reset</button> -->
         </div>
 
-
         <div class="col-md-3">
-            <app-filter [showFilters]="showFilters" (filtersUpdated)="applyFilters($event)"
-                (filtersReset)="resetFilters()"></app-filter>
+            <!-- <app-filter [showFilters]="showFilters" (filtersUpdated)="applyFilters($event)"
+                (filtersReset)="resetFilters()"></app-filter> -->
+                <app-filter 
+                [showFilters]="showFilters"
+                [showResetButton]="showResetButton"
+                (filtersUpdated)="applyFilters($event)"
+                (filtersReset)="resetFilters()">
+                </app-filter>
         </div>
-
-
-
-
 
         <div class="col-md-9">
             <div class="row justify-content-center">
-                <div class="col-md-4 mb-4" *ngFor="let product of paginatedProducts">
+                <div class="col-md-4 mb-4" *ngFor="let product of products_response">
                     <div class="card border-0 shadow-sm position-relative" (click)="goToProductDetail(product)">
                         <div class="image-container">
-                            <img [src]="product.image" class="card-img-top">
+                            <img [src]="product.imageUrl" class="card-img-top">
 
                             <!-- Overlay with Buttons -->
                             <div class="overlay">
@@ -35,10 +36,10 @@
 
                         <div class="card-body">
                             <h6 class="fw-bold">{{ product.name }}</h6>
-                            <p class="mb-1">{{product.desc}} </p>
+                            <p class="mb-1">{{product.description}} </p>
                             <p class="text-muted">
-                                <span class="text-dark me-2">${{ product.price }}</span>
-                                <del>${{ product.oldPrice }}</del>
+                                <span class="text-dark me-2">${{ product.priceAfterDiscount }}</span>
+                                <del>${{ product.price }}</del>
                             </p>
                         </div>
                     </div>
