@@ -40,7 +40,7 @@ export class CommonService {
     fromPrice?: number,
     toPrice?: number,
     size?: string
-): Observable<any> {
+  ): Observable<any> {
     var formData = new FormData();
     formData.append('PageSize', pageSize.toString());
     formData.append('PageNumber', pageNumber.toString());
@@ -53,12 +53,14 @@ export class CommonService {
     if (size) formData.append('Size', size);
 
     return this.httpClient.post<any>(
-        `${environment.apiUrl}/Product/GetProducts`, 
-        formData
+      `${environment.apiUrl}/Product/GetProducts`,
+      formData
     );
-}
+  }
 
-
+  getCategoriesByType(type: number): Observable<any> {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Category/GetCategoriesByType?type=${type}`)
+  }
 
 
 }

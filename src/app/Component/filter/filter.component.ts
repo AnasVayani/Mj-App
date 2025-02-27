@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CommonService } from 'src/app/services/commonService';
 
 @Component({
   selector: 'app-filter',
@@ -15,17 +17,33 @@ export class FilterComponent implements OnInit {
   showApplyButton: boolean = false;
   // showResetButton: boolean = false;
 
-  categories: string[] = ['Men', 'Women', 'Kids', 'Bags', 'Belts'];
+  categories: any;
   colors: string[] = ['Red', 'Blue', 'Orange', 'Black', 'Green', 'Yellow'];
-  sizes: string[] = ['S', 'M', 'L', 'XL', 'XXL'];
+  sizes: string[] = ['S', 'M', 'L', 'XL'];
 
-  selectedCategories: { [key: string]: boolean } = {};
+  selectedCategories: { [key: number]: boolean } = {};
   selectedColors: { [key: string]: boolean } = {};
   selectedSizes: { [key: string]: boolean } = {};
   minPrice = 0;
   maxPrice = 2000;
+  type: number = 0;
+
+  /**
+   *
+   */
+  constructor(private _commonService: CommonService, private route: ActivatedRoute ) {
+
+  }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe({
+      next: params => {
+        this.type = params['type'] ? +params['type'] : 0;
+        if (this.type != null && this.type != 0) {
+          this.getCategoriesByType()
+        }
+      }
+    })
     this.updateSliderTrack();
   }
   isMobile(): boolean {
@@ -92,5 +110,16 @@ export class FilterComponent implements OnInit {
     if (sliderTrack) {
       sliderTrack.style.background = `linear-gradient(to right, #ddd ${minPercent}%, #333 ${minPercent}%, #333 ${maxPercent}%, #ddd ${maxPercent}%)`;
     }
+  }
+
+  getCategoriesByType(){
+    this._commonService.getCategoriesByType(this.type).subscribe({
+      next: res => {
+        this.categories = res;
+      },
+      error: err => {
+        console.log('error on getCategoriesByType')
+      }
+    })
   }
 }

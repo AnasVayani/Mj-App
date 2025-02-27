@@ -150,7 +150,7 @@ export class ProductComponent {
   colors: string[] = ['Red', 'Blue', 'Orange', 'Black', 'Green', 'Yellow'];
   sizes: string[] = ['S', 'M', 'L', 'XL', 'XXL'];
 
-  selectedCategories: { [key: string]: boolean } = {};
+  selectedCategories: { [key: number]: boolean } = {};
   selectedColors: { [key: string]: boolean } = {};
   selectedSizes: { [key: string]: boolean } = {};
   minPrice = 0;
@@ -158,7 +158,7 @@ export class ProductComponent {
 
   constructor(private router:Router, private commonService : CommonService,  private route: ActivatedRoute,) {
     this.paginate();
-    this.filterProducts();
+    // this.filterProducts();
     this.checkScreenSize();
   }
 
@@ -183,27 +183,34 @@ export class ProductComponent {
     this.showResetButton = true;
   
     // Update selected filters based on emitted values
-    this.selectedCategories = filters.categories.reduce((acc: any, category: string) => {
-      acc[category] = true;
-      return acc;
-    }, {});
+    this.selectedCategories = filters.selectedCategories
+    this.selectedColors = filters.selectedColors
+    this.selectedSizes = filters.selectedSizes
+
+    const selectedCategoryIds = Object.keys(this.selectedCategories)
+    .filter((id: any) => this.selectedCategories[id]);
+    
+    // this.selectedCategories = filters.categories.reduce((acc: any, category: string) => {
+    //   acc[category] = true;
+    //   return acc;
+    // }, {});
   
-    this.selectedColors = filters.hashTag
-      .split(' ')
-      .reduce((acc: any, color: string) => {
-        acc[color.replace('#', '')] = true;
-        return acc;
-      }, {});
+    // this.selectedColors = filters.hashTag
+    //   .split(' ')
+    //   .reduce((acc: any, color: string) => {
+    //     acc[color.replace('#', '')] = true;
+    //     return acc;
+    //   }, {});
   
-    this.selectedSizes = filters.sizes.reduce((acc: any, size: string) => {
-      acc[size] = true;
-      return acc;
-    }, {});
+    // this.selectedSizes = filters.sizes.reduce((acc: any, size: string) => {
+    //   acc[size] = true;
+    //   return acc;
+    // }, {});
   
-    this.minPrice = filters.fromPrice;
-    this.maxPrice = filters.toPrice;
-  
-    this.filterProducts(); // Call filter method
+    this.minPrice = filters.minPrice;
+    this.maxPrice = filters.maxPrice;
+    this.GetProducts();
+    // this.filterProducts(); // Call filter method
   }
   
 
@@ -211,7 +218,7 @@ export class ProductComponent {
 
     if (!this.type || !this.categoryId) return;
 
-    this.commonService.getProducts(10, this.currentPage, this.categoryId, this.type).subscribe(
+    this.commonService.getProducts(10, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice).subscribe(
       response =>{
         this.products_response = response
         console.log( "Products Response",this.products_response)
@@ -228,7 +235,7 @@ export class ProductComponent {
     this.selectedSizes = {};
     this.minPrice = 0;
     this.maxPrice = 2000;
-    this.filterProducts();
+    // this.filterProducts();
   }
 
   anyFilterSelected(): boolean {
@@ -241,25 +248,25 @@ export class ProductComponent {
     );
   }
 
-  filterProducts() {
-    this.filteredProducts = this.products.filter((product) => {
-      const categoryMatch =
-        !Object.values(this.selectedCategories).includes(true) ||
-        this.selectedCategories[product.category];
-      const colorMatch =
-        !Object.values(this.selectedColors).includes(true) ||
-        this.selectedColors[product.color];
-      const sizeMatch =
-        !Object.values(this.selectedSizes).includes(true) ||
-        this.selectedSizes[product.size];
-      const priceMatch =
-        product.price >= this.minPrice && product.price <= this.maxPrice;
-      return categoryMatch && colorMatch && sizeMatch && priceMatch;
-    });
+  // filterProducts() {
+  //   this.filteredProducts = this.products.filter((product) => {
+  //     const categoryMatch =
+  //       !Object.values(this.selectedCategories).includes(true) ||
+  //       this.selectedCategories[product.category];
+  //     const colorMatch =
+  //       !Object.values(this.selectedColors).includes(true) ||
+  //       this.selectedColors[product.color];
+  //     const sizeMatch =
+  //       !Object.values(this.selectedSizes).includes(true) ||
+  //       this.selectedSizes[product.size];
+  //     const priceMatch =
+  //       product.price >= this.minPrice && product.price <= this.maxPrice;
+  //     return categoryMatch && colorMatch && sizeMatch && priceMatch;
+  //   });
 
-    this.currentPage = 1;
-    this.paginate();
-  }
+  //   this.currentPage = 1;
+  //   this.paginate();
+  // }
 
   paginate() {
     const start = (this.currentPage - 1) * this.itemsPerPage;

@@ -1,7 +1,7 @@
 <div class="filters p-3 border rounded" [ngClass]="{ '': !showFilters && isMobile(), 'show': showFilters }">
     <h5 class="fw-bold">Product Categories</h5>
     <div *ngFor="let category of categories">
-      <input type="checkbox" [(ngModel)]="selectedCategories[category]" (change)="markFilterChange()"> {{ category }}
+      <input type="checkbox" [(ngModel)]="selectedCategories[category.id]" (change)="markFilterChange()"> {{ category.name }}
     </div>
   
     <h5 class="fw-bold mt-3">Filter by Price</h5>

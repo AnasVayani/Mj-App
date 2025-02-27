@@ -21,7 +21,7 @@
                 <div class="col-md-4 mb-4" *ngFor="let product of products_response">
                     <div class="card border-0 shadow-sm position-relative" (click)="goToProductDetail(product)">
                         <div class="image-container">
-                            <img [src]="product.imageUrl" class="card-img-top">
+                            <img [src]="product.imageUrl[0]" class="card-img-top">
 
                             <!-- Overlay with Buttons -->
                             <div class="overlay">
