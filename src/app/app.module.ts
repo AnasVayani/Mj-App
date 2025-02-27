@@ -23,7 +23,10 @@ import { CheckoutComponent } from './Component/checkout/checkout.component';
 import { SelectCountryComponent } from './Component/select-country/select-country.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { SearchComponent } from './Component/search/search.component';
-import { ProfileComponent } from './Component/profile/profile.component'; 
+import { ProfileComponent } from './Component/profile/profile.component';
+import { LoginComponent } from './Component/auth/login/login.component';
+import { RegisterComponent } from './Component/auth/register/register.component';
+import { ForgetPasswordComponent } from './Component/auth/forget-password/forget-password.component'; 
 
 @NgModule({
   declarations: [
@@ -45,6 +48,9 @@ import { ProfileComponent } from './Component/profile/profile.component';
     SelectCountryComponent,
     SearchComponent,
     ProfileComponent,
+    LoginComponent,
+    RegisterComponent,
+    ForgetPasswordComponent,
    
   ],
   imports: [

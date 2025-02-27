@@ -8,11 +8,26 @@ import { CheckoutComponent } from './Component/checkout/checkout.component';
 import { SelectCountryComponent } from './Component/select-country/select-country.component';
 import { SearchComponent } from './Component/search/search.component';
 import { ProfileComponent } from './Component/profile/profile.component';
+import { LoginComponent } from './Component/auth/login/login.component';
+import { RegisterComponent } from './Component/auth/register/register.component';
+import { ForgetPasswordComponent } from './Component/auth/forget-password/forget-password.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'forget-password',
+    component: ForgetPasswordComponent,
   },
   {
     path: 'select-country',
