@@ -1,0 +1,51 @@
+<div class="container blog-detail">
+
+    <!-- <h1 class="blog-title mb-5">{{ blog?.title }}</h1>
+  
+    
+    <img *ngIf="blog?.bannerImage" [src]="blog.bannerImage" class="img-fluid blog-banner" alt="Blog Banner" />
+  
+   
+    <div class="blog-content">
+      <ng-container *ngFor="let section of blog?.content">
+        <h2 *ngIf="section.type === 'heading1'">{{ section.text }}</h2>
+        <p *ngIf="section.type === 'paragraph1'">{{ section.text }}</p>
+  
+       
+        <ul *ngIf="section.type === 'list'">
+          <li *ngFor="let item of section.items">{{ item }}</li>
+        </ul>
+      </ng-container>
+    </div> -->
+
+
+    <div *ngIf="blog" class="blog-container mb-5">
+        <h1 class="blog-title">{{ blog.title }}</h1>
+        <img [src]="blog.bannerImage" alt="Banner Image" class="blog-banner my-3" />
+
+        <div *ngFor="let item of blog.content" class="blog-section my-3">
+            <h2 *ngIf="item.type.startsWith('heading')" class="blog-heading">
+                {{ item.text }}
+            </h2>
+            <p *ngIf="item.type.startsWith('paragraph')" class="blog-content">
+                {{ item.text }}
+            </p>
+
+            <a *ngIf="item.link" [href]="item.link" target="_blank" class="blog-link">
+                {{item.link}}
+            </a>
+
+
+            <ul *ngIf="item.type === 'list'" class="blog-list">
+                <li *ngFor="let listItem of item.items">{{ listItem }}</li>
+            </ul>
+        </div>
+
+
+        <div *ngIf="!blog" class="no-blog">
+            <p>Blog not found.</p>
+        </div>
+    </div>
+
+
+</div>

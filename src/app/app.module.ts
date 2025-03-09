@@ -26,7 +26,10 @@ import { SearchComponent } from './Component/search/search.component';
 import { ProfileComponent } from './Component/profile/profile.component';
 import { LoginComponent } from './Component/auth/login/login.component';
 import { RegisterComponent } from './Component/auth/register/register.component';
-import { ForgetPasswordComponent } from './Component/auth/forget-password/forget-password.component'; 
+import { ForgetPasswordComponent } from './Component/auth/forget-password/forget-password.component';
+import { OurStoryComponent } from './Component/our-story/our-story.component';
+import { BlogComponent } from './Component/blog/blog.component';
+import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component'; 
 
 @NgModule({
   declarations: [
@@ -51,6 +54,9 @@ import { ForgetPasswordComponent } from './Component/auth/forget-password/forget
     LoginComponent,
     RegisterComponent,
     ForgetPasswordComponent,
+    OurStoryComponent,
+    BlogComponent,
+    BlogDetailComponent,
    
   ],
   imports: [

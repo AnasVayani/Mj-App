@@ -1,0 +1,30 @@
+.blog-detail {
+  // max-width: 900px;
+  // margin: 0 auto;
+  padding: 20px;
+  .blog-link {
+    display: inline-block; // Ensures proper alignment
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%; // Ensures it stays within the container
+    color: #007bff; // Bootstrap primary color
+    text-decoration: underline;
+  }
+
+  .blog-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .blog-banner {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+ 
+  
+}
