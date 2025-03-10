@@ -154,7 +154,7 @@ export class ProductComponent {
   selectedColors: { [key: string]: boolean } = {};
   selectedSizes: { [key: string]: boolean } = {};
   minPrice = 0;
-  maxPrice = 2000;
+  maxPrice = 20000;
 
   constructor(private router:Router, private commonService : CommonService,  private route: ActivatedRoute,) {
     this.paginate();
@@ -218,7 +218,7 @@ export class ProductComponent {
 
     if (!this.type || !this.categoryId) return;
 
-    this.commonService.getProducts(10, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice).subscribe(
+    this.commonService.getProducts(50, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice).subscribe(
       response =>{
         this.products_response = response
         console.log( "Products Response",this.products_response)

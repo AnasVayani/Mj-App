@@ -25,29 +25,27 @@
                 <img [src]="selectedImage" class="img-fluid main-img" alt="Dress">
             </div>
             <div class="thumbnails d-flex justify-content-center mt-3">
-                <img *ngFor="let img of thumbnails" [src]="img" class="thumb-img" alt="Thumb"
+                <img *ngFor="let img of product.imageUrl" [src]="img" class="thumb-img" alt="Thumb"
                     [class.active]="selectedImage === img" (click)="changeImage(img)">
             </div>
         </div>
 
         <!-- Right Side: Product Details -->
         <div class="col-lg-6 col-md-6 col-sm-12">
-            <h2 class="product-title">YK Disney</h2>
-            <p class="product-subtitle">Girls Pink Moana Printed Dress</p>
-            <div class="rating">
+            <h2 class="product-title">{{product.name}}</h2>
+            <p class="product-subtitle">{{product.description}}</p>
+            <!-- <div class="rating">
                 <span class="stars me-3">
                     <i class="ri-star-fill" *ngFor="let star of [1,2,3,4,5]"></i>
                 </span>
                 <span class="reviews">(121 Reviews)</span>
-            </div>
-            <p class="price">
-                <span class="current-price">$80.00</span>
-                <span class="old-price">$100.00</span>
-            </p>
+            </div> -->
+            <!-- <p class="price">
+                <span class="current-price">{{product.priceAfterDiscount}}</span>
+                <span class="old-price">{{product.price}}</span>
+            </p> -->
             <p class="description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam rem similique nostrum labore nesciunt
-                quas illo deserunt dolor voluptas cupiditate, est dolorum repellat nemo eos nisi eius ipsum et in,
-                voluptatum vitae.
+                {{product.description2}}
             </p>
 
             <!-- Color Options -->
@@ -109,10 +107,7 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active px-2 pt-3" id="description">
                     <p>
-                        It is a long established fact that a reader will be distracted by readable content.
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos, culpa laudantium quasi,
-                        veritatis consequuntur vero quia velit ab architecto sapiente numquam vel veniam. Quo asperiores
-                        necessitatibus consequatur recusandae dolorum maxime adipisci molestiae.
+                        {{product.details}}
                     </p>
                 </div>
                 <div class="tab-pane fade px-2 pt-3" id="additional-info">

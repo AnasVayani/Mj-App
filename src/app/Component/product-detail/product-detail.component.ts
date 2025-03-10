@@ -8,12 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent {
-  // product: any;
+  product: any;
 
-  // constructor(private router: Router) {
-  //   const navigation = this.router.getCurrentNavigation();
-  //   this.product = navigation?.extras.state ? (navigation.extras.state as { product: any }).product : null;
-  // }
   reviews = [
     {
       name: 'Mark Williams',
@@ -51,7 +47,10 @@ export class ProductDetailComponent {
   selectedSize: string | null = null;
   quantity: number = 1;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    this.product = navigation?.extras.state ? (navigation.extras.state as { product: any }).product : null;
+    this.selectedImage = this.product.imageUrl[0]
     this.productForm = this.fb.group({
       size: [null],
       quantity: [1],

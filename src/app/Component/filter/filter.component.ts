@@ -25,7 +25,7 @@ export class FilterComponent implements OnInit {
   selectedColors: { [key: string]: boolean } = {};
   selectedSizes: { [key: string]: boolean } = {};
   minPrice = 0;
-  maxPrice = 2000;
+  maxPrice = 20000;
   type: number = 0;
 
   /**
