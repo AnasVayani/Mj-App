@@ -76,6 +76,7 @@ export class FilterComponent implements OnInit {
   }
 
   resetFilters() {
+    this.selectedCategories = {};
     this.selectedCategories[this.paramCategoryId] = true;
     this.selectedColors = {};
     this.selectedSizes = {};
