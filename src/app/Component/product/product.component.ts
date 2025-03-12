@@ -104,8 +104,8 @@ export class ProductComponent {
     this.selectedColors = {};
     this.selectedSizes = {};
     this.minPrice = 0;
-    this.maxPrice = 2000;
-    // this.filterProducts();
+    this.maxPrice = 20000;
+    this.GetProducts();
   }
 
   anyFilterSelected(): boolean {
@@ -114,7 +114,7 @@ export class ProductComponent {
       Object.values(this.selectedColors).includes(true) ||
       Object.values(this.selectedSizes).includes(true) ||
       this.minPrice !== 0 ||
-      this.maxPrice !== 2000
+      this.maxPrice !== 20000
     );
   }
 
