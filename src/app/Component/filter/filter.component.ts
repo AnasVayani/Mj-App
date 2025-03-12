@@ -18,7 +18,7 @@ export class FilterComponent implements OnInit {
   // showResetButton: boolean = false;
 
   categories: any;
-  colors: string[] = ['Red', 'Blue', 'Orange', 'Black', 'Green', 'Yellow'];
+  colors: string[] = ['White', 'Blue', 'Brown', 'Black', 'Grey', 'Red'];
   sizes: string[] = ['S', 'M', 'L', 'XL', 'XXL'];
 
   selectedCategories: { [key: number]: boolean } = {};
