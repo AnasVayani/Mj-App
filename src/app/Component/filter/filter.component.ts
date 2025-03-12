@@ -27,6 +27,7 @@ export class FilterComponent implements OnInit {
   minPrice = 0;
   maxPrice = 20000;
   type: number = 0;
+  paramCategoryId: number = 0;
 
   /**
    *
@@ -39,6 +40,7 @@ export class FilterComponent implements OnInit {
     this.route.queryParams.subscribe({
       next: params => {
         this.type = params['type'] ? +params['type'] : 0;
+        this.paramCategoryId = params['categoryId'] ? +params['categoryId'] : 0
         this.selectedCategories[params['categoryId'] ? +params['categoryId'] : 0] = true;
         if (this.type != null && this.type != 0) {
           this.getCategoriesByType()
@@ -74,7 +76,7 @@ export class FilterComponent implements OnInit {
   }
 
   resetFilters() {
-    this.selectedCategories = {};
+    this.selectedCategories[this.paramCategoryId] = true;
     this.selectedColors = {};
     this.selectedSizes = {};
     this.minPrice = 0;
