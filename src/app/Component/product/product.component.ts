@@ -41,6 +41,7 @@ export class ProductComponent {
   selectedSizes: { [key: string]: boolean } = {};
   minPrice = 0;
   maxPrice = 20000;
+  paramCategoryId: number = 0;
 
   constructor(private router:Router, private commonService : CommonService,  private route: ActivatedRoute,) {
     this.checkScreenSize();
@@ -54,6 +55,7 @@ export class ProductComponent {
   ngOnInit(){
     this.route.queryParams.subscribe((params) => {
       this.type = params['type'] ? +params['type'] : 0;
+      this.paramCategoryId = params['categoryId'] ? +params['categoryId'] : 0
       this.categoryId.push(params['categoryId'] ? +params['categoryId'] : 0);
       this.GetProducts();
     });
@@ -105,6 +107,10 @@ export class ProductComponent {
     this.selectedSizes = {};
     this.minPrice = 0;
     this.maxPrice = 20000;
+    this.categoryId = [];
+    this.categoryId.push(this.paramCategoryId)
+    this.colors = []
+    this.sizes = []
     this.GetProducts();
   }
 
