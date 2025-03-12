@@ -102,7 +102,7 @@ export class ProductComponent {
   }
 
   resetFilters() {
-    this.selectedCategories = {};
+    this.selectedCategories[this.paramCategoryId] = true;
     this.selectedColors = {};
     this.selectedSizes = {};
     this.minPrice = 0;
