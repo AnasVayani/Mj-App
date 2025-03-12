@@ -19,7 +19,7 @@ export class FilterComponent implements OnInit {
 
   categories: any;
   colors: string[] = ['Red', 'Blue', 'Orange', 'Black', 'Green', 'Yellow'];
-  sizes: string[] = ['S', 'M', 'L', 'XL'];
+  sizes: string[] = ['S', 'M', 'L', 'XL', 'XXL'];
 
   selectedCategories: { [key: number]: boolean } = {};
   selectedColors: { [key: string]: boolean } = {};
@@ -39,6 +39,7 @@ export class FilterComponent implements OnInit {
     this.route.queryParams.subscribe({
       next: params => {
         this.type = params['type'] ? +params['type'] : 0;
+        this.selectedCategories[params['categoryId'] ? +params['categoryId'] : 0] = true;
         if (this.type != null && this.type != 0) {
           this.getCategoriesByType()
         }
@@ -77,7 +78,7 @@ export class FilterComponent implements OnInit {
     this.selectedColors = {};
     this.selectedSizes = {};
     this.minPrice = 0;
-    this.maxPrice = 2000;
+    this.maxPrice = 20000;
     this.showResetButton = false;
     this.filtersReset.emit();
   }
@@ -88,7 +89,7 @@ export class FilterComponent implements OnInit {
       Object.values(this.selectedColors).includes(true) ||
       Object.values(this.selectedSizes).includes(true) ||
       this.minPrice !== 0 ||
-      this.maxPrice !== 2000
+      this.maxPrice !== 20000
     );
   }
 
@@ -103,8 +104,8 @@ export class FilterComponent implements OnInit {
   }
 
   updateSliderTrack() {
-    const minPercent = (this.minPrice / 2000) * 100;
-    const maxPercent = (this.maxPrice / 2000) * 100;
+    const minPercent = (this.minPrice / 20000) * 100;
+    const maxPercent = (this.maxPrice / 20000) * 100;
 
     const sliderTrack = document.querySelector('.slider-track') as HTMLElement;
     if (sliderTrack) {

@@ -6,8 +6,8 @@
   
     <h5 class="fw-bold mt-3">Filter by Price</h5>
     <div class="price-slider">
-      <input type="range" class="form-range min-range" min="0" max="2000" [(ngModel)]="minPrice" (input)="updatePriceRange()">
-      <input type="range" class="form-range max-range" min="0" max="2000" [(ngModel)]="maxPrice" (input)="updatePriceRange()">
+      <input type="range" class="form-range min-range" min="0" max="20000" [(ngModel)]="minPrice" (input)="updatePriceRange()">
+      <input type="range" class="form-range max-range" min="0" max="20000" [(ngModel)]="maxPrice" (input)="updatePriceRange()">
       <div class="slider-track"></div>
     </div>
     <p>Price: ${{ minPrice }} - ${{ maxPrice }}</p>

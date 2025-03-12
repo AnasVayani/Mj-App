@@ -26,129 +26,15 @@ export class ProductComponent {
   showResetButton: boolean = false;
   products_response: any ={};
 
-  products: Product[] = [
-    {
-      name: 'Allen Solly',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 80,
-      oldPrice: 100,
-      category: 'Men',
-      color: 'Red',
-      size: 'M',
-    },
-    {
-      name: 'Adidas Shoes',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 60,
-      oldPrice: 75,
-      category: 'Men',
-      color: 'Blue',
-      size: 'L',
-    },
-    {
-      name: 'Roadstar T-Shirt',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 38,
-      oldPrice: 40,
-      category: 'Men',
-      color: 'Black',
-      size: 'XL',
-    },
-    {
-      name: 'Flora Hand Purse',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 35,
-      oldPrice: 45,
-      category: 'Women',
-      color: 'Orange',
-      size: 'M',
-    },
-    {
-      name: 'Nike Hoodie',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 55,
-      oldPrice: 65,
-      category: 'Men',
-      color: 'Green',
-      size: 'L',
-    },
-    {
-      name: 'Puma Jacket',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 90,
-      oldPrice: 120,
-      category: 'Men',
-      color: 'Black',
-      size: 'M',
-    },
-    {
-      name: 'Levi’s Jeans',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 70,
-      oldPrice: 90,
-      category: 'Men',
-      color: 'Blue',
-      size: 'L',
-    },
-    {
-      name: 'H&M Dress',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 100,
-      oldPrice: 150,
-      category: 'Women',
-      color: 'Red',
-      size: 'S',
-    },
-    {
-      name: 'Gucci Belt',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 120,
-      oldPrice: 160,
-      category: 'Bags',
-      color: 'Black',
-      size: 'M',
-    },
-    {
-      name: 'LV Handbag',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 250,
-      oldPrice: 300,
-      category: 'Women',
-      color: 'Brown',
-      size: 'L',
-    },
-    {
-      name: 'Ray-Ban Sunglasses',
-      desc: 'lorem',
-      image: 'assets/product/product-img.png',
-      price: 85,
-      oldPrice: 95,
-      category: 'Men',
-      color: 'Black',
-      size: 'M',
-    },
-  ];
-
-  filteredProducts: Product[] = [...this.products];
   paginatedProducts: Product[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 10;
-  categoryId: number = 0;
+  categoryId: number[] = [];
   type: number = 0;
 
-  categories: string[] = ['Men', 'Women', 'Kids', 'Bags', 'Belts'];
-  colors: string[] = ['Red', 'Blue', 'Orange', 'Black', 'Green', 'Yellow'];
-  sizes: string[] = ['S', 'M', 'L', 'XL', 'XXL'];
+  categories: number[] = [];
+  colors: string[] = [];
+  sizes: string[] = [];
 
   selectedCategories: { [key: number]: boolean } = {};
   selectedColors: { [key: string]: boolean } = {};
@@ -157,8 +43,6 @@ export class ProductComponent {
   maxPrice = 20000;
 
   constructor(private router:Router, private commonService : CommonService,  private route: ActivatedRoute,) {
-    this.paginate();
-    // this.filterProducts();
     this.checkScreenSize();
   }
 
@@ -170,7 +54,7 @@ export class ProductComponent {
   ngOnInit(){
     this.route.queryParams.subscribe((params) => {
       this.type = params['type'] ? +params['type'] : 0;
-      this.categoryId = params['categoryId'] ? +params['categoryId'] : 0;
+      this.categoryId.push(params['categoryId'] ? +params['categoryId'] : 0);
       this.GetProducts();
     });
    
@@ -182,35 +66,21 @@ export class ProductComponent {
   applyFilters(filters: any) {
     this.showResetButton = true;
   
-    // Update selected filters based on emitted values
     this.selectedCategories = filters.selectedCategories
     this.selectedColors = filters.selectedColors
     this.selectedSizes = filters.selectedSizes
 
-    const selectedCategoryIds = Object.keys(this.selectedCategories)
-    .filter((id: any) => this.selectedCategories[id]);
-    
-    // this.selectedCategories = filters.categories.reduce((acc: any, category: string) => {
-    //   acc[category] = true;
-    //   return acc;
-    // }, {});
-  
-    // this.selectedColors = filters.hashTag
-    //   .split(' ')
-    //   .reduce((acc: any, color: string) => {
-    //     acc[color.replace('#', '')] = true;
-    //     return acc;
-    //   }, {});
-  
-    // this.selectedSizes = filters.sizes.reduce((acc: any, size: string) => {
-    //   acc[size] = true;
-    //   return acc;
-    // }, {});
-  
+    this.categoryId = Object.keys(this.selectedCategories)
+    .filter((id: any) => this.selectedCategories[id])
+    .map((id) => Number(id));
+
+    this.colors = Object.keys(this.selectedColors)
+    .filter((id: any) => this.selectedColors[id]);
+    this.sizes = Object.keys(this.selectedSizes)
+    .filter((id: any) => this.selectedSizes[id]);
     this.minPrice = filters.minPrice;
     this.maxPrice = filters.maxPrice;
     this.GetProducts();
-    // this.filterProducts(); // Call filter method
   }
   
 
@@ -218,7 +88,7 @@ export class ProductComponent {
 
     if (!this.type || !this.categoryId) return;
 
-    this.commonService.getProducts(50, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice).subscribe(
+    this.commonService.getProducts(50, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice, this.sizes, this.colors).subscribe(
       response =>{
         this.products_response = response
         console.log( "Products Response",this.products_response)
@@ -248,54 +118,25 @@ export class ProductComponent {
     );
   }
 
-  // filterProducts() {
-  //   this.filteredProducts = this.products.filter((product) => {
-  //     const categoryMatch =
-  //       !Object.values(this.selectedCategories).includes(true) ||
-  //       this.selectedCategories[product.category];
-  //     const colorMatch =
-  //       !Object.values(this.selectedColors).includes(true) ||
-  //       this.selectedColors[product.color];
-  //     const sizeMatch =
-  //       !Object.values(this.selectedSizes).includes(true) ||
-  //       this.selectedSizes[product.size];
-  //     const priceMatch =
-  //       product.price >= this.minPrice && product.price <= this.maxPrice;
-  //     return categoryMatch && colorMatch && sizeMatch && priceMatch;
-  //   });
-
-  //   this.currentPage = 1;
-  //   this.paginate();
-  // }
-
-  paginate() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    this.paginatedProducts = this.filteredProducts.slice(start, end);
-  }
-
   totalPages() {
-    return Array(Math.ceil(this.filteredProducts.length / this.itemsPerPage))
+    return Array(Math.ceil(1 / this.itemsPerPage))
       .fill(0)
       .map((_, i) => i + 1);
   }
 
   goToPage(page: number) {
     this.currentPage = page;
-    this.paginate();
   }
 
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.paginate();
     }
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages().length) {
       this.currentPage++;
-      this.paginate();
     }
   }
 

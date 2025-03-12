@@ -115,19 +115,16 @@
                         <div class="d-flex gap-3">
                             <h6 class="fw-semibold m-0"> Color </h6>
                             <div class="d-flex gap-1">
-                                <span> Red, </span>
-                                <span> Orange, </span>
+                                <span> {{product.colour}} </span>
+                                <!-- <span> Orange, </span>
                                 <span> Blue, </span>
-                                <span> Red </span>
+                                <span> Red </span> -->
                             </div>
                         </div>
                         <div class="d-flex gap-4">
                             <h6 class="fw-semibold m-0"> Size </h6>
-                            <div class="d-flex gap-1">
-                                <span> S, </span>
-                                <span> M, </span>
-                                <span> XL, </span>
-                                <span> XXL </span>
+                            <div class="d-flex gap-1" *ngFor="let items of product.productDetails; let last = last">
+                                {{ items.size }}<span *ngIf="!last">,</span>
                             </div>
                         </div>
                     </div>

@@ -98,14 +98,14 @@ export class TshirtsComponent  implements OnInit{
     });
   }
   
-  fetchProducts(): void {
-    this.commonService.getProducts(this.pageSize, this.currentPage, this.categoryId, this.type, "", "", 0, 0, this.sizeFilter)
-      .subscribe((data: Product[]) => {
-        this.products = data;
-      }, error => {
-        console.error("Error fetching products:", error);
-      });
-  }
+  // fetchProducts(): void {
+  //   this.commonService.getProducts(this.pageSize, this.currentPage, this.categoryId, this.type, "", "", 0, 0, this.sizeFilter)
+  //     .subscribe((data: Product[]) => {
+  //       this.products = data;
+  //     }, error => {
+  //       console.error("Error fetching products:", error);
+  //     });
+  // }
 
   getProducts(): void {
     if (this.categoryId === 1) {

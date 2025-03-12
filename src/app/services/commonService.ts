@@ -33,28 +33,32 @@ export class CommonService {
   getProducts(
     pageSize: number,
     pageNumber: number,
-    categoryId: number,
+    categoryId: number[],
     type: number,
     name: string = '',
     hashTag: string = '',
     fromPrice?: number,
     toPrice?: number,
-    size?: string
+    size?: string[],
+    color?:string[]
   ): Observable<any> {
-    var formData = new FormData();
-    formData.append('PageSize', pageSize.toString());
-    formData.append('PageNumber', pageNumber.toString());
-    formData.append('CategoryId', categoryId.toString());
-    formData.append('Type', type.toString());
-    formData.append('Name', name);
-    formData.append('HashTag', hashTag);
-    if (fromPrice !== undefined) formData.append('FromPrice', fromPrice.toString());
-    if (toPrice !== undefined) formData.append('ToPrice', toPrice.toString());
-    if (size) formData.append('Size', size);
 
+    const requestData = {
+      PageSize: pageSize,
+      PageNumber: pageNumber,
+      CategoryId: categoryId,
+      Type: type,
+      Name: name,
+      FromPrice: fromPrice,
+      ToPrice: toPrice,
+      HashTag: hashTag,
+      Size: size,
+      Color: color
+    };
+   
     return this.httpClient.post<any>(
       `${environment.apiUrl}/Product/GetProducts`,
-      formData
+      requestData
     );
   }
 
