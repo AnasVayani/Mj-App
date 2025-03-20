@@ -41,7 +41,10 @@ export class FilterComponent implements OnInit {
       next: params => {
         this.type = params['type'] ? +params['type'] : 0;
         this.paramCategoryId = params['categoryId'] ? +params['categoryId'] : 0
-        this.selectedCategories[params['categoryId'] ? +params['categoryId'] : 0] = true;
+        this.selectedCategories = {}; 
+        if (this.paramCategoryId) {
+          this.selectedCategories[this.paramCategoryId] = true;
+        }
         if (this.type != null && this.type != 0) {
           this.getCategoriesByType()
         }
