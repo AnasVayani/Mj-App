@@ -54,6 +54,7 @@ export class ProductComponent {
 
   ngOnInit(){
     this.route.queryParams.subscribe((params) => {
+      this.categoryId = [];
       this.type = params['type'] ? +params['type'] : 0;
       this.paramCategoryId = params['categoryId'] ? +params['categoryId'] : 0
       this.categoryId.push(params['categoryId'] ? +params['categoryId'] : 0);
