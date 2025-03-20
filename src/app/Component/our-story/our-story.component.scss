@@ -1,0 +1,42 @@
+.about-us {
+    padding: 50px 20px;
+    // background-color: #f8f9fa;
+  
+    .section {
+      padding: 50px 0;
+  
+      h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+  
+      p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #333;
+      }
+  
+      img {
+        max-width: 80%;
+        border-radius: 10px;
+      }
+    }
+  }
+  .cent{
+    display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+  }
+  // Responsive Styles
+  @media (max-width: 768px) {
+    .section {
+      text-align: center;
+  
+      img {
+        margin-top: 20px;
+      }
+    }
+  }
+  

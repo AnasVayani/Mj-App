@@ -1,0 +1,295 @@
+<div class="container my-4">
+  <h2>My Profile</h2>
+  <div class="row my-5">
+    <!-- Sidebar -->
+    <div class="col-md-4 col-lg-3">
+      <div class="profile-sidebar border  rounded-0 shadow-none">
+        <div class="profile-header text-center  border-bottom my-3">
+          <img src="assets/product/product-img.png" alt="Profile Picture" class="profile-pic">
+          <h5 class="mt-2">Robert Fox</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" [class.active]="activeTab === 'personal-info'"
+            (click)="setActiveTab('personal-info')">
+            <i class="ri-user-line"></i> Personal Information
+          </li>
+          <li class="list-group-item" [class.active]="activeTab === 'orders'" (click)="setActiveTab('orders')">
+            <i class="ri-box-3-line"></i> My Orders
+          </li>
+          <li class="list-group-item" [class.active]="activeTab === 'wishlist'" (click)="setActiveTab('wishlist')">
+            <i class="ri-heart-line"></i> My Wishlists
+          </li>
+          <li class="list-group-item" [class.active]="activeTab === 'addresses'" (click)="setActiveTab('addresses')">
+            <i class="ri-map-pin-line"></i> Manage Addresses
+          </li>
+          <li class="list-group-item" [class.active]="activeTab === 'cards'" (click)="setActiveTab('cards')">
+            <i class="ri-bank-card-line"></i> Saved Cards
+          </li>
+         
+        </ul>
+      </div>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="col-md-8 col-lg-9">
+      <div class="card  border-0">
+        <!-- Personal Information -->
+        <div *ngIf="activeTab === 'personal-info'">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4>Personal Details</h4>
+            <div>
+              <button class="btn btn-dark me-2" (click)="saveChanges()" *ngIf="isEditing">
+                <i class="ri-save-line"></i> Save
+              </button>
+              <button class="btn btn-dark" (click)="toggleEdit()">
+                <i class="ri-edit-line"></i> {{ isEditing ? 'Cancel' : 'Edit Profile' }}
+              </button>
+            </div>
+          </div>
+          <form class="mt-3">
+            <div class="row">
+              <div class="col-md-6">
+                <label>First Name</label>
+                <input type="text" class="form-control" [(ngModel)]="profile.firstName "
+                  [ngModelOptions]="{standalone: true}" [disabled]="!isEditing">
+              </div>
+              <div class="col-md-6">
+                <label>Last Name</label>
+                <input type="text" class="form-control" [(ngModel)]="profile.lastName"
+                  [ngModelOptions]="{standalone: true}" [disabled]="!isEditing">
+              </div>
+              <div class="col-md-6 mt-3">
+                <label>Phone Number</label>
+                <input type="text" class="form-control" [(ngModel)]="profile.phone"
+                  [ngModelOptions]="{standalone: true}" [disabled]="!isEditing">
+              </div>
+              <div class="col-md-6 mt-3">
+                <label>Email Address</label>
+                <input type="email" class="form-control" [(ngModel)]="profile.email"
+                  [ngModelOptions]="{standalone: true}" [disabled]="!isEditing">
+              </div>
+              <div class="col-12 mt-3">
+                <label>Address</label>
+                <input type="text" class="form-control" [(ngModel)]="profile.address"
+                  [ngModelOptions]="{standalone: true}" [disabled]="!isEditing">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Other Tabs -->
+        <div *ngIf="activeTab === 'orders'">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-3">My Orders</h4>
+            <input type="text" [(ngModel)]="searchQuery" class="form-control search mb-3"
+              placeholder="Search orders...">
+
+          </div>
+
+          <div class="order-container border-bottom">
+
+            <div class="order-list" *ngFor="let order of filteredOrders">
+              <div class="order-card row align-items-center">
+                <div class="col-lg-8 col-md-7 col-12">
+                  <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <img [src]="order.image" alt="Product Image" class="order-image">
+                    <div class="order-details">
+                      <h5 class="m-0">{{ order.name }}</h5>
+                      <p class="m-0">Size: {{ order.size }}</p>
+                      <p class="m-0">Qty: {{ order.qty }}</p>
+                    </div>
+                  </div>
+                  <div class="status-message d-flex align-items-center">
+                    <span class="status-label" [ngClass]="{
+                                    'delivered': order.status === 'Delivered',
+                                    'in-process': order.status === 'In Process',
+                                    'shipped': order.status === 'Shipped'
+                                  }">{{ order.status }}</span>
+                    <span class="ms-2">Your product has been {{ order.status.toLowerCase() }}</span>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-5 col-12 text-md-end text-center mt-3 mt-md-0">
+                  <strong class="price">${{ order.price }}.00</strong>
+                  <div class="btn-group mt-2">
+                    <button class="btn btn-outline-dark rounded">View Order</button>
+                    <button class="btn btn-dark rounded" *ngIf="order.status !== 'In Process'">Write A Review</button>
+                    <button class="btn btn-danger rounded" *ngIf="order.status === 'In Process'">Cancel Order</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div *ngIf="activeTab === 'wishlist'" class="border-bottom pb-3">
+          <div class="row wishlist ">
+            <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let product of products">
+              <div class="product-card">
+                <div class="product-image">
+                  <img [src]="product.image" [alt]="product.name" />
+                  <button class="delete-btn">
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                  <div class="overlay">
+                    <button class="btn move-to-cart px-lg-4">Move to Cart</button>
+                  </div>
+                </div>
+                <div class="product-info">
+                  <h5>{{ product.brand }}</h5>
+                  <p>{{ product.name }}</p>
+                  <p class="price">
+                    <span class="current-price">${{ product.currentPrice }}</span>
+                    <span class="original-price" *ngIf="product.originalPrice">${{ product.originalPrice }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="activeTab === 'addresses'" class="p-2">
+          <button class="btn btn-dark" (click)="openModal()">+ Add New Address</button>
+          <div class="row">
+            <div class="address-list">
+              <div class="address-item border-bottom py-3" *ngFor="let address of addresses; let i = index">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="fw-bold">{{ address.name }}</h6>
+                    <p class="text-muted mb-1">{{ address.address }}</p>
+                    <p class="text-muted mb-0"><i class="ri-phone-line me-2"></i> {{ address.phone }}</p>
+                  </div>
+                  <div>
+                    <button class="btn btn-light btn-sm me-2" (click)="openModal(i)">
+                      <i class="ri-edit-box-line"></i> Edit
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" (click)="deleteAddress(i)">
+                      <i class="ri-delete-bin-line"></i> Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="addressModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content p-3">
+                <div class="modal-header">
+                  <h5 class="modal-title">{{ isEditMode ? 'Edit Address' : 'Add a new address' }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                  <form [formGroup]="addressForm">
+                    <div class="mb-3">
+                      <label class="form-label">Name</label>
+                      <input type="text" class="form-control" formControlName="name" placeholder="Enter Name">
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Mobile Number</label>
+                      <input type="text" class="form-control" formControlName="phone" placeholder="Enter Mobile Number">
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Address</label>
+                      <input type="text" class="form-control" formControlName="address"
+                        placeholder="Flat, House no, Apartment">
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">City</label>
+                      <input type="text" class="form-control" formControlName="city" placeholder="Select City">
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Pin Code</label>
+                      <input type="text" class="form-control" formControlName="pinCode" placeholder="Enter Pin Code">
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">State</label>
+                      <input type="text" class="form-control" formControlName="state" placeholder="Select State">
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" formControlName="defaultAddress">
+                      <label class="form-check-label">Use as my default address</label>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="modal-footer">
+                  <button class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                  <button class="btn btn-dark" (click)="saveAddress()" [disabled]="addressForm.invalid">
+                    {{ isEditMode ? 'Save Changes' : 'Add New Address' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <div *ngIf="activeTab==='cards'" class="p-2">
+          <button class="btn btn-dark" (click)="openCardModal()">+ Add New Card</button>
+
+
+          <div class="row">
+            <div class="card-list">
+              <div class="card-item border-bottom py-3" *ngFor="let card of cards; let i = index">
+                <div class="d-flex justify-content-between align-items-center py-2">
+                  <div class="d-flex align-items-center">
+                    <img [src]="card.type === 'MasterCard' ? 'assets/card/master-card.png' : 'assets/card/visa.png'"
+                      class="card-logo me-2" alt="Card Logo">
+                    <div>
+                      <h6 class="fw-bold mb-0">{{ card.type }}</h6>
+                      <p class="text-muted mb-0">{{ card.number }}</p>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline-danger btn-sm" (click)="deleteCard(i)">
+                    <i class="ri-delete-bin-line"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="modal fade" id="cardModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content p-3">
+                <div class="modal-header">
+                  <h5 class="modal-title">{{ isEditCardMode ? 'Edit Card' : 'Add a new card' }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+          
+                <div class="modal-body">
+                  <form [formGroup]="cardForm">
+                    <div class="mb-3">
+                      <label class="form-label">Card Type</label>
+                      <select class="form-select" formControlName="type">
+                        <option value="MasterCard">MasterCard</option>
+                        <option value="Visa">Visa</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Card Number</label>
+                      <input type="text" class="form-control" formControlName="number" placeholder="1234 5678 9012 3456">
+                    </div>
+                  </form>
+                </div>
+          
+                <div class="modal-footer">
+                  <button class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+                  <button class="btn btn-dark" (click)="saveCard()" [disabled]="cardForm.invalid">
+                    {{ isEditCardMode ? 'Save Changes' : 'Add New Card' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>

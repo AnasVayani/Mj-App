@@ -13,8 +13,8 @@
       </div>
   
       <!-- Navbar Links -->
-      <ul class="nav-links" [ngClass]="{ 'active': mobileMenuActive }">
-        <li><a routerLink="/">Home</a></li>
+      <ul class="nav-links z-3" [ngClass]="{ 'active': mobileMenuActive }">
+        <li><a routerLink="/" routerLinkActive="active-link">Home</a></li>
         <li class="dropdown" (mouseenter)="toggleDropdown(true)" (mouseleave)="toggleDropdown(false)">
           <a  class="dropbtn">Shop <i class="ri-arrow-down-s-line ri-lg"></i></a>
           <div class="dropdown-content" *ngIf="dropdownActive">
@@ -42,22 +42,22 @@
            
           </div>
         </li>
-        <li><a href="#">Our Story</a></li>
-        <li><a href="#">Blog</a></li>
+        <li><a routerLink="/our-story" routerLinkActive="active-link">Our Story</a></li>
+        <li><a routerLink="/blog" routerLinkActive="active-link">Blog</a></li>
         <li><a href="#">Contact Us</a></li>
 
-        <div class="d-flex align-items-center p-2 gap-3 d-md-none">
-          <li class="d-md-none ">
+        <div class="d-flex align-items-center p-2 gap-3 d-lg-none">
+          <li class=" ">
             <i class="ri-search-2-line ri-lg" (click)="openSearchModal()"></i>
           </li>
-          <li class="d-md-none ">
+          <li class=" ">
             <i class="ri-heart-line ri-lg"></i>
           </li>
-          <li class="d-md-none "> 
+          <li class=" "> 
             <i class="ri-shopping-bag-3-line ri-lg" routerLink="/cart"></i>
           </li>
         </div>
-        <li class="d-md-none ">
+        <li class=" d-lg-none">
           <button type="button" class="w-50 btn btn-dark mb-3">Login</button>
         </li>
 

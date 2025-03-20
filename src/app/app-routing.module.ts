@@ -7,11 +7,30 @@ import { AddtoCartComponent } from './Component/addto-cart/addto-cart.component'
 import { CheckoutComponent } from './Component/checkout/checkout.component';
 import { SelectCountryComponent } from './Component/select-country/select-country.component';
 import { SearchComponent } from './Component/search/search.component';
+import { ProfileComponent } from './Component/profile/profile.component';
+import { LoginComponent } from './Component/auth/login/login.component';
+import { RegisterComponent } from './Component/auth/register/register.component';
+import { ForgetPasswordComponent } from './Component/auth/forget-password/forget-password.component';
+import { OurStoryComponent } from './Component/our-story/our-story.component';
+import { BlogComponent } from './Component/blog/blog.component';
+import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'forget-password',
+    component: ForgetPasswordComponent,
   },
   {
     path: 'select-country',
@@ -26,6 +45,10 @@ const routes: Routes = [
     component: ProductComponent,
   },
   {
+    path: 'profile',
+    component: ProfileComponent,
+  },
+  {
     path: 'product-detail',
     component: ProductDetailComponent,
   },
@@ -37,6 +60,12 @@ const routes: Routes = [
     path: 'checkout',
     component: CheckoutComponent,
   },
+  {
+    path: 'our-story',
+    component: OurStoryComponent,
+  },
+  { path: 'blog', component: BlogComponent },
+  { path: 'blog/:slug', component: BlogDetailComponent },
 
   { path: '**', redirectTo: '' },
 ];
