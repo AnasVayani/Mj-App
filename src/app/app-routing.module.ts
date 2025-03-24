@@ -14,6 +14,7 @@ import { ForgetPasswordComponent } from './Component/auth/forget-password/forget
 import { OurStoryComponent } from './Component/our-story/our-story.component';
 import { BlogComponent } from './Component/blog/blog.component';
 import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component';
+import { ContactComponent } from './Component/contact/contact.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,10 @@ const routes: Routes = [
   {
     path: 'our-story',
     component: OurStoryComponent,
+  },
+  {
+    path: 'contact',
+    component: ContactComponent,
   },
   { path: 'blog', component: BlogComponent },
   { path: 'blog/:slug', component: BlogDetailComponent },

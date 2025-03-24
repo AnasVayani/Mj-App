@@ -29,7 +29,8 @@ import { RegisterComponent } from './Component/auth/register/register.component'
 import { ForgetPasswordComponent } from './Component/auth/forget-password/forget-password.component';
 import { OurStoryComponent } from './Component/our-story/our-story.component';
 import { BlogComponent } from './Component/blog/blog.component';
-import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component'; 
+import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component';
+import { ContactComponent } from './Component/contact/contact.component'; 
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { BlogDetailComponent } from './Component/blog-detail/blog-detail.compone
     OurStoryComponent,
     BlogComponent,
     BlogDetailComponent,
+    ContactComponent,
    
   ],
   imports: [

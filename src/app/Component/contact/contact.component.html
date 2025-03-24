@@ -1,0 +1,57 @@
+<div class="container ">
+    <div class="row justify-content-center">
+
+        <div class="col-12 text-center cent gap-3 my-3">
+            <h1 class="section-title">Contact Us</h1>
+            <p class="section-text col-md-10">
+            Want to get in touch? We'd love to hear from you.
+            </p>
+          </div>
+
+
+      <div class="col-md-7 mb-5">
+        
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+          <!-- Name -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter your name" />
+            <div class="text-danger" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+              Name is required.
+            </div>
+          </div>
+  
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter your email" />
+            <div class="text-danger" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+              Please enter a valid email.
+            </div>
+          </div>
+  
+          <!-- Contact Number -->
+          <div class="mb-3">
+            <label for="contactNumber" class="form-label">Contact Number</label>
+            <input type="text" id="contactNumber" class="form-control" formControlName="contactNumber" placeholder="Enter your contact number" />
+            <div class="text-danger" *ngIf="contactForm.get('contactNumber')?.invalid && contactForm.get('contactNumber')?.touched">
+              Contact number must be 10-15 digits.
+            </div>
+          </div>
+  
+          <!-- Description -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" class="form-control" rows="4" formControlName="description" placeholder="Enter your message"></textarea>
+            <div class="text-danger" *ngIf="contactForm.get('description')?.invalid && contactForm.get('description')?.touched">
+              Description must be at least 10 characters.
+            </div>
+          </div>
+  
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-dark w-100" [disabled]="contactForm.invalid">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
