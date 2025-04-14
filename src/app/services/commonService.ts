@@ -26,6 +26,10 @@ export class CommonService {
     return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetProductBanner`);
   }
 
+  getDealsBanner(): Observable<any> {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetProductDealsBanner`);
+  }
+
   getBestSeller(): Observable<any> {
     return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetBestSellingProducts`);
   }

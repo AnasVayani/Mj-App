@@ -84,11 +84,9 @@
 
   <div class="row deals-section py-5">
     <div class="content">
-      <h2>Deals of the Month</h2>
+      <h2>{{dealsSection.Title}}</h2>
       <p>
-        It is a long established fact that a reader will be distracted by the readable content
-        of a page when looking at its layout. The point of using Lorem Ipsum is that it has a
-        more-or-less normal distribution of letters.
+        {{dealsSection.Description}}
       </p>
 
       <div class="countdown">
@@ -105,7 +103,7 @@
     </div>
 
     <div class="image-container">
-      <img src="./assets/product/product-img.png" alt="Deals of the Month">
+      <img [src]="dealsSection.ImageUrl" alt="Deals of the Month">
     </div>
   </div>
 

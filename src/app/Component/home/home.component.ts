@@ -9,12 +9,12 @@ import { CommonService } from 'src/app/services/commonService';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit,AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('slider', { static: false }) slider!: ElementRef;
 
   countdown: { value: number; label: string }[] = [];
 
-  targetDate: Date = new Date(new Date().getTime() + 120 * 24 * 60 * 60 * 1000); // 120 Days from now
+  targetDate: Date = new Date();
 
   products = [
     {
@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
       role: 'Model',
       image: './assets/images/user1.jpg'
     }
-    ,{
+    , {
       text: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum.',
       name: 'Leslie Alexander',
       role: 'Model',
@@ -121,12 +121,13 @@ export class HomeComponent implements OnInit,AfterViewInit {
     'assets/product/product-img.png',
   ];
 
-  
- 
-  headersSection : any = {}
-  bestSelling : any= {}
 
-  constructor(private router: Router, private commonService : CommonService) {}
+
+  headersSection: any = {}
+  bestSelling: any = {}
+  dealsSection: any = {}
+
+  constructor(private router: Router, private commonService: CommonService) { }
 
 
   ngOnInit(): void {
@@ -134,39 +135,57 @@ export class HomeComponent implements OnInit,AfterViewInit {
     if (!selectedCountry) {
       this.router.navigate(['/select-country']);
     }
-    this.startCountdown();
+    // this.startCountdown();
     this.cloneSlides();
     debugger;
+    this.getDealsBanner();
     this.getSectionHeadings();
     this.getBestSellingProducts();
   }
 
 
-  getSectionHeadings(){
+  getSectionHeadings() {
     this.commonService.getBanner().subscribe(
-      response =>{
+      response => {
         this.headersSection = response;
         console.log('Banner', this.headersSection)
       },
-      (err)=>{
+      (err) => {
         console.log("there is an error ", err)
       }
-  
-  )
+
+    )
+  }
+
+  getDealsBanner() {
+    this.commonService.getDealsBanner().subscribe({
+      next: (response: any) => {
+        this.targetDate = new Date(response.countDown.replace(' ', 'T'));
+        this.dealsSection.Title = response.title;
+        this.dealsSection.ImageUrl = response.imageUrl;
+        this.dealsSection.Description = response.description;
+        this.startCountdown();
+      },
+      error: (err: any) => {
+        console.log("there is an error ", err)
+      }
+
+    }
+    )
   }
 
 
 
-  getBestSellingProducts(){
+  getBestSellingProducts() {
     this.commonService.getBestSeller().subscribe(
-      data =>{
+      data => {
         this.bestSelling = data;
-        console.log("Best Selling Produts ==>" , this.bestSelling);
+        console.log("Best Selling Produts ==>", this.bestSelling);
       },
-      (err)=>{
+      (err) => {
         console.log("Error Best Selling ==>", err);
       }
-  )
+    )
   }
   startCountdown(): void {
     setInterval(() => {
@@ -201,12 +220,12 @@ export class HomeComponent implements OnInit,AfterViewInit {
       this.moveSlide();
     }
   }
-  
+
   cloneSlides() {
     // Clone first and last slides for smooth infinite effect
     const firstClone = { ...this.reviews[0] };
     const lastClone = { ...this.reviews[this.reviews.length - 1] };
-    
+
     this.reviews = [lastClone, ...this.reviews, firstClone];
   }
 
