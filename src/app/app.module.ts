@@ -26,6 +26,9 @@ import { SearchComponent } from './Component/search/search.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SplitTrimPipe } from './helper/split-trim.pipe';
 import { CategoryTypePipe } from './helper/category-type.pipe';
+import { StoryComponent } from './Component/story/story.component';
+import { ContactComponent } from './Component/contact/contact.component';
+import { BlogComponent } from './Component/blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,10 @@ import { CategoryTypePipe } from './helper/category-type.pipe';
     SelectCountryComponent,
     SearchComponent,
     SplitTrimPipe,
-    CategoryTypePipe
+    CategoryTypePipe,
+    StoryComponent,
+    ContactComponent,
+    BlogComponent
    
   ],
   imports: [

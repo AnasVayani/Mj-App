@@ -7,6 +7,9 @@ import { AddtoCartComponent } from './Component/addto-cart/addto-cart.component'
 import { CheckoutComponent } from './Component/checkout/checkout.component';
 import { SelectCountryComponent } from './Component/select-country/select-country.component';
 import { SearchComponent } from './Component/search/search.component';
+import { StoryComponent } from './Component/story/story.component';
+import { ContactComponent } from './Component/contact/contact.component';
+import { BlogComponent } from './Component/blog/blog.component';
 
 const routes: Routes = [
   {
@@ -37,6 +40,19 @@ const routes: Routes = [
     path: 'checkout',
     component: CheckoutComponent,
   },
+  {
+    path: 'our-story',
+    component: StoryComponent,
+  },
+  {
+    path: 'contact-us',
+    component: ContactComponent,
+  },
+  {
+    path: 'blog',
+    component: BlogComponent,
+  },
+  
 
   { path: '**', redirectTo: '' },
 ];

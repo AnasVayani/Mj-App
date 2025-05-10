@@ -17,6 +17,7 @@
 
       <!-- Image Overlay Section -->
       <div class="col-lg-5 col-md-12">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(270.02deg, rgba(255, 255, 255, 0) 22.8%, #FFFFFF 99.99%);z-index: 1;"></div>
         <!-- Desktop image (shown on tablets & desktops) -->
         <img [src]="headersSection.imageUrl" alt="Clothes"
           class="img-fluid position-absolute top-50 end-0 translate-middle-y desktop-image d-none d-md-block w-100" />
@@ -38,7 +39,7 @@
 
   <div class="row g-4">
     <div class="col-md-4" *ngFor="let product of bestSelling; let i = index">
-      <div class="card border-0  rounded-4 h-100 product-card ">
+      <div class="card   rounded-4 h-100 product-card ">
         <div class="position-relative overflow-hidden">
           <img [src]=product.imageUrl[0] class="card-img-top rounded-4" alt="{{ product.name }}" />
 
@@ -75,21 +76,21 @@
     <div class="collection-grid">
       <div class="collection-column">
         <div class="collection-item smalll">
-          <img src="assets/product/product-img.png" alt="Casual" />
+          <img src="assets/images/collection/collection-1.png" alt="Casual" />
           <div class="overlay"><button class="btn btn-dark px-lg-4">Casual</button></div>
         </div>
         <div class="collection-item largee">
-          <img src="assets/product/product-img.png" alt="Kurta" />
+          <img src="assets/images/collection/collection-2.png" alt="Kurta" />
           <div class="overlay"><button class="btn btn-dark px-lg-4">Kurta</button></div>
         </div>
       </div>
       <div class="collection-column">
         <div class="collection-item largee">
-          <img src="assets/product/product-img.png" alt="Festive Wear" />
+          <img src="assets/images/collection/collection-3.png" alt="Festive Wear" />
           <div class="overlay"><button class="btn btn-dark px-lg-4">Festive Wear</button></div>
         </div>
         <div class="collection-item smalll">
-          <img src="assets/product/product-img.png" alt="Ethnic Wear" />
+          <img src="assets/images/collection/collection-4.png" alt="Ethnic Wear" />
           <div class="overlay"><button class="btn btn-dark px-lg-4">Ethnic Wear</button></div>
         </div>
       </div>
@@ -102,7 +103,7 @@
   <h2 class="fw-semibold">Latest Deals</h2>
   <div class="keen-slider" #sliderRef (mouseenter)="pause()" (mouseleave)="resume()">
     <div class="keen-slider__slide col-6 col-sm-4 col-md-4 col-lg-3 rounded-4" *ngFor="let product of weeklyDeals; let i = index">
-      <div class="card border-0  rounded-4 h-100 product-card ">
+      <div class="card   rounded-4 h-100 product-card ">
         <div class="position-relative overflow-hidden">
           <img [src]=product.product.imageUrl[0] class="card-img-top act rounded-4" alt="{{ product.week }}" />
 
@@ -195,29 +196,28 @@
     <!-- <a href="#" class="text-muted text-decoration-none">View All</a> -->
   </div>
   <div  class="photos-grid-container gallery">
-    <a href="#" >
+    <a class="h-100" href="#" >
     <div class="main-photo img-box">
       
-      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&h=1800&&q=80" alt="image" />
+      <img src="assets/images/Follow/Follow-1.png" alt="image" />
       <div class="overlay">
        
         <i class="ri-facebook-circle-fill"></i>
       </div>
     </div> 
   </a>
-    <div>
-      <a href="">
-        <div class="sub">
-          <div class="img-box"><img src="https://images.unsplash.com/photo-1588186941799-f9a4fc54ff1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdvbWVuJTIwc2hvcHBpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&h=900&q=80" alt="image" /></div>
-          <div class="img-box"><img src="https://images.unsplash.com/photo-1593409981958-562665d407cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fHdvbWVuJTIwc2hvcHBpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&h=900&q=60" alt="image" /></div>
-          <div class="img-box"><img src="https://images.unsplash.com/photo-1587538639284-aec1076ba9c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTB8fHdvbWVuJTIwc2hvcHBpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&h=900&q=60" alt="image" /></div>
-          <div class="img-box"><img src="https://images.unsplash.com/photo-1591557304122-513e396f9feb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzZ8fHdvbWVuJTIwc2hvcHBpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&h=900&q=80" alt="image" /></div>
+   
+      <a class="h-100" href="">
+        <div class="main-photo img-box">
+      
+          <img src="assets/images/Follow/Follow-22.png" alt="image" />
           <div class="overlay">
             <i class="ri-instagram-line"></i>
           </div>
-        </div>
+        </div> 
+       
       </a>
-    </div>
+    
    
 </div>
 </div>
@@ -264,126 +264,3 @@
   </div>
 </div>
 </div>
-
-
-
-
-
-<!-- <div class="container py-5">
-  <div class="row align-items-center mb-5">
-    <div class="col-md-6 text-center text-md-start">
-      <h2 class="font-weight-bold">{{headersSection.heading}}</h2>
-      <h1 class="display-4 font-weight-bold">{{headersSection.subHeading}}</h1>
-      <p>{{headersSection.text}}</p>
-      <button class="btn btn-dark btn-lg">Shop Now</button>
-    </div>
-    <div class="col-md-6">
-      <img [src]="headersSection.imageUrl" alt="Women's Collection" class="img-fluid rounded">
-    </div>
-  </div>
-
-  <div class="row py-5">
-    <h3 class="mb-4">Shop by Categories</h3>
-    <div class="col-6 col-md-3 mb-4">
-      <div class="card position-relative border-0 shadow-sm">
-        <img src="./assets/images/home-banner.png" alt="Casual Wear" class="card-img-top">
-        <div class="overlay-text">
-          <button class="btn btn-primary  btn-responsive">Casual Wear</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-6 col-md-3 mb-4">
-      <div class="card position-relative border-0 shadow-sm">
-        <img src="./assets/images/home-banner.png" alt="Western Wear" class="card-img-top">
-        <div class="overlay-text">
-          <button class="btn btn-primary  btn-responsive">Western Wear</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-6 col-md-3 mb-4">
-      <div class="card position-relative border-0 shadow-sm">
-        <img src="./assets/images/home-banner.png" alt="Ethnic Wear" class="card-img-top">
-        <div class="overlay-text">
-          <button class="btn btn-primary  btn-responsive">Ethnic Wear</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-6 col-md-3 mb-4">
-      <div class="card position-relative border-0 shadow-sm">
-        <img src="./assets/images/home-banner.png" alt="Kids Wear" class="card-img-top">
-        <div class="overlay-text">
-          <button class="btn btn-primary  btn-responsive">Kids Wear</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-
-  <div class="row my-5">
-    <h2 class="text-center my-4">Our Bestseller</h2>
-    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let product of bestSelling">
-      <div class="product-card">
-        <div class="product-image position-relative">
-          <img [src]="product.imageUrl[0]" [alt]="product.name" class="img-fluid w-100">
-          <div class="image-overlay"></div> 
-          <div class="overlay-icons">
-            <i class="ri-heart-line wishlist-icon"></i>
-            <i class="ri-eye-line view-icon"></i>
-          </div>
-          <button class="add-to-cart btn btn-light">Add to Cart</button>
-        </div>
-        <div class="product-details">
-          <h6 class="fw-bold">{{ product.name }}</h6>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="row deals-section py-5">
-    <div class="content">
-      <h2>{{dealsSection.Title}}</h2>
-      <p>
-        {{dealsSection.Description}}
-      </p>
-
-      <div class="countdown">
-        <div class="time-box" *ngFor="let time of countdown">
-          <div class="time">{{ time.value }}</div>
-          <div class="label">{{ time.label }}</div>
-        </div>
-      </div>
-
-      <a href="#" class="view-products">
-        View All Products
-        <i class="ri-arrow-right-line"></i>
-      </a>
-    </div>
-
-    <div class="image-container">
-      <img [src]="dealsSection.ImageUrl" alt="Deals of the Month">
-    </div>
-  </div>
-
-  <div class="row insta-section py-5">
-    <h2 class="text-center mb-4">Our Instagram Stories</h2>
-    <div class="row">
-      <div class="col-6 col-md-3 mb-4" *ngFor="let story of stories">
-        <div class="instagram-story">
-          <img [src]="story" alt="Instagram Story" class="img-fluid" />
-          <div class="overlay">
-            <i class="ri-instagram-line"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div> -->
-
-<app-footer-part2 />

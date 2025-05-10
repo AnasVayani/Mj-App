@@ -162,4 +162,7 @@ export class ProductComponent {
   goToProductDetail(product: any) {
     this.router.navigate(['/product-detail'], { state: { product } });
   }
+  toggleLike(index: number) {
+    // liked logic
+  }
 }

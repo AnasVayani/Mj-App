@@ -1,3 +1,34 @@
+<div class="position-relative  overflow-hidden mb-5">
+    <div class="container-fluid">
+      <div class="row align-items-center position-relative avh-100 align-items-center p-2 p-md-5">
+        <!-- Text Section -->
+        <div class="col-lg-7 col-md-12 text-center text-lg-start z-2 ">
+          <div class="px-lg-5">
+           
+            <h1 class="fw-bold display-6 heading-2 py-5">
+                Explore our selection of timeless designs, perfect for formal events and daily wear.
+            </h1>
+          
+           
+            <button [routerLink]="['/product']" class="btn btn-dark px-lg-5">Shop Now</button>
+          </div>
+        </div>
+  
+        <!-- Image Overlay Section -->
+        <div class="col-lg-5 col-md-12">
+          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(270.02deg, rgba(255, 255, 255, 0) 22.8%, #FFFFFF 99.99%);z-index: 1;"></div>
+          <!-- Desktop image (shown on tablets & desktops) -->
+          <img src="assets/images/Follow/ProductBanner.png" alt="Clothes"
+            class="img-fluid position-absolute top-50 end-0 translate-middle-y desktop-image d-none d-md-block w-100" />
+  
+          <!-- Mobile image (shown only on phones)
+          <img src="assets/images/home-banner2.png" alt="Clothes" class="img-fluid mobile-image d-block d-md-none" /> -->
+  
+        </div>
+      </div>
+    </div>
+  </div>
+
 <div class="container">
     <div class="row">
         <div class="col-12 d-md-none mb-2 d-flex gap-2">
@@ -5,7 +36,7 @@
             <!-- <button class="btn btn-outline-danger w-100" [disabled]="!showResetButton" (click)="resetFilters()">Reset</button> -->
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <!-- <app-filter [showFilters]="showFilters" (filtersUpdated)="applyFilters($event)"
                 (filtersReset)="resetFilters()"></app-filter> -->
                 <app-filter 
@@ -16,14 +47,14 @@
                 </app-filter>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="row">
-                <div class="col-md-4 mb-4" *ngFor="let product of products_response">
+                <!-- <div class="col-md-6 mb-4" *ngFor="let product of products_response">
                     <div class="card border-0 shadow-sm position-relative h-100" (click)="goToProductDetail(product)">
                         <div class="image-container">
                             <img [src]="product.imageUrl[0]" class="card-img-top">
 
-                            <!-- Overlay with Buttons -->
+                           
                             <div class="overlay">
                                 <div class="icon-buttons">
                                     <i class="ri-star-line"></i>
@@ -36,14 +67,39 @@
 
                         <div class="card-body">
                             <h6 class="fw-bold">{{ product.name }}</h6>
-                            <!-- <p class="mb-1">{{product.description}} </p> -->
-                            <!-- <p class="text-muted">
-                                <span class="text-dark me-2">${{ product.priceAfterDiscount }}</span>
-                                <del>${{ product.price }}</del>
-                            </p> -->
+                            
                         </div>
                     </div>
-                </div>
+                </div> -->
+                <div class="col-md-6" *ngFor="let product of products_response; let i = index">
+                    <div class="card   rounded-4 h-100 product-card ">
+                      <div class="position-relative overflow-hidden">
+                        <img [src]=product.imageUrl[0] class="card-img-top rounded-4" alt="{{ product.name }}" />
+              
+                        <!-- Hover Button -->
+                        <button class="view-btn btn btn-dark rounded-pill d-flex align-items-center gap-2" (click)="goToProductDetail(product.id)">
+                          <i class="ri-eye-line"></i> View
+                        </button>
+              
+                        <!-- Heart Icon Toggle -->
+                        <i class="position-absolute top-0 end-0 m-3 fs-4" [class.ri-heart-line]="!product.liked"
+                          [class.ri-heart-fill]="product.liked" [class.text-danger]="product.liked" [class.text-dark]="!product.liked"
+                          style="cursor: pointer;" (click)="toggleLike(i)"></i>
+                      </div>
+              
+                      <div class="card-body">
+                        <h5 class="fw-semibold mb-0">{{ product.name.split("–")[0].trim() }}</h5>
+                        <p class="text-muted small mb-1">{{ product.name.split("–")[1]?.trim() }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex gap-2">
+                            <span *ngFor="let color of product.colour | splitTrim" class="rounded-circle d-inline-block"
+                              [ngStyle]="{ backgroundColor: color }" style="width: 15px; height: 15px;"></span>
+                          </div>
+                          <strong>Rs {{ product.price }}</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
             </div>
 
@@ -59,4 +115,4 @@
     </div>
 </div>
 
-<app-footer-part2/>
+ 
