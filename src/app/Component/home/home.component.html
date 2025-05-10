@@ -101,24 +101,24 @@
 <div class="container py-5 latest-deals">
   <h2 class="fw-semibold">Latest Deals</h2>
   <div class="keen-slider" #sliderRef (mouseenter)="pause()" (mouseleave)="resume()">
-    <div class="keen-slider__slide col-6 col-sm-4 col-md-4 col-lg-3 rounded-4" *ngFor="let product of LatestDeal; let i = index">
+    <div class="keen-slider__slide col-6 col-sm-4 col-md-4 col-lg-3 rounded-4" *ngFor="let product of weeklyDeals; let i = index">
       <div class="card border-0  rounded-4 h-100 product-card ">
         <div class="position-relative overflow-hidden">
-          <img src="assets/product/product-img.png" class="card-img-top act rounded-4" alt="{{ product.title }}" />
+          <img [src]=product.product.imageUrl[0] class="card-img-top act rounded-4" alt="{{ product.week }}" />
 
           <!-- Hover Button -->
-          <button class="view-btn btn btn-dark rounded-pill d-flex align-items-center gap-2">
+          <button (click)="goToProductDetail(product.product.id)" class="view-btn btn btn-dark rounded-pill d-flex align-items-center gap-2">
             <i class="ri-eye-line"></i> View
           </button>
 
           <!-- Heart Icon Toggle -->
-          <i class="position-absolute top-0 end-0 m-3 fs-4" [class.ri-heart-line]="!product.liked"
+          <!-- <i class="position-absolute top-0 end-0 m-3 fs-4" [class.ri-heart-line]="!product.liked"
             [class.ri-heart-fill]="product.liked" [class.text-danger]="product.liked" [class.text-dark]="!product.liked"
-            style="cursor: pointer;" (click)="toggleLikeLatest(i)"></i>
+            style="cursor: pointer;" (click)="toggleLikeLatest(i)"></i> -->
         </div>
 
         <div class="card-body">
-          <h5 class="fw-semibold mb-0">{{ product.title }}</h5>
+          <h5 class="fw-semibold mb-0">{{ product.product.name.split("–")[0].trim() }}</h5>
           <!-- <p class="text-muted small mb-1">{{ product.subtitle }}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex gap-2">

@@ -52,8 +52,9 @@
                 <button *ngFor="let page of totalPages()" class="btn" [class.btn-dark]="currentPage === page"
                     (click)="goToPage(page)">{{ page }}</button>
                 <button class="btn btn-outline-dark ms-2" (click)="nextPage()"
-                    [disabled]="currentPage === totalPages().length">→</button>
+                    [disabled]="currentPage === totalPagesCount">→</button>
             </div>
+            <p class="text-center">Showing page {{ currentPage }} of {{ totalPagesCount }} ({{ totalCount }} results)</p>
         </div>
     </div>
 </div>

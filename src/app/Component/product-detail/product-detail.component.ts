@@ -48,6 +48,7 @@ export class ProductDetailComponent {
   quantity: number = 1;
 
   constructor(private fb: FormBuilder, private router: Router) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     const navigation = this.router.getCurrentNavigation();
     this.product = navigation?.extras.state ? (navigation.extras.state as { product: any }).product : null;
     this.selectedImage = this.product.imageUrl[0]

@@ -28,7 +28,7 @@ export class ProductComponent {
 
   paginatedProducts: Product[] = [];
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 6;
   categoryId: number[] = [];
   type: number | null = 0;
 
@@ -42,6 +42,8 @@ export class ProductComponent {
   minPrice = 0;
   maxPrice = 20000;
   paramCategoryId: number = 0;
+  totalCount: any;
+  totalPagesCount: number = 0;
 
   constructor(private router:Router, private commonService : CommonService,  private route: ActivatedRoute,) {
     this.checkScreenSize();
@@ -88,9 +90,11 @@ export class ProductComponent {
   
 
   GetProducts(){
-    this.commonService.getProducts(50, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice, this.sizes, this.colors).subscribe(
+    this.commonService.getProducts(this.itemsPerPage, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice, this.sizes, this.colors).subscribe(
       response =>{
-        this.products_response = response
+        this.products_response = response.items
+        this.totalCount = response.totalCount;
+        this.totalPagesCount = Math.ceil(this.totalCount / this.itemsPerPage);
         console.log( "Products Response",this.products_response)
       },
       (err)=>{
@@ -123,24 +127,30 @@ export class ProductComponent {
   }
 
   totalPages() {
-    return Array(Math.ceil(1 / this.itemsPerPage))
+    return Array(this.totalPagesCount)
       .fill(0)
       .map((_, i) => i + 1);
   }
 
   goToPage(page: number) {
     this.currentPage = page;
+    this.GetProducts();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.GetProducts();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
   nextPage() {
-    if (this.currentPage < this.totalPages().length) {
+    if (this.currentPage < this.totalPagesCount) {
       this.currentPage++;
+      this.GetProducts();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 

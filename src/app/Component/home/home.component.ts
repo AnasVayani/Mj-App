@@ -132,6 +132,7 @@ export class HomeComponent implements OnInit, AfterViewInit,OnDestroy {
   headersSection: any = {}
   bestSelling: any = {}
   dealsSection: any = {}
+  weeklyDeals: any;
 
   constructor(private router: Router, private commonService: CommonService) { }
   ngOnDestroy(): void {
@@ -153,6 +154,7 @@ export class HomeComponent implements OnInit, AfterViewInit,OnDestroy {
     this.getSectionHeadings();
     this.getBestSellingProducts();
     this.updateItemsPerPage();
+    this.getWeeklyDeals();
     
     this.isFading = true;
   }
@@ -524,6 +526,17 @@ export class HomeComponent implements OnInit, AfterViewInit,OnDestroy {
       },
       error: err => {
         console.log('Error goToProductDetail');
+      }
+    })
+  }
+
+  getWeeklyDeals() {
+    this.commonService.getWeeklyDeals().subscribe({
+      next: res => {
+       this.weeklyDeals = res
+      },
+      error: err => {
+        console.log('Error getWeeklyDeals');
       }
     })
   }
