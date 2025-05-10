@@ -30,7 +30,7 @@ export class ProductComponent {
   currentPage: number = 1;
   itemsPerPage: number = 10;
   categoryId: number[] = [];
-  type: number = 0;
+  type: number | null = 0;
 
   categories: number[] = [];
   colors: string[] = [];
@@ -53,14 +53,14 @@ export class ProductComponent {
   }
 
   ngOnInit(){
-    this.route.queryParams.subscribe((params) => {
+    const state = history.state;
       this.categoryId = [];
-      this.type = params['type'] ? +params['type'] : 0;
-      this.paramCategoryId = params['categoryId'] ? +params['categoryId'] : 0
-      this.categoryId.push(params['categoryId'] ? +params['categoryId'] : 0);
+      this.type = state && state['type'] ? state['type'] : null;
+      this.paramCategoryId = state && state['categoryId'] ? state['categoryId'] : 0
+      if (state && state['categoryId']) {
+        this.categoryId.push(state['categoryId']);
+      }
       this.GetProducts();
-    });
-   
   }
   isMobile(): boolean {
     return window.innerWidth < 768;
@@ -88,9 +88,6 @@ export class ProductComponent {
   
 
   GetProducts(){
-
-    if (!this.type || !this.categoryId) return;
-
     this.commonService.getProducts(50, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice, this.sizes, this.colors).subscribe(
       response =>{
         this.products_response = response

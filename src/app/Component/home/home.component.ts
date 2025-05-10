@@ -513,5 +513,18 @@ export class HomeComponent implements OnInit, AfterViewInit,OnDestroy {
     }, 300); // slight delay to restart the animation
   }
 
- 
+  goToProductDetail(productId: number) {
+    this.commonService.GetProductById(productId).subscribe({
+      next: res => {
+        this.router.navigate(['/product-detail'], {
+          state: {
+            product: res,
+          }
+        });
+      },
+      error: err => {
+        console.log('Error goToProductDetail');
+      }
+    })
+  }
 }

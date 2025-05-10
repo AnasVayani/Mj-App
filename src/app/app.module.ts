@@ -24,6 +24,8 @@ import { SelectCountryComponent } from './Component/select-country/select-countr
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { SearchComponent } from './Component/search/search.component'; 
 import { HttpClientModule } from '@angular/common/http';
+import { SplitTrimPipe } from './helper/split-trim.pipe';
+import { CategoryTypePipe } from './helper/category-type.pipe';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { HttpClientModule } from '@angular/common/http';
     CheckoutComponent,
     SelectCountryComponent,
     SearchComponent,
+    SplitTrimPipe,
+    CategoryTypePipe
    
   ],
   imports: [

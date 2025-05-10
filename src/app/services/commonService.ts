@@ -37,8 +37,8 @@ export class CommonService {
   getProducts(
     pageSize: number,
     pageNumber: number,
-    categoryId: number[],
-    type: number,
+    categoryId: number[] | null,
+    type: number | null,
     name: string = '',
     hashTag: string = '',
     fromPrice?: number,
@@ -68,6 +68,10 @@ export class CommonService {
 
   getCategoriesByType(type: number): Observable<any> {
     return this.httpClient.get<any>(`${environment.apiUrl}/Category/GetCategoriesByType?type=${type}`)
+  }
+
+  GetProductById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetProduct?id=${id}`)
   }
 
 

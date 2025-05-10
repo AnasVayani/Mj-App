@@ -28,6 +28,7 @@ export class FilterComponent implements OnInit {
   maxPrice = 20000;
   type: number = 0;
   paramCategoryId: number = 0;
+  isAllCategory: boolean = false;
 
   /**
    *
@@ -37,19 +38,20 @@ export class FilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe({
-      next: params => {
-        this.type = params['type'] ? +params['type'] : 0;
-        this.paramCategoryId = params['categoryId'] ? +params['categoryId'] : 0
-        this.selectedCategories = {}; 
-        if (this.paramCategoryId) {
-          this.selectedCategories[this.paramCategoryId] = true;
-        }
-        if (this.type != null && this.type != 0) {
-          this.getCategoriesByType()
-        }
+    const state = history.state;
+      this.type = state && state['type'] ? state['type'] : null;
+      this.paramCategoryId = state && state['categoryId'] ? state['categoryId'] : 0
+      if (this.paramCategoryId) {
+        this.selectedCategories[this.paramCategoryId] = true;
       }
-    })
+      if (this.type != null && this.type != 0) {
+        this.isAllCategory = false
+        this.getCategoriesByType()
+      }
+      else {
+        this.isAllCategory = true
+        this.getAllCategories();
+      }
     this.updateSliderTrack();
   }
   isMobile(): boolean {
@@ -128,5 +130,66 @@ export class FilterComponent implements OnInit {
         console.log('error on getCategoriesByType')
       }
     })
+  }
+
+  getAllCategories(){
+    this._commonService.getAll().subscribe({
+      next: res => {
+        this.categories = [];
+        this.categories = res;
+      },
+      error: err => {
+        console.log('error on getAllCategories')
+      }
+    })
+  }
+
+  hasActiveFilters(): boolean {
+    return (
+      this.getSelectedCategoryIds().length > 0 ||
+      this.getSelectedColors().length > 0 ||
+      this.getSelectedSizes().length > 0 ||
+      this.minPrice !== 0 || this.maxPrice !== 20000
+    );
+  }
+  
+  getSelectedCategoryIds(): number[] {
+    return Object.keys(this.selectedCategories)
+      .filter(key => this.selectedCategories[+key])
+      .map(id => +id);
+  }
+  
+  getCategoryNameById(id: number): string {
+    const category = this.categories.find((c: any) => c.id === id);
+    return category ? category.name : '';
+  }
+  
+  removeCategory(id: number) {
+    this.selectedCategories[id] = false;
+    this.markFilterChange();
+  }
+  
+  getSelectedColors(): string[] {
+    return Object.keys(this.selectedColors).filter(color => this.selectedColors[color]);
+  }
+  
+  removeColor(color: string) {
+    this.selectedColors[color] = false;
+    this.markFilterChange();
+  }
+  
+  getSelectedSizes(): string[] {
+    return Object.keys(this.selectedSizes).filter(size => this.selectedSizes[size]);
+  }
+  
+  removeSize(size: string) {
+    this.selectedSizes[size] = false;
+    this.markFilterChange();
+  }
+  
+  resetPrice() {
+    this.minPrice = 0;
+    this.maxPrice = 20000;
+    this.updatePriceRange();
   }
 }

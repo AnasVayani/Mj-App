@@ -21,9 +21,8 @@
             <!-- Men Categories -->
             <div class="dropdown-column" *ngIf="menCategories.length > 0">
               <h4>Men</h4>
-              <a *ngFor="let category of menCategories" 
-                [routerLink]="['/product']" 
-                [queryParams]="{ type: 1, categoryId: category.id }">
+              <a *ngFor="let category of menCategories"
+              (click)="goToProduct(1, category.id)">
                 {{ category.name }}
               </a>
             </div>
@@ -32,8 +31,7 @@
             <div class="dropdown-column" *ngIf="womenCategories.length > 0">
               <h4>Women</h4>
               <a *ngFor="let category of womenCategories" 
-                [routerLink]="['/product']" 
-                [queryParams]="{ type: 2, categoryId: category.id }">
+              (click)="goToProduct(2, category.id)">
                 {{ category.name }}
               </a>
             </div>

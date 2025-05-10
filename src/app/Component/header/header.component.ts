@@ -172,4 +172,17 @@ export class HeaderComponent implements OnInit {
   toggleDropdown(active: boolean) {
     this.dropdownActive = active;
   }
+
+  goToProduct(type: number, categoryId: number) {
+    debugger;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/product'], {
+        state: {
+          type: type,
+          categoryId: categoryId
+        }
+      });
+    });
+  }
+
 }
