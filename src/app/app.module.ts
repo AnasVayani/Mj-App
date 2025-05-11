@@ -31,6 +31,12 @@ import { OurStoryComponent } from './Component/our-story/our-story.component';
 import { BlogComponent } from './Component/blog/blog.component';
 import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component'; 
 import { HttpClientModule } from '@angular/common/http';
+import { SplitTrimPipe } from './helper/split-trim.pipe';
+import { CategoryTypePipe } from './helper/category-type.pipe';
+import { StoryComponent } from './Component/story/story.component';
+import { ContactComponent } from './Component/contact/contact.component';
+import { BlogComponent } from './Component/blog/blog.component';
+import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +64,10 @@ import { HttpClientModule } from '@angular/common/http';
     OurStoryComponent,
     BlogComponent,
     BlogDetailComponent,
-   
+    SplitTrimPipe,
+    CategoryTypePipe,
+    StoryComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,8 @@ import { AddtoCartComponent } from './Component/addto-cart/addto-cart.component'
 import { CheckoutComponent } from './Component/checkout/checkout.component';
 import { SelectCountryComponent } from './Component/select-country/select-country.component';
 import { SearchComponent } from './Component/search/search.component';
+import { StoryComponent } from './Component/story/story.component';
+import { ContactComponent } from './Component/contact/contact.component';
 import { ProfileComponent } from './Component/profile/profile.component';
 import { LoginComponent } from './Component/auth/login/login.component';
 import { RegisterComponent } from './Component/auth/register/register.component';
@@ -66,6 +68,14 @@ const routes: Routes = [
   },
   { path: 'blog', component: BlogComponent },
   { path: 'blog/:slug', component: BlogDetailComponent },
+  {
+    path: 'our-story',
+    component: StoryComponent,
+  },
+  {
+    path: 'contact-us',
+    component: ContactComponent,
+  },
 
   { path: '**', redirectTo: '' },
 ];

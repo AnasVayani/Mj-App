@@ -3,4 +3,3 @@ export const environment = {
     production: false,
     apiUrl: 'https://mjaydt.com/mjClothingBackend/api',
   };
-  

@@ -11,10 +11,15 @@ export class AppComponent implements OnInit {
   private authRoutes = ['/login', '/register', '/forget-password','/select-country'];
 
   constructor(private router: Router) {
-    
+
   }
 
   ngOnInit() {
+    let guestToken = localStorage.getItem('guestToken');
+    if (!guestToken) {
+      guestToken = crypto.randomUUID();
+      localStorage.setItem('guestToken', guestToken);
+    }
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showHeaderFooter = event.url !== '/select-country';

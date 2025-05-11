@@ -1,8 +1,8 @@
-<nav class="navbar">
+<nav class="navbar py-2">
     <div class="container">
       <!-- Logo -->
       <a routerLink="/" class="navbar-brand">
-        <img src="./assets/logo.svg" alt="Krist Logo" > 
+        <img src="./assets/logo.svg" alt="MJ Exclusive" > 
       </a>
   
       <!-- Hamburger Menu for Mobile -->
@@ -21,9 +21,8 @@
             <!-- Men Categories -->
             <div class="dropdown-column" *ngIf="menCategories.length > 0">
               <h4>Men</h4>
-              <a *ngFor="let category of menCategories" 
-                [routerLink]="['/product']" 
-                [queryParams]="{ type: 1, categoryId: category.id }">
+              <a *ngFor="let category of menCategories"
+              (click)="goToProduct(1, category.id)">
                 {{ category.name }}
               </a>
             </div>
@@ -32,8 +31,7 @@
             <div class="dropdown-column" *ngIf="womenCategories.length > 0">
               <h4>Women</h4>
               <a *ngFor="let category of womenCategories" 
-                [routerLink]="['/product']" 
-                [queryParams]="{ type: 2, categoryId: category.id }">
+              (click)="goToProduct(2, category.id)">
                 {{ category.name }}
               </a>
             </div>
@@ -44,7 +42,7 @@
         </li>
         <li><a routerLink="/our-story" routerLinkActive="active-link">Our Story</a></li>
         <li><a routerLink="/blog" routerLinkActive="active-link">Blog</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a routerLink="/contact-us">Contact Us</a></li>
 
         <div class="d-flex align-items-center p-2 gap-3 d-lg-none">
           <li class=" ">
@@ -102,7 +100,8 @@
           <div class="d-flex">
             <ng-autocomplete
               [(ngModel)]="searchQuery"
-              [data]="itemTitles"  
+              [data]="filteredItems"
+              [minQueryLength]="3"
               (inputChanged)="filterResults(searchQuery)"
               placeholder="Search for items..."
               class="form-control w-100 border-0"
@@ -115,10 +114,10 @@
           
           <div class="search-results mt-3" *ngIf="searchQuery && filteredItems.length > 0">
             <ul class="list-group">
-              <li class="list-group-item d-flex align-items-center" *ngFor="let item of filteredItems">
-                <img [src]="item.image" alt="{{ item.title }}" class="item-image" />
+              <li class="list-group-item d-flex align-items-center" (click)="goToProductDetail(item.id)" *ngFor="let item of filteredItems">
+                <img [src]=item.imageUrl[0] alt="{{ item.name }}" class="item-image" />
                 <div class="ms-3">
-                  <h6 class="mb-0">{{ item.title }}</h6>
+                  <h6 class="mb-0">{{ item.name }}</h6>
                   <p class="mb-0 text-muted">PKR {{ item.price }}</p>
                 </div>
               </li>

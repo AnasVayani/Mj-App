@@ -28,9 +28,9 @@ export class ProductComponent {
 
   paginatedProducts: Product[] = [];
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 6;
   categoryId: number[] = [];
-  type: number = 0;
+  type: number | null = 0;
 
   categories: number[] = [];
   colors: string[] = [];
@@ -42,6 +42,8 @@ export class ProductComponent {
   minPrice = 0;
   maxPrice = 20000;
   paramCategoryId: number = 0;
+  totalCount: any;
+  totalPagesCount: number = 0;
 
   constructor(private router:Router, private commonService : CommonService,  private route: ActivatedRoute,) {
     this.checkScreenSize();
@@ -53,14 +55,14 @@ export class ProductComponent {
   }
 
   ngOnInit(){
-    this.route.queryParams.subscribe((params) => {
+    const state = history.state;
       this.categoryId = [];
-      this.type = params['type'] ? +params['type'] : 0;
-      this.paramCategoryId = params['categoryId'] ? +params['categoryId'] : 0
-      this.categoryId.push(params['categoryId'] ? +params['categoryId'] : 0);
+      this.type = state && state['type'] ? state['type'] : null;
+      this.paramCategoryId = state && state['categoryId'] ? state['categoryId'] : 0
+      if (state && state['categoryId']) {
+        this.categoryId.push(state['categoryId']);
+      }
       this.GetProducts();
-    });
-   
   }
   isMobile(): boolean {
     return window.innerWidth < 768;
@@ -88,12 +90,11 @@ export class ProductComponent {
   
 
   GetProducts(){
-
-    if (!this.type || !this.categoryId) return;
-
-    this.commonService.getProducts(50, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice, this.sizes, this.colors).subscribe(
+    this.commonService.getProducts(this.itemsPerPage, this.currentPage, this.categoryId, this.type, "", "", this.minPrice, this.maxPrice, this.sizes, this.colors).subscribe(
       response =>{
-        this.products_response = response
+        this.products_response = response.items
+        this.totalCount = response.totalCount;
+        this.totalPagesCount = Math.ceil(this.totalCount / this.itemsPerPage);
         console.log( "Products Response",this.products_response)
       },
       (err)=>{
@@ -126,24 +127,30 @@ export class ProductComponent {
   }
 
   totalPages() {
-    return Array(Math.ceil(1 / this.itemsPerPage))
+    return Array(this.totalPagesCount)
       .fill(0)
       .map((_, i) => i + 1);
   }
 
   goToPage(page: number) {
     this.currentPage = page;
+    this.GetProducts();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.GetProducts();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
   nextPage() {
-    if (this.currentPage < this.totalPages().length) {
+    if (this.currentPage < this.totalPagesCount) {
       this.currentPage++;
+      this.GetProducts();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
@@ -154,5 +161,8 @@ export class ProductComponent {
 
   goToProductDetail(product: any) {
     this.router.navigate(['/product-detail'], { state: { product } });
+  }
+  toggleLike(index: number) {
+    // liked logic
   }
 }

@@ -51,12 +51,8 @@
             <!-- Color Options -->
             <div class="color-options">
                 <label>Color:</label>
-                <div class="colors">
-                    <span class="color-box" style="background-color: red;"></span>
-                    <span class="color-box" style="background-color: blue;"></span>
-                    <span class="color-box" style="background-color: orange;"></span>
-                    <span class="color-box" style="background-color: green;"></span>
-                    <span class="color-box" style="background-color: yellow;"></span>
+                <div class="colors" *ngFor="let color of product.colour | splitTrim">
+                    <span class="color-box" [ngStyle]="{ backgroundColor: color }"></span>
                 </div>
             </div>
 

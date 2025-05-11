@@ -1,9 +1,68 @@
-<div class="filters p-3 border rounded" [ngClass]="{ '': !showFilters && isMobile(), 'show': showFilters }">
-    <h5 class="fw-bold">Product Categories</h5>
-    <div *ngFor="let category of categories">
-      <input type="checkbox" [(ngModel)]="selectedCategories[category.id]" (change)="markFilterChange()"> {{ category.name }}
-    </div>
+<div class="filters p-3 " [ngClass]="{ '': !showFilters && isMobile(), 'show': showFilters }">
+  <h5 class="fw-bold">Filters</h5>
+ 
+  <div *ngIf="hasActiveFilters()" class="filter-summary my-3">
+    
   
+    <!-- Selected Categories -->
+    <span *ngFor="let id of getSelectedCategoryIds()" class="badge bg-secondary me-2">
+      {{ getCategoryNameById(id) }}
+      <span class="ms-1 cursor-pointer" (click)="removeCategory(id)"><i class="ri-close-line"></i></span>
+    </span>
+  
+    <!-- Selected Colors -->
+    <span *ngFor="let color of getSelectedColors()" class="badge bg-secondary me-2">
+      {{ color }}
+      <span class="ms-1 cursor-pointer" (click)="removeColor(color)">×</span>
+    </span>
+  
+    <!-- Selected Sizes -->
+    <span *ngFor="let size of getSelectedSizes()" class="badge bg-secondary me-2">
+      {{ size }}
+      <span class="ms-1 cursor-pointer" (click)="removeSize(size)"><i class="ri-close-line"></i></span>
+    </span>
+  
+    <!-- Price Filter (if not default) -->
+    <span *ngIf="minPrice !== 0 || maxPrice !== 20000" class="badge bg-secondary me-2">
+      ${{ minPrice }} - ${{ maxPrice }}
+      <span class="ms-1 cursor-pointer" (click)="resetPrice()"><i class="ri-close-line"></i></span>
+    </span>
+  </div>
+  <div class="d-flex flex-column flex-md-row gap-2 my-3">
+    <button class="btn btn-dark w-100 w-md-auto rounded-0" [disabled]="!showResetButton" (click)="applyFilters()">Apply</button>
+    <button class="btn btn-outline-danger w-100 rounded-0 w-md-auto" (click)="resetFilters()" [disabled]="!showResetButton">Reset</button>
+  </div>
+  
+ 
+    <div class="border p-2 mb-2" style="border-color: black !important;">
+      <h5 class="fw-bold">Product Categories</h5>
+    <!-- <div *ngFor="let category of categories">
+      <input type="checkbox" [(ngModel)]="selectedCategories[category.id]" (change)="markFilterChange()"> {{ category.name }}
+    </div> -->
+
+    <div *ngIf="isAllCategory; else simpleCategoryList">
+
+      <!-- Men Categories -->
+      <h6 class="mt-2">Men</h6>
+      <div *ngFor="let category of categories | categoryType:'Men'">
+        <input type="checkbox" [(ngModel)]="selectedCategories[category.id]" (change)="markFilterChange()"> {{ category.name }}
+      </div>
+    
+      <!-- Women Categories -->
+      <h6 class="mt-3">Women</h6>
+      <div *ngFor="let category of categories | categoryType:'Women'">
+        <input type="checkbox" [(ngModel)]="selectedCategories[category.id]" (change)="markFilterChange()"> {{ category.name }}
+      </div>
+    
+    </div>
+    
+    <ng-template #simpleCategoryList>
+      <div *ngFor="let category of categories">
+        <input type="checkbox" [(ngModel)]="selectedCategories[category.id]" (change)="markFilterChange()"> {{ category.name }}
+      </div>
+    </ng-template>
+    </div>
+    <div class="border p-2 mb-2" style="border-color: black !important;">
     <h5 class="fw-bold mt-3">Filter by Price</h5>
     <div class="price-slider">
       <input type="range" class="form-range min-range" min="0" max="20000" [(ngModel)]="minPrice" (input)="updatePriceRange()">
@@ -11,18 +70,22 @@
       <div class="slider-track"></div>
     </div>
     <p>Price: ${{ minPrice }} - ${{ maxPrice }}</p>
+    </div>
   
+    <div class="border p-2 mb-2" style="border-color: black !important;">
     <h5 class="fw-bold mt-3">Filter by Color</h5>
     <div *ngFor="let color of colors">
       <input type="checkbox" [(ngModel)]="selectedColors[color]" (change)="markFilterChange()"> {{ color }}
     </div>
+  </div>
   
+  <div class="border p-2 mb-2" style="border-color: black !important;">
     <h5 class="fw-bold mt-3">Filter by Size</h5>
     <div *ngFor="let size of sizes">
       <input type="checkbox" [(ngModel)]="selectedSizes[size]" (change)="markFilterChange()"> {{ size }}
     </div>
+  </div>
   
-    <button class="btn btn-dark w-100 mt-3 d-md-none" [disabled]="!showResetButton" (click)="applyFilters()">Apply</button>
-    <button class="btn btn-outline-danger w-100 mt-2" (click)="resetFilters()" [disabled]="!showResetButton">Reset</button>
+    
   </div>
   

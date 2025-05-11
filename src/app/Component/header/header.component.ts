@@ -24,104 +24,10 @@ export class HeaderComponent implements OnInit {
   mobileMenuActive = false;
   dropdownActive = false;
   searchQuery: string = '';
-  items = [
-    {
-      title: 'Charcoal Grey Silk Kurti',
-      price: 3685,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Peach Silk Kurti',
-      price: 2215,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Pink Silk Kurti',
-      price: 4745,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Plum Silk Kurti',
-      price: 3845,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'White Paper Cotton Kurti',
-      price: 3685,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Aqua Cotton Kurti',
-      price: 5005,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Charcoal Grey Silk Kurti',
-      price: 3685,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Peach Silk Kurti',
-      price: 2215,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Pink Silk Kurti',
-      price: 4745,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Plum Silk Kurti',
-      price: 3845,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'White Paper Cotton Kurti',
-      price: 3685,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Aqua Cotton Kurti',
-      price: 5005,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Charcoal Grey Silk Kurti',
-      price: 3685,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Peach Silk Kurti',
-      price: 2215,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Pink Silk Kurti',
-      price: 4745,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Plum Silk Kurti',
-      price: 3845,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'White Paper Cotton Kurti',
-      price: 3685,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      title: 'Aqua Cotton Kurti',
-      price: 5005,
-      image: 'assets/product/product-img.png',
-    },
-  ];
+  filteredItems: any
 
-  itemTitles: string[] = []; // ✅ Store precomputed item titles
-  filteredItems = [...this.items];
+  constructor(private router: Router, private commonService: CommonService) {
 
-  constructor(private router: Router, private commonService: CommonService){
-    this.itemTitles = this.items.map((item) => item.title); // ✅ Precompute array
   }
   ngOnInit(): void {
     const modalElement = document.getElementById('searchModal');
@@ -132,12 +38,17 @@ export class HeaderComponent implements OnInit {
   }
   filterResults(query: string) {
     this.searchQuery = query.trim();
-    this.filteredItems = this.items.filter((item) =>
-      item.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+    this.commonService.searchProducts(query).subscribe({
+      next: res => {
+        this.filteredItems = res
+      },
+      error: err => {
+        console.log("Error on filterResults");
+      }
+    })
   }
   openSearchModal() {
-    
+
     if (this.SearchModal) {
       // const modal = new bootstrap.Modal(modalElement);
       this.SearchModal.show();
@@ -151,7 +62,7 @@ export class HeaderComponent implements OnInit {
       this.SearchModal.hide();
     }
   }
- 
+
   getAllCategories(): void {
     this.commonService.getAll().subscribe(
       (response: Category[]) => {
@@ -172,4 +83,37 @@ export class HeaderComponent implements OnInit {
   toggleDropdown(active: boolean) {
     this.dropdownActive = active;
   }
+
+  goToProduct(type: number, categoryId: number) {
+    debugger;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/product'], {
+        state: {
+          type: type,
+          categoryId: categoryId
+        }
+      });
+    });
+  }
+
+  goToProductDetail(productId: number) {
+    this.commonService.GetProductById(productId).subscribe({
+      next: res => {
+        this.searchQuery = ''
+        this.filteredItems = []
+        this.CloseModal();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/product-detail'], {
+            state: {
+              product: res,
+            }
+          });
+        });
+      },
+      error: err => {
+        console.log('Error goToProductDetail');
+      }
+    })
+  }
+
 }
