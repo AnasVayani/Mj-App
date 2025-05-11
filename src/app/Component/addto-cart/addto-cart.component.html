@@ -18,23 +18,23 @@
                     <tbody>
                         <tr *ngFor="let item of cartItems; let i = index">
                             <td class="d-flex align-items-center">
-                                <img [src]="item.image" class="product-img" alt="Product">
+                                <img [src]=item.productImage class="product-img" alt="Product">
                                 <div>
-                                    <p class="product-title">{{ item.title }}</p>
-                                    <p class="product-size">Size: {{ item.size }}</p>
+                                    <p class="product-title">{{ item.productName }}</p>
+                                    <p class="product-size">Size: {{ item.cart.size }}</p>
                                 </div>
                             </td>
-                            <td>${{ item.price.toFixed(2) }}</td>
+                            <td>{{ item.cart.price.toFixed(2) }}</td>
                             <td>
                                 <div class="quantity-control">
-                                    <button class="btn btn-outline-dark" (click)="decreaseQuantity(i)">−</button>
-                                    <span>{{ item.quantity }}</span>
-                                    <button class="btn btn-outline-dark" (click)="increaseQuantity(i)">+</button>
+                                    <button class="btn btn-outline-dark" (click)="decreaseQuantity(i, item.cart.id)">−</button>
+                                    <span>{{ item.cart.quantity }}</span>
+                                    <button class="btn btn-outline-dark" (click)="increaseQuantity(i, item.cart.id)">+</button>
                                 </div>
                             </td>
-                            <td>${{ (item.price * item.quantity).toFixed(2) }}</td>
+                            <td>{{ (item.cart.price * item.cart.quantity).toFixed(2) }}</td>
                             <td>
-                                <button class="btn  btn-sm" (click)="removeItem(i)">
+                                <button class="btn  btn-sm" (click)="removeCartItem(item.cart.id)">
                                     <i class="ri-delete-bin-line fs-5"></i>
                                 </button>
                             </td>
@@ -47,7 +47,7 @@
         <!-- Order Summary -->
         <div class="col-lg-4">
             <div class="summary-box">
-                <p class="summary-item border-bottom pb-2"><strong>Subtotal:</strong> <span>${{ getSubtotal().toFixed(2) }}</span></p>
+                <p class="summary-item border-bottom pb-2"><strong>Subtotal:</strong> <span>PKR {{ getSubtotal().toFixed(2) }}</span></p>
 
                 <div class="discount-section">
                     <label for="discount">Enter Discount Code</label>
@@ -57,8 +57,8 @@
                     </div>
                 </div>
 
-                <p class="summary-item border-bottom pb-2"><strong>Delivery Charge:</strong> <span>${{ deliveryCharge.toFixed(2) }}</span></p>
-                <p class="summary-item grand-total my-4"><strong>Grand Total:</strong> ${{ getGrandTotal().toFixed(2) }}</p>
+                <p class="summary-item border-bottom pb-2"><strong>Delivery Charge:</strong> <span>PKR {{ deliveryCharge.toFixed(2) }}</span></p>
+                <p class="summary-item grand-total my-4"><strong>Grand Total:</strong> PKR {{ getGrandTotal().toFixed(2) }}</p>
 
                 <button class="btn btn-dark w-100">Proceed to Checkout</button>
             </div>

@@ -9,10 +9,15 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent implements OnInit {
   showHeaderFooter: boolean = true;
   constructor(private router: Router) {
-    
+
   }
 
   ngOnInit() {
+    let guestToken = localStorage.getItem('guestToken');
+    if (!guestToken) {
+      guestToken = crypto.randomUUID();
+      localStorage.setItem('guestToken', guestToken);
+    }
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showHeaderFooter = event.url !== '/select-country';

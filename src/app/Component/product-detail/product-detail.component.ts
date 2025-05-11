@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CommonService } from 'src/app/services/commonService';
 
 @Component({
   selector: 'app-product-detail',
@@ -47,7 +48,7 @@ export class ProductDetailComponent {
   selectedSize: string | null = null;
   quantity: number = 1;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private commonService: CommonService) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     const navigation = this.router.getCurrentNavigation();
     this.product = navigation?.extras.state ? (navigation.extras.state as { product: any }).product : null;
@@ -107,9 +108,26 @@ export class ProductDetailComponent {
 
   addToCart() {
     if (this.selectedSize) {
-      alert(
-        `Added to cart: Size ${this.selectedSize}, Quantity: ${this.quantity}`
-      );
+      let guestToken = localStorage.getItem('guestToken');
+      const requestData = {
+        userId: null,
+        guestToken: guestToken,
+        productId: this.product.id,
+        quantity: this.productForm.value['quantity'],
+        price: this.product.price,
+        size: this.selectedSize,
+        color: this.product.colour
+      };
+      this.commonService.addToCart(requestData).subscribe({
+        next: res => {
+          alert(
+            `Added to cart: Size ${this.selectedSize}, Quantity: ${this.quantity}`
+          );
+        },
+        error: err => {
+          console.log("Error on addToCart");
+        }
+      })
     }
   }
 }

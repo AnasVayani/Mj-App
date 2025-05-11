@@ -100,7 +100,8 @@
           <div class="d-flex">
             <ng-autocomplete
               [(ngModel)]="searchQuery"
-              [data]="itemTitles"  
+              [data]="filteredItems"
+              [minQueryLength]="3"
               (inputChanged)="filterResults(searchQuery)"
               placeholder="Search for items..."
               class="form-control w-100 border-0"
@@ -113,10 +114,10 @@
           
           <div class="search-results mt-3" *ngIf="searchQuery && filteredItems.length > 0">
             <ul class="list-group">
-              <li class="list-group-item d-flex align-items-center" *ngFor="let item of filteredItems">
-                <img [src]="item.image" alt="{{ item.title }}" class="item-image" />
+              <li class="list-group-item d-flex align-items-center" (click)="goToProductDetail(item.id)" *ngFor="let item of filteredItems">
+                <img [src]=item.imageUrl[0] alt="{{ item.name }}" class="item-image" />
                 <div class="ms-3">
-                  <h6 class="mb-0">{{ item.title }}</h6>
+                  <h6 class="mb-0">{{ item.name }}</h6>
                   <p class="mb-0 text-muted">PKR {{ item.price }}</p>
                 </div>
               </li>
