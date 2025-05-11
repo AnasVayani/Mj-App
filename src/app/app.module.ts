@@ -28,8 +28,6 @@ import { LoginComponent } from './Component/auth/login/login.component';
 import { RegisterComponent } from './Component/auth/register/register.component';
 import { ForgetPasswordComponent } from './Component/auth/forget-password/forget-password.component';
 import { OurStoryComponent } from './Component/our-story/our-story.component';
-import { BlogComponent } from './Component/blog/blog.component';
-import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component'; 
 import { HttpClientModule } from '@angular/common/http';
 import { SplitTrimPipe } from './helper/split-trim.pipe';
 import { CategoryTypePipe } from './helper/category-type.pipe';

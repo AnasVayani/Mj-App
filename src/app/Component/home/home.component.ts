@@ -4,7 +4,6 @@ import KeenSlider,{ KeenSliderInstance } from 'keen-slider';
 import { CommonService } from 'src/app/services/commonService';
 
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
