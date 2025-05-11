@@ -10,6 +10,7 @@ import { SearchComponent } from './Component/search/search.component';
 import { StoryComponent } from './Component/story/story.component';
 import { ContactComponent } from './Component/contact/contact.component';
 import { BlogComponent } from './Component/blog/blog.component';
+import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component';
 
 const routes: Routes = [
   {
@@ -52,7 +53,10 @@ const routes: Routes = [
     path: 'blog',
     component: BlogComponent,
   },
-  
+  {
+    path: 'blog/:slug',
+    component: BlogDetailComponent,
+  },
 
   { path: '**', redirectTo: '' },
 ];

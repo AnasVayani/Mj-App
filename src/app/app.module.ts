@@ -29,6 +29,7 @@ import { CategoryTypePipe } from './helper/category-type.pipe';
 import { StoryComponent } from './Component/story/story.component';
 import { ContactComponent } from './Component/contact/contact.component';
 import { BlogComponent } from './Component/blog/blog.component';
+import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { BlogComponent } from './Component/blog/blog.component';
     CategoryTypePipe,
     StoryComponent,
     ContactComponent,
-    BlogComponent
+    BlogComponent,
+    BlogDetailComponent
    
   ],
   imports: [
