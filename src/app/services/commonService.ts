@@ -125,4 +125,18 @@ export class CommonService {
     return this.httpClient.get<any>(`${environment.apiUrl}/Order/UpdateCartItemQuantity`, { params });
   }
 
+  getRelatedProductsByColor(color: string) {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetRelatedProductsByColor?color=${color}`)
+  }
+
+  getProductReviews(id: string) {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Product/GetProductReviews?productId=${id}`)
+  }
+
+  saveProductReview(request: any) {
+    return this.httpClient.post<any>(
+      `${environment.apiUrl}/Product/SaveProductReview`, request
+    );
+  }
+
 }

@@ -2,14 +2,14 @@
     <h2 class="section-title">Related Products</h2>
     <div class="row justify-content-center">
         <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let product of relatedProducts">
-            <div class="product-card">
-                <img [src]="product.image" class="product-img img-fluid" alt="{{ product.title }}">
+            <div class="product-card" (click)="goToProductDetail(product.id)">
+                <img [src]=product.imageUrl[0] class="product-img img-fluid" alt="{{ product.name }}">
                 <div class="product-info">
-                    <h5 class="product-title">{{ product.title }}</h5>
-                    <p class="product-subtitle">{{ product.subtitle }}</p>
+                    <h5 class="product-title">{{ product.name.split("–")[0].trim() }}</h5>
+                    <p class="product-subtitle">{{ product.name.split("–")[1].trim() }}</p>
                     <p class="price">
-                        <span class="current-price me-2">${{ product.currentPrice }}</span>
-                        <span class="old-price">${{ product.oldPrice }}</span>
+                        <span class="current-price me-2">PKR {{ product.price }}</span>
+                        <!-- <span class="old-price">${{ product.oldPrice }}</span> -->
                     </p>
                 </div>
             </div>

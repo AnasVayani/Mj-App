@@ -1,39 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonService } from 'src/app/services/commonService';
 
 @Component({
   selector: 'app-related-product',
   templateUrl: './related-product.component.html',
   styleUrls: ['./related-product.component.scss']
 })
-export class RelatedProductComponent {
-  relatedProducts = [
-    {
-      image: 'assets/product/product-img.png',
-      title: 'US Polo',
-      subtitle: 'Tailored Cotton Casual Shirt',
-      currentPrice: 40.00,
-      oldPrice: 50.00
-    },
-    {
-      image: 'assets/product/product-img.png',
-      title: 'Roadstar',
-      subtitle: 'Printed Blazer for Men',
-      currentPrice: 60.00,
-      oldPrice: 70.00
-    },
-    {
-      image: 'assets/product/product-img.png',
-      title: 'YK Disney',
-      subtitle: 'Red Printed T-Shirt',
-      currentPrice: 30.00,
-      oldPrice: 35.00
-    },
-    {
-      image: 'assets/product/product-img.png',
-      title: 'Flora',
-      subtitle: 'Leather Hand Purse',
-      currentPrice: 35.00,
-      oldPrice: 45.00
+export class RelatedProductComponent implements OnInit {
+  @Input() color: string = '';
+  relatedProducts: any;
+
+  constructor(private commonService: CommonService, private router:Router) {
+
+  }
+
+  ngOnInit(): void {
+    if (this.color) {
+      this.getRelatedProductsByColor(this.color);
     }
-  ];
+  }
+
+  getRelatedProductsByColor(color: string) {
+    if (!color) {
+      return;
+    }
+    this.commonService.getRelatedProductsByColor(color).subscribe({
+      next: res => {
+        this.relatedProducts = res
+      },
+      error: err =>{
+        console.log("Error on getRelatedProductsByColor");
+      }
+    })
+  }
+
+  goToProductDetail(id: any) {
+    this.commonService.GetProductById(id).subscribe({
+      next: res => {
+        var product = res
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/product-detail'], { state: { product } });
+        });
+      },
+      error: err => {
+        console.log("Error on goToProductDetail");
+      }
+    })
+  }
 }
