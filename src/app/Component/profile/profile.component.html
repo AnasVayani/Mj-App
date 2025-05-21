@@ -5,8 +5,9 @@
     <div class="col-md-4 col-lg-3">
       <div class="profile-sidebar border  rounded-0 shadow-none">
         <div class="profile-header text-center  border-bottom my-3">
-          <img src="assets/product/product-img.png" alt="Profile Picture" class="profile-pic">
-          <h5 class="mt-2">Robert Fox</h5>
+          <img [src]="getAvatarUrl(profile.firstName + ' ' + profile.lastName)" alt="Profile Picture"
+            class="profile-pic">
+          <h5 class="mt-2">{{profile.firstName + " " + profile.lastName}}</h5>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item" [class.active]="activeTab === 'personal-info'"
@@ -25,7 +26,7 @@
           <li class="list-group-item" [class.active]="activeTab === 'cards'" (click)="setActiveTab('cards')">
             <i class="ri-bank-card-line"></i> Saved Cards
           </li>
-         
+
         </ul>
       </div>
     </div>
@@ -60,18 +61,13 @@
               </div>
               <div class="col-md-6 mt-3">
                 <label>Phone Number</label>
-                <input type="text" class="form-control" [(ngModel)]="profile.phone"
+                <input type="text" class="form-control" [(ngModel)]="profile.phoneNumber"
                   [ngModelOptions]="{standalone: true}" [disabled]="!isEditing">
               </div>
               <div class="col-md-6 mt-3">
                 <label>Email Address</label>
                 <input type="email" class="form-control" [(ngModel)]="profile.email"
-                  [ngModelOptions]="{standalone: true}" [disabled]="!isEditing">
-              </div>
-              <div class="col-12 mt-3">
-                <label>Address</label>
-                <input type="text" class="form-control" [(ngModel)]="profile.address"
-                  [ngModelOptions]="{standalone: true}" [disabled]="!isEditing">
+                  [ngModelOptions]="{standalone: true}" [readOnly]="true" [disabled]="true">
               </div>
             </div>
           </form>
@@ -129,20 +125,19 @@
             <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let product of products">
               <div class="product-card">
                 <div class="product-image">
-                  <img [src]="product.image" [alt]="product.name" />
-                  <button class="delete-btn">
+                  <img [src]=product.imageUrl[0] [alt]="product.name" />
+                  <button (click)="deleteWishListProduct(product.id)" class="delete-btn">
                     <i class="ri-delete-bin-line"></i>
                   </button>
                   <div class="overlay">
-                    <button class="btn move-to-cart px-lg-4">Move to Cart</button>
+                    <button (click)="goToProductDetail(product)" class="btn move-to-cart px-lg-4">View</button>
                   </div>
                 </div>
                 <div class="product-info">
-                  <h5>{{ product.brand }}</h5>
-                  <p>{{ product.name }}</p>
+                  <h5>{{ product.name.split("–")[0].trim() }}</h5>
+                  <p>{{ product.name.split("–")[1].trim() }}</p>
                   <p class="price">
-                    <span class="current-price">${{ product.currentPrice }}</span>
-                    <span class="original-price" *ngIf="product.originalPrice">${{ product.originalPrice }}</span>
+                    <span class="current-price">PKR {{ product.price }}</span>
                   </p>
                 </div>
               </div>
@@ -159,13 +154,13 @@
                   <div>
                     <h6 class="fw-bold">{{ address.name }}</h6>
                     <p class="text-muted mb-1">{{ address.address }}</p>
-                    <p class="text-muted mb-0"><i class="ri-phone-line me-2"></i> {{ address.phone }}</p>
+                    <p class="text-muted mb-0"><i class="ri-phone-line me-2"></i> {{ address.phoneNumber }}</p>
                   </div>
                   <div>
-                    <button class="btn btn-light btn-sm me-2" (click)="openModal(i)">
+                    <button class="btn btn-light btn-sm me-2" (click)="openModal(address.id)">
                       <i class="ri-edit-box-line"></i> Edit
                     </button>
-                    <button class="btn btn-outline-danger btn-sm" (click)="deleteAddress(i)">
+                    <button class="btn btn-outline-danger btn-sm" (click)="deletedUserAddress(address.id)">
                       <i class="ri-delete-bin-line"></i> Delete
                     </button>
                   </div>
@@ -193,21 +188,36 @@
                       <input type="text" class="form-control" formControlName="phone" placeholder="Enter Mobile Number">
                     </div>
                     <div class="mb-3">
-                      <label class="form-label">Address</label>
-                      <input type="text" class="form-control" formControlName="address"
-                        placeholder="Flat, House no, Apartment">
+                      <label class="form-label">Country</label>
+                      <select class="form-control" formControlName="country"
+                        (change)="onCountryChange($any($event.target).value)">
+                        <option value="">Select Country</option>
+                        <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">State</label>
+                      <select class="form-control" formControlName="state"
+                        (change)="onStateChange($any($event.target).value)">
+                        <option value="">Select State</option>
+                        <option *ngFor="let state of states" [value]="state.id">{{ state.name }}</option>
+                      </select>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">City</label>
-                      <input type="text" class="form-control" formControlName="city" placeholder="Select City">
+                      <select class="form-control" formControlName="city">
+                        <option value="">Select City</option>
+                        <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+                      </select>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Pin Code</label>
                       <input type="text" class="form-control" formControlName="pinCode" placeholder="Enter Pin Code">
                     </div>
                     <div class="mb-3">
-                      <label class="form-label">State</label>
-                      <input type="text" class="form-control" formControlName="state" placeholder="Select State">
+                      <label class="form-label">Address</label>
+                      <input type="text" class="form-control" formControlName="address"
+                        placeholder="Flat, House no, Apartment">
                     </div>
                     <div class="form-check">
                       <input type="checkbox" class="form-check-input" formControlName="defaultAddress">
@@ -253,7 +263,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="modal fade" id="cardModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content p-3">
@@ -261,7 +271,7 @@
                   <h5 class="modal-title">{{ isEditCardMode ? 'Edit Card' : 'Add a new card' }}</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-          
+
                 <div class="modal-body">
                   <form [formGroup]="cardForm">
                     <div class="mb-3">
@@ -273,11 +283,12 @@
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Card Number</label>
-                      <input type="text" class="form-control" formControlName="number" placeholder="1234 5678 9012 3456">
+                      <input type="text" class="form-control" formControlName="number"
+                        placeholder="1234 5678 9012 3456">
                     </div>
                   </form>
                 </div>
-          
+
                 <div class="modal-footer">
                   <button class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
                   <button class="btn btn-dark" (click)="saveCard()" [disabled]="cardForm.invalid">
@@ -288,7 +299,7 @@
             </div>
           </div>
         </div>
-        
+
       </div>
     </div>
   </div>

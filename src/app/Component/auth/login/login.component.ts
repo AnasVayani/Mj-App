@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CommonService } from 'src/app/services/commonService';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,7 @@ export class LoginComponent implements OnInit {
   showPassword = false;
   logoPath = '/assets/logo-white.svg';
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private commonService: CommonService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -42,10 +44,21 @@ export class LoginComponent implements OnInit {
 
     // Mock Login (Replace with API Call)
     const { email, password } = this.loginForm.value;
-    if (email !== 'user@example.com' || password !== 'password123') {
-      alert('Invalid credentials!');
-    } else {
-      alert('Login successful!');
-    }
+    this.login(email, password)
+  }
+
+  login(email: any, password: any) {
+    this.commonService.loginUser(email, password).subscribe({
+      next: res => {
+        if (res && res.data) {
+          localStorage.setItem('UserContext', JSON.stringify(res.data))
+          localStorage.removeItem("guestToken");
+        }
+        this.router.navigate(["/"])
+      },
+      error: err => {
+        alert("login failed")
+      }
+    })
   }
 }

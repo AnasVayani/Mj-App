@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Modal } from 'bootstrap';
+import { CommonService } from 'src/app/services/commonService';
+
+declare var Square: any;
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
 })
-export class CheckoutComponent implements OnInit{
+
+export class CheckoutComponent implements OnInit {
   currentStep = 1;
   checkoutForm: FormGroup;
   paymentForm: FormGroup;
@@ -70,7 +74,7 @@ export class CheckoutComponent implements OnInit{
 
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private commonService: CommonService) {
     this.checkoutForm = this.fb.group({
       name: ['', Validators.required],
       mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
@@ -99,7 +103,21 @@ export class CheckoutComponent implements OnInit{
       paymentMethod: ['creditCard', Validators.required], // Default selection
     });
   }
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+    const payments = Square.payments('sandbox-sq0idb-iibA7s4khpuGVVaTqN8vbw', 'sandbox');
+    const card = await payments.card();
+    await card.attach('#card-container');
+    const button = document.getElementById('card-button');
+    button?.addEventListener('click', async () => {
+      const result = await card.tokenize();
+
+      if (result.status === 'OK') {
+        this.sendToBackend(result.token);
+      } else {
+        console.error('Tokenization failed:', result.errors);
+      }
+    });
     // debugger
     const modalElement = document.getElementById('orderConfirmationModal');
     if (modalElement) {
@@ -154,5 +172,20 @@ export class CheckoutComponent implements OnInit{
 
   editPayment() {
     console.log('Edit Payment Clicked');
+  }
+
+  sendToBackend(token: string) {
+    var request = {
+      PaymentToken: token,
+      OrderId: 1
+    }
+    this.commonService.paymentCheckout(request).subscribe({
+      next: res => {
+        alert("payment completed")
+      },
+      error: err => {
+        alert("payment failed")
+      }
+    })
   }
 }

@@ -1,12 +1,8 @@
-import { Component } from '@angular/core';
+import { assertPlatform, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
-
-interface Address {
-  name: string;
-  address: string;
-  phone: string;
-}
+import { CommonService } from 'src/app/services/commonService';
 
 interface Card {
   type: 'MasterCard' | 'Visa';
@@ -18,7 +14,8 @@ interface Card {
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
+  cities: any;
   isEditing = false;
   activeTab = 'personal-info'; // Default active tab
   searchQuery = ''; // Search input field
@@ -76,105 +73,30 @@ export class ProfileComponent {
       status: 'Shipped',
     },
   ];
-  products = [
-    {
-      brand: 'Allen Solly',
-      name: 'Women Textured Handheld Bag',
-      currentPrice: 80.0,
-      originalPrice: 100.0,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      brand: 'Louis Philippe Sport',
-      name: 'Polo Collar T-Shirt',
-      currentPrice: 50.0,
-      originalPrice: 55.0,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      brand: 'Adidas',
-      name: 'Men Adidas Running Shoes',
-      currentPrice: 60.0,
-      originalPrice: 75.0,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      brand: 'Allen Solly',
-      name: 'Brown Leather Jacket',
-      currentPrice: 60.0,
-      originalPrice: 70.0,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      brand: 'US Polo',
-      name: 'Casual Shoe for Men',
-      currentPrice: 40.0,
-      originalPrice: 50.0,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      brand: 'Gucci',
-      name: 'Leather Hand Purse',
-      currentPrice: 40.0,
-      originalPrice: 0,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      brand: 'YK Disney',
-      name: 'Red Printed T-Shirt',
-      currentPrice: 30.0,
-      originalPrice: 0,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      brand: 'Roadstar',
-      name: 'Printed Blazer for Men',
-      currentPrice: 60.0,
-      originalPrice: 0,
-      image: 'assets/product/product-img.png',
-    },
-    {
-      brand: 'Flora',
-      name: 'Leather Hand Purse',
-      currentPrice: 35.0,
-      originalPrice: 40.0,
-      image: 'assets/product/product-img.png',
-    },
-  ];
+  products: any[] = []
 
-  profile = {
-    firstName: 'Robert',
-    lastName: 'Fox',
-    phone: '(252) 555-0126',
-    email: 'robertfox@example.com',
-    address: '2464 Royal Ln. Mesa, New Jersey 45463',
-  };
-  addresses: Address[] = [
-    {
-      name: 'Robert Fox',
-      address: '4517 Washington Ave. Manchester, Kentucky 39495',
-      phone: '(209) 555-0104',
-    },
-    {
-      name: 'John Willions',
-      address: '3891 Ranchview Dr. Richardson, California 62639',
-      phone: '(270) 555-0117',
-    },
-    {
-      name: 'Alexa Johnson',
-      address: '4517 Washington Ave. Manchester, Kentucky 39495',
-      phone: '(208) 555-0112',
-    },
-  ];
+  profile: any = {}
+  addresses: any
+  countries: any;
+  states: any;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private commonService: CommonService, private router: Router) {
     this.createForm();
     this.cardForm = this.fb.group({
       type: ['MasterCard', Validators.required],
       number: ['', [Validators.required, Validators.pattern(/^\d{4} \d{4} \d{4} \d{4}$/)]]
     });
   }
+  ngOnInit(): void {
+    this.getCountries();
+    this.getCurrentUser();
+    this.getUserWishlist();
+    this.getUserAddresses();
+  }
 
+  getAvatarUrl(name: string): string {
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
+  }
 
   openCardModal(editIndex: number | null = null) {
     this.isEditCardMode = editIndex !== null;
@@ -223,26 +145,47 @@ export class ProfileComponent {
 
   createForm() {
     this.addressForm = this.fb.group({
+      id: [''],
       name: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/^\(\d{3}\) \d{3}-\d{4}$/)]],
       address: ['', Validators.required],
       city: ['', Validators.required],
+      country: ['', Validators.required],
       pinCode: ['', Validators.required],
       state: ['', Validators.required],
       defaultAddress: [false]
     });
   }
 
-  openModal(editIndex: number | null = null) {
-    this.isEditMode = editIndex !== null;
-    this.selectedIndex = editIndex;
+  openModal(id: number | null = null) {
+    this.isEditMode = id !== null;
+    this.selectedIndex = id;
 
     if (this.isEditMode) {
-      const selectedAddress = this.addresses[editIndex!];
-      this.addressForm.patchValue({
-        name: selectedAddress.name,
-        phone: selectedAddress.phone,
-        address: selectedAddress.address
+      const selectedAddress = this.addresses.find((addr: any) => addr.id === id);
+      this.addressForm.reset();
+
+      // Step 1: Set country and fetch states
+      this.addressForm.patchValue({ country: selectedAddress.countryId });
+      this.commonService.getStates(selectedAddress.countryId).subscribe(states => {
+        this.states = states;
+
+        // Step 2: Set state and fetch cities
+        this.addressForm.patchValue({ state: selectedAddress.stateId });
+        this.commonService.getCities(selectedAddress.stateId).subscribe(cities => {
+          this.cities = cities;
+
+          // Step 3: Set the rest of the values including city
+          this.addressForm.patchValue({
+            id: selectedAddress.id,
+            name: selectedAddress.name,
+            phone: selectedAddress.phoneNumber,
+            address: selectedAddress.address,
+            city: selectedAddress.cityId,
+            pinCode: selectedAddress.pinCode,
+            defaultAddress: selectedAddress.isDefault
+          });
+        });
       });
     } else {
       this.addressForm.reset();
@@ -254,20 +197,8 @@ export class ProfileComponent {
 
   saveAddress() {
     if (this.addressForm.invalid) return;
-
-    const newAddress = this.addressForm.value;
-
-    if (this.isEditMode && this.selectedIndex !== null) {
-      this.addresses[this.selectedIndex] = newAddress;
-    } else {
-      this.addresses.push(newAddress);
-    }
-
+    this.addOrUpdateUserAddress();
     this.closeModal();
-  }
-
-  deleteAddress(index: number) {
-    this.addresses.splice(index, 1);
   }
 
   closeModal() {
@@ -281,7 +212,21 @@ export class ProfileComponent {
   }
 
   saveChanges() {
-    this.isEditing = false;
+    var request = {
+      FirstName: this.profile.firstName,
+      LastName: this.profile.lastName,
+      PhoneNumber: this.profile.phoneNumber,
+    }
+    this.commonService.editUserDetails(request).subscribe({
+      next: res => {
+        this.isEditing = false;
+      },
+      error: err => {
+        this.isEditing = false;
+        alert("failed")
+      }
+    })
+
   }
 
   setActiveTab(tab: string) {
@@ -291,5 +236,128 @@ export class ProfileComponent {
     return this.orders.filter((order) =>
       order.name.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
+  }
+
+  getUserWishlist() {
+    this.commonService.getUserWishlist().subscribe({
+      next: res => {
+        this.products = res
+      },
+      error: err => {
+      }
+    })
+  }
+
+  goToProductDetail(product: any) {
+    this.router.navigate(['/product-detail'], { state: { product } });
+  }
+
+  deleteWishListProduct(productId: number) {
+    this.commonService.addToWishlist(productId).subscribe({
+      next: res => {
+        this.getUserWishlist();
+      },
+      error: err => {
+        console.log("Error on deleteWishListProduct");
+      }
+    })
+  }
+
+  getCurrentUser() {
+    this.commonService.getCurrentUser().subscribe({
+      next: res => {
+        this.profile = res
+      },
+      error: err => {
+        console.log("Error on getCurrentUser");
+      }
+    })
+  }
+
+  getCountries() {
+    this.commonService.getCountries().subscribe({
+      next: res => {
+        this.countries = res
+      },
+      error: err => {
+        console.log("Error on getCountries");
+      }
+    })
+  }
+
+  getStates(countryId: number) {
+    this.commonService.getStates(countryId).subscribe({
+      next: res => {
+        this.states = res
+      },
+      error: err => {
+        console.log("Error on getStates");
+      }
+    })
+  }
+
+  getCities(stateId: number) {
+    this.commonService.getCities(stateId).subscribe({
+      next: res => {
+        this.cities = res
+      },
+      error: err => {
+        console.log("Error on getCities");
+      }
+    })
+  }
+
+  onStateChange(stateId: any | null) {
+    this.getCities(stateId)
+  }
+
+  onCountryChange(countryId: any | null) {
+    this.getStates(countryId)
+  }
+
+  getUserAddresses() {
+    this.commonService.getUserAddresses().subscribe({
+      next: res => {
+        this.addresses = res
+      },
+      error: err => {
+        console.log("Error on getUserAddresses");
+      }
+    })
+  }
+
+  deletedUserAddress(addressId: number) {
+    this.commonService.deletedUserAddress(addressId).subscribe({
+      next: res => {
+        this.getUserAddresses()
+      },
+      error: err => {
+        console.log("Error on deletedUserAddress");
+      }
+    })
+  }
+
+  addOrUpdateUserAddress() {
+    const formValues = this.addressForm.value;
+    const request = {
+      Id: this.isEditMode ? formValues.id : 0,
+      Name: formValues.name,
+      Address: formValues.address,
+      PhoneNumber: formValues.phone,
+      CityId: formValues.city,
+      PinCode: formValues.pinCode,
+      StateId: formValues.state,
+      CountryId: formValues.country,
+      IsDefault: formValues.defaultAddress == null ? false : formValues.defaultAddress,
+      UserId: 0
+    };
+    this.commonService.addOrUpdateUserAddress(request).subscribe({
+      next: res => {
+        this.getUserAddresses()
+      },
+      error: err => {
+        console.log("Error on addOrUpdateUserAddress");
+      }
+    })
   }
 }

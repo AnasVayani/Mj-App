@@ -84,7 +84,7 @@
                         <!-- Heart Icon Toggle -->
                         <i class="position-absolute top-0 end-0 m-3 fs-4" [class.ri-heart-line]="!product.liked"
                           [class.ri-heart-fill]="product.liked" [class.text-danger]="product.liked" [class.text-dark]="!product.liked"
-                          style="cursor: pointer;" (click)="toggleLike(i)"></i>
+                          style="cursor: pointer;" (click)="addToWishlist(product.id)"></i>
                       </div>
               
                       <div class="card-body">

@@ -139,4 +139,74 @@ export class CommonService {
     );
   }
 
+  registerUser(request: any) {
+    return this.httpClient.post<any>(
+      `${environment.apiUrl}/Auth/Register`, request
+    );
+  }
+
+  loginUser(email: string, password: string) {
+    let params = new HttpParams();
+    params = params.set('email', email);
+    params = params.set('password', password);
+    return this.httpClient.get<any>(`${environment.apiUrl}/Auth/Login`, { params });
+  }
+
+  paymentCheckout(request: any) {
+    return this.httpClient.post<any>(
+      `${environment.apiUrl}/Auth/ProcessPayment`, request
+    );
+  }
+
+  isLoggedIn(): boolean {
+    const user = localStorage.getItem('UserContext');
+    if (user == null || user == undefined) {
+      return false;
+    }
+    var parsedJson = JSON.parse(user);
+    return !!parsedJson.token;
+  }
+
+  getUserWishlist() {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Auth/GetUserWishlist`);
+  }
+
+  addToWishlist(productId: number) {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Auth/AddToWishlist?productId=${productId}`);
+  }
+
+  getCurrentUser() {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Auth/GetCurrentUser`);
+  }
+
+  editUserDetails(request: any) {
+    return this.httpClient.post<any>(
+      `${environment.apiUrl}/Auth/EditUserDetails`, request
+    );
+  }
+
+  getCountries() {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Auth/GetCountries`);
+  }
+
+  getCities(stateId: number) {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Auth/GetCities?stateId=${stateId}`);
+  }
+
+  getStates(countryId: number) {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Auth/GetStates?countryId=${countryId}`);
+  }
+
+  getUserAddresses() {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Auth/GetUserAddresses`);
+  }
+
+  deletedUserAddress(addressId: number) {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Auth/DeletedUserAddress?addressId=${addressId}`);
+  }
+
+  addOrUpdateUserAddress(request: any) {
+    return this.httpClient.post<any>(`${environment.apiUrl}/Auth/AddOrUpdateUserAddress`, request);
+  }
+  
 }

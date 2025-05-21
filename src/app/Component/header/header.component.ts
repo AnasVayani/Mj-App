@@ -25,6 +25,8 @@ export class HeaderComponent implements OnInit {
   dropdownActive = false;
   searchQuery: string = '';
   filteredItems: any
+  isLoggedIn: boolean = false;
+  userName: any;
 
   constructor(private router: Router, private commonService: CommonService) {
 
@@ -35,7 +37,30 @@ export class HeaderComponent implements OnInit {
       this.SearchModal = new bootstrap.Modal(modalElement);
     }
     this.getAllCategories()
+    const user = localStorage.getItem('UserContext'); // or use an AuthService
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      if (parsedUser && parsedUser.token) {
+        this.isLoggedIn = true;
+        this.userName = parsedUser.firstName + ' ' + parsedUser.lastName;
+      }
+    }
   }
+
+  getAvatarUrl(name: string): string {
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
+  }
+
+  logout() {
+    localStorage.removeItem('UserContext'); // or use AuthService
+    this.isLoggedIn = false;
+    this.router.navigate(['/']);
+  }
+
+  goToProfile() {
+    this.router.navigate(['/profile']);
+  }
+
   filterResults(query: string) {
     this.searchQuery = query.trim();
     this.commonService.searchProducts(query).subscribe({
