@@ -55,8 +55,8 @@
           <i class="ri-shopping-bag-3-line ri-lg" routerLink="/cart"></i>
         </li>
       </div>
-      <li class=" d-lg-none">
-        <button type="button" class="w-50 btn btn-dark mb-3">Login</button>
+      <li class=" d-lg-none" *ngIf="!isLoggedIn">
+        <button type="button" class="w-50 btn btn-dark mb-3" [routerLink]="['/login']">Login</button>
       </li>
 
     </ul>

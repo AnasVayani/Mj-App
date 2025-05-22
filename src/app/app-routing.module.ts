@@ -28,26 +28,32 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    data: { animation: '12' }
   },
   {
     path: 'register',
     component: RegisterComponent,
+    data: { animation: '13' }
   },
   {
     path: 'forget-password',
     component: ForgetPasswordComponent,
+    data: { animation: '14' }
   },
   {
     path: 'login',
     component: LoginComponent,
+    data: { animation: '15' }
   },
   {
     path: 'register',
     component: RegisterComponent,
+    data: { animation: '16' }
   },
   {
     path: 'forget-password',
     component: ForgetPasswordComponent,
+    data: { animation: '17' }
   },
   {
     path: 'select-country',
