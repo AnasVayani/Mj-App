@@ -11,18 +11,33 @@ import { fadeAnimation } from './helper/route-animations';
 })
 export class AppComponent implements OnInit {
   showHeaderFooter: boolean = true;
+  private authRoutes = ['/login', '/register', '/forget-password','/select-country'];
+
   constructor(private router: Router) {
-    
+
   }
   prepareRoute(outlet: RouterOutlet) {
     return outlet?.activatedRouteData?.['animation'];
   }
 
   ngOnInit() {
+    let guestToken = localStorage.getItem('guestToken');
+    if (!guestToken) {
+      guestToken = crypto.randomUUID();
+      localStorage.setItem('guestToken', guestToken);
+    }
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showHeaderFooter = event.url !== '/select-country';
-        window.scrollTo(0, 0);
+        
+        this.showHeaderFooter = !this.authRoutes.includes(event.url);
+         window.scrollTo(0, 0);
+
+
+        // const isAuthenticated = !!localStorage.getItem('userToken'); // Adjust this based on your authentication logic
+        // if (isAuthenticated && this.authRoutes.includes(event.url)) {
+        //   this.router.navigate(['/']); // Redirect to home or dashboard
+        // }
       }
     });
     
@@ -32,5 +47,12 @@ export class AppComponent implements OnInit {
     if (!selectedCountry && this.router.url === '/') {
       this.router.navigate(['/select-country']);
     }
+
+
+    // Prevent access to auth routes if logged in
+    // const isAuthenticated = !!localStorage.getItem('userToken'); // Check login status
+    // if (isAuthenticated && this.authRoutes.includes(this.router.url)) {
+    //   this.router.navigate(['/']); // Redirect to home or dashboard
+    // }
   }
 }

@@ -77,14 +77,14 @@
                         <img [src]=product.imageUrl[0] class="card-img-top rounded-4" alt="{{ product.name }}" />
               
                         <!-- Hover Button -->
-                        <button class="view-btn btn btn-dark rounded-pill d-flex align-items-center gap-2" (click)="goToProductDetail(product.id)">
+                        <button class="view-btn btn btn-dark rounded-pill d-flex align-items-center gap-2" (click)="goToProductDetail(product)">
                           <i class="ri-eye-line"></i> View
                         </button>
               
                         <!-- Heart Icon Toggle -->
                         <i class="position-absolute top-0 end-0 m-3 fs-4" [class.ri-heart-line]="!product.liked"
                           [class.ri-heart-fill]="product.liked" [class.text-danger]="product.liked" [class.text-dark]="!product.liked"
-                          style="cursor: pointer;" (click)="toggleLike(i)"></i>
+                          style="cursor: pointer;" (click)="addToWishlist(product.id)"></i>
                       </div>
               
                       <div class="card-body">

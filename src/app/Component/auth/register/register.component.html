@@ -1,0 +1,81 @@
+<div class="container-fluid login-container">
+    <div class="row vh-100 ">
+        <!-- Left Side - Logo -->
+        <div class="col-md-6 col-lg-7 bg-black logo-container d-flex justify-content-center align-items-center">
+
+            <img src="assets/logo-white.svg" alt="Logo" height="200" class="logo">
+
+
+        </div>
+
+        <!-- Right Side - Login Form -->
+        <div
+            class="col-md-6 col-lg-5 d-flex justify-content-md-start justify-content-center align-items-baseline align-items-md-center align-items-lg-center    ">
+            <div class="form-box">
+                <h2 class="fw-bold">Create New Account</h2>
+                <p class="text-muted">Please enter details</p>
+
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                    <!-- First Name -->
+                    <div class="mb-3">
+                        <label class="form-label">First Name</label>
+                        <input type="text" formControlName="firstName" class="form-control"
+                            [class.is-invalid]="submitted && registerForm.controls['firstName'].invalid"
+                            placeholder="Enter your first name">
+                        <div *ngIf="submitted && registerForm.controls['firstName'].invalid" class="invalid-feedback">
+                            First Name is required.
+                        </div>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="mb-3">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" formControlName="lastName" class="form-control"
+                            [class.is-invalid]="submitted && registerForm.controls['lastName'].invalid"
+                            placeholder="Enter your last name">
+                        <div *ngIf="submitted && registerForm.controls['lastName'].invalid" class="invalid-feedback">
+                            Last Name is required.
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" formControlName="email" class="form-control"
+                            [class.is-invalid]="submitted && registerForm.controls['email'].invalid"
+                            placeholder="Enter your email">
+                        <div *ngIf="submitted && registerForm.controls['email'].invalid" class="invalid-feedback">
+                            Please enter a valid email.
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3 position-relative">
+                        <label class="form-label">Password</label>
+                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                            class="form-control password-input"
+                            [class.is-invalid]="submitted && registerForm.controls['password'].invalid"
+                            placeholder="Enter your password">
+
+                        <!-- Eye Icon (Toggle Password Visibility) -->
+                        <i [class]="showPassword ? 'ri-eye-line password-toggle' : 'ri-eye-off-line password-toggle'"
+                            (click)="togglePassword()">
+                        </i>
+
+                        <div *ngIf="submitted && registerForm.controls['password'].invalid" class="invalid-feedback">
+                            Password must be at least 6 characters.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="checkbox" class="form-check-input" formControlName="terms">
+                        <label class="ms-2"> I agree to <strong> Terms & Conditions</strong></label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-dark py-2 w-100">Register</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,7 @@ export class BlogComponent {
       slug: 'embracing-tradition-with-modern-flair',
       excerpt:
         'The shalwar kameez, a quintessential attire in South Asian fashion, has gracefully evolved over the years...',
-      image: 'assets/images/blogs/blog-1.png',
+      image: 'assets/images/home-banner.png',
     },
 
     {
@@ -21,7 +21,7 @@ export class BlogComponent {
       slug: 'cultural-significance-pakistani-attire',
       excerpt:
         'Traditional Pakistani attire, like the shalwar kameez, holds deep cultural value...',
-      image: 'assets/images/blogs/blog-2.png',
+      image: 'assets/product/product-img.png',
     },
 
     {
@@ -29,7 +29,7 @@ export class BlogComponent {
       slug: 'evolution-of-mens-shalwar-kameez',
       excerpt:
         'The shalwar kameez, a staple in South Asian attire, has undergone significant transformations over the years...',
-      image: 'assets/images/blogs/blog-3.png',
+      image: 'assets/product/product-img.png',
     },
 
     {
@@ -37,16 +37,15 @@ export class BlogComponent {
       slug: 'styling-mens-shalwar-kameez-for-various-occasions',
       excerpt:
         'The versatility of the shalwar kameez makes it suitable for a wide range of occasions...',
-      image: 'assets/images/blogs/blog-4.png',
+      image: 'assets/product/product-img.png',
     },
 
     {
-      title:
-        "The Art of Accessorizing Men's Shalwar Kameez: Elevate Your Traditional Attire",
+      title: "The Art of Accessorizing Men's Shalwar Kameez: Elevate Your Traditional Attire",
       slug: 'art-of-accessorizing-mens-shalwar-kameez',
       excerpt:
         'The shalwar kameez is a timeless ensemble that embodies the rich cultural heritage of South Asia...',
-      image: 'assets/images/blogs/blog-1.png',
+      image: 'assets/product/product-img.png',
     },
 
     {
@@ -54,8 +53,9 @@ export class BlogComponent {
       slug: 'influence-of-regional-styles',
       excerpt:
         'The shalwar kameez, a quintessential South Asian attire, exhibits a rich tapestry of regional variations...',
-      image: 'assets/images/blogs/blog-2.png',
+      image: 'assets/product/product-img.png',
     },
+
   ];
 
   constructor(private router: Router) {}

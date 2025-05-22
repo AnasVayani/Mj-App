@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CommonService } from 'src/app/services/commonService';
 
 @Component({
   selector: 'app-product-detail',
@@ -10,22 +11,7 @@ import { Router } from '@angular/router';
 export class ProductDetailComponent {
   product: any;
 
-  reviews = [
-    {
-      name: 'Mark Williams',
-      rating: 5,
-      comment: 'Excellent Product, I Love It 😍',
-      date: 'June 05, 2023',
-      avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
-    },
-    {
-      name: 'Alexa Johnson',
-      rating: 5,
-      comment: 'My Daughter is very much happy with this product',
-      date: 'June 05, 2023',
-      avatar: 'https://randomuser.me/api/portraits/women/2.jpg',
-    },
-  ];
+  reviews: any = [];
 
   reviewForm: FormGroup;
   selectedRating = 0;
@@ -47,7 +33,7 @@ export class ProductDetailComponent {
   selectedSize: string | null = null;
   quantity: number = 1;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private commonService: CommonService) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     const navigation = this.router.getCurrentNavigation();
     this.product = navigation?.extras.state ? (navigation.extras.state as { product: any }).product : null;
@@ -63,6 +49,7 @@ export class ProductDetailComponent {
       review: ['', Validators.required],
       rating: [0, Validators.min(1)], // At least 1 star should be selected
     });
+    this.getProductReviews();
   }
 
   setRating(stars: number) {
@@ -72,15 +59,7 @@ export class ProductDetailComponent {
 
   submitReview() {
     if (this.reviewForm.valid) {
-      this.reviews.push({
-        name: this.reviewForm.value.name,
-        rating: this.selectedRating,
-        comment: this.reviewForm.value.review,
-        date: new Date().toLocaleDateString(),
-        avatar: 'https://randomuser.me/api/portraits/lego/3.jpg', // Default avatar
-      });
-
-      // Reset form after submission
+      this.saveProductReview(this.reviewForm)
       this.reviewForm.reset();
       this.selectedRating = 0;
     }
@@ -107,9 +86,68 @@ export class ProductDetailComponent {
 
   addToCart() {
     if (this.selectedSize) {
-      alert(
-        `Added to cart: Size ${this.selectedSize}, Quantity: ${this.quantity}`
-      );
+      let guestToken = localStorage.getItem('guestToken');
+      const requestData = {
+        userId: null,
+        guestToken: guestToken,
+        productId: this.product.id,
+        quantity: this.productForm.value['quantity'],
+        price: this.product.price,
+        size: this.selectedSize,
+        color: this.product.colour
+      };
+      this.commonService.addToCart(requestData).subscribe({
+        next: res => {
+          alert(
+            `Added to cart: Size ${this.selectedSize}, Quantity: ${this.quantity}`
+          );
+        },
+        error: err => {
+          console.log("Error on addToCart");
+        }
+      })
     }
   }
+
+  getProductReviews() {
+    this.commonService.getProductReviews(this.product.id).subscribe({
+      next: res => {
+        this.reviews = res
+      },
+      error: err => {
+        console.log("Error on getProductReviews");
+      }
+    })
+  }
+
+  saveProductReview(reviewForm: any) {
+    var request = {
+      ProductId: this.product.id,
+      Name: reviewForm.value.name,
+      Rating: this.selectedRating,
+      Review: reviewForm.value.review,
+      Email: reviewForm.value.email
+    }
+    // avatar: 'https://randomuser.me/api/portraits/lego/3.jpg', // Default avatar
+    this.commonService.saveProductReview(request).subscribe({
+      next: res => {
+        this.getProductReviews();
+      },
+      error: err => {
+        console.log("Error on getProductReviews");
+      }
+    })
+  }
+
+  formatPostedDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit' };
+    const formatted = date.toLocaleDateString('en-US', options);
+    return formatted;
+  }
+
+  getAvatarUrl(name: string): string {
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
+  }
+  
 }

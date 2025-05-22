@@ -34,7 +34,7 @@
     transition: all 200ms ease;
   }
   
-  .nav-links a:hover {
+  .nav-links a:hover, .nav-links a.active-link {
    font-weight: 600;
   }
   a.active-link {

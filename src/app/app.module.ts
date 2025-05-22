@@ -22,15 +22,22 @@ import { AddtoCartComponent } from './Component/addto-cart/addto-cart.component'
 import { CheckoutComponent } from './Component/checkout/checkout.component';
 import { SelectCountryComponent } from './Component/select-country/select-country.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { SearchComponent } from './Component/search/search.component'; 
-import { HttpClientModule } from '@angular/common/http';
+import { SearchComponent } from './Component/search/search.component';
+import { ProfileComponent } from './Component/profile/profile.component';
+import { LoginComponent } from './Component/auth/login/login.component';
+import { RegisterComponent } from './Component/auth/register/register.component';
+import { ForgetPasswordComponent } from './Component/auth/forget-password/forget-password.component';
+import { OurStoryComponent } from './Component/our-story/our-story.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SplitTrimPipe } from './helper/split-trim.pipe';
 import { CategoryTypePipe } from './helper/category-type.pipe';
 import { StoryComponent } from './Component/story/story.component';
 import { ContactComponent } from './Component/contact/contact.component';
 import { BlogComponent } from './Component/blog/blog.component';
 import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component';
+import { JwtInterceptor } from './helper/jwt.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -51,13 +58,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CheckoutComponent,
     SelectCountryComponent,
     SearchComponent,
+    ProfileComponent,
+    LoginComponent,
+    RegisterComponent,
+    ForgetPasswordComponent,
+    OurStoryComponent,
+    BlogComponent,
+    BlogDetailComponent,
     SplitTrimPipe,
     CategoryTypePipe,
     StoryComponent,
     ContactComponent,
-    BlogComponent,
-    BlogDetailComponent
-   
   ],
   imports: [
     BrowserModule,
@@ -69,7 +80,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule
    
   ],
-  providers: [],
+  providers: [{
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,46 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonService } from 'src/app/services/commonService';
 
 @Component({
   selector: 'app-addto-cart',
   templateUrl: './addto-cart.component.html',
   styleUrls: ['./addto-cart.component.scss'],
 })
-export class AddtoCartComponent {
-  cartItems = [
-    {
-      image: 'assets/product/product-img.png',
-      title: 'Girls Pink Moana Printed Dress',
-      size: 'S',
-      price: 80.0,
-      quantity: 1,
-    },
-    {
-      image: 'assets/product/product-img.png',
-      title: 'Women Textured Handheld Bag',
-      size: 'Regular',
-      price: 80.0,
-      quantity: 1,
-    },
-    {
-      image: 'assets/product/product-img.png',
-      title: 'Tailored Cotton Casual Shirt',
-      size: 'M',
-      price: 40.0,
-      quantity: 1,
-    },
-  ];
+export class AddtoCartComponent implements OnInit {
+  constructor(private commonService: CommonService) {
+  }
+  ngOnInit(): void {
+    this.getCartItems();
+  }
+  cartItems: any
 
   discountCode = '';
   discountAmount = 50;
   deliveryCharge = 5;
 
-  increaseQuantity(index: number) {
-    this.cartItems[index].quantity++;
+  increaseQuantity(index: number, id: number) {
+    this.cartItems[index].cart.quantity++;
+    var cartQuantity = this.cartItems[index].cart.quantity
+    this.updateCartItemQuantity(id, cartQuantity)
   }
 
-  decreaseQuantity(index: number) {
-    if (this.cartItems[index].quantity > 1) {
-      this.cartItems[index].quantity--;
+  decreaseQuantity(index: number, id: number) {
+    if (this.cartItems[index].cart.quantity > 1) {
+      this.cartItems[index].cart.quantity--;
+      var cartQuantity = this.cartItems[index].cart.quantity
+      this.updateCartItemQuantity(id, cartQuantity)
     }
   }
 
@@ -50,7 +38,7 @@ export class AddtoCartComponent {
 
   getSubtotal(): number {
     return this.cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total: any, item: any) => total + item.cart.price * item.cart.quantity,
       0
     );
   }
@@ -64,6 +52,44 @@ export class AddtoCartComponent {
   }
 
   getGrandTotal(): number {
-    return this.getSubtotal() - this.discountAmount + this.deliveryCharge;
+    return this.getSubtotal() + this.deliveryCharge;
+  }
+
+  getCartItems() {
+    let guestToken = localStorage.getItem('guestToken');
+    this.commonService.getCartItems(null, guestToken)?.subscribe({
+      next: res => {
+        this.cartItems = res
+      },
+      error: err => {
+        console.log("Error on getCartItems");
+      }
+    })
+  }
+
+  removeCartItem(id: number) {
+    this.commonService.removeCartItem(id)?.subscribe({
+      next: res => {
+        if (res == true) {
+          this.getCartItems();
+        }
+      },
+      error: err => {
+        console.log("Error on removeCartItem");
+      }
+    })
+  }
+
+  updateCartItemQuantity(id: number, quantity: number) {
+    this.commonService.updateCartItemQuantity(id, quantity)?.subscribe({
+      next: res => {
+        if (res == true) {
+          this.getCartItems();
+        }
+      },
+      error: err => {
+        console.log("Error on updateCartItemQuantity");
+      }
+    })
   }
 }
