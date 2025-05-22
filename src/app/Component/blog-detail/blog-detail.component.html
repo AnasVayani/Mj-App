@@ -1,4 +1,43 @@
-<div class="container blog-detail">
+<div *ngIf="blog">
+    <div class="position-relative  overflow-hidden ">
+        <div class="container-fluid ">
+            <div class="row align-items-center position-relative avh-100 align-items-center p-2 p-md-5">
+                <!-- Text Section -->
+                <div class="col-lg-6 col-md-12 text-center text-lg-start z-2 ">
+                    <div class="py-lg-5">
+                        <!-- <p class=" mb-2 heading-1">{{headersSection.heading}}</p> -->
+                       
+                       
+                        <h1 class="fw-bold display-6 heading-2">
+                            {{ blog.title }}
+                        </h1>
+                       
+                        <!-- <button [routerLink]="['/product']" class="btn btn-dark mt-3 px-lg-5">Shop Now</button> -->
+                    </div>
+                </div>
+    
+                <!-- Image Overlay Section -->
+                <div class="col-lg-5 col-md-12">
+                    <div class="position-absolute top-0 start-0 w-100 h-100"
+                        style="background: linear-gradient(270.02deg, rgba(255, 255, 255, 0) -22.8%, #FFFFFF 99.99%);z-index: 1;">
+                    </div>
+                    <!-- Desktop image (shown on tablets & desktops) -->
+                    <img [src]="blog.bannerImage" [alt]="blog.title"
+                        class="img-fluid position-absolute top-50 end-0 translate-middle-y desktop-image d-none d-md-block w-100" />
+    
+                    <!-- Mobile image (shown only on phones)
+              <img src="assets/images/home-banner2.png" alt="Clothes" class="img-fluid mobile-image d-block d-md-none" /> -->
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+
+
+<div class="container blog-detail py-5">
 
     <!-- <h1 class="blog-title mb-5">{{ blog?.title }}</h1>
   
@@ -19,9 +58,8 @@
     </div> -->
 
 
-    <div *ngIf="blog" class="blog-container mb-5">
-        <h1 class="blog-title">{{ blog.title }}</h1>
-        <img [src]="blog.bannerImage" alt="Banner Image" class="blog-banner my-3" />
+    <div  class="blog-container mb-5">
+       
 
         <div *ngFor="let item of blog.content" class="blog-section my-3">
             <h2 *ngIf="item.type.startsWith('heading')" class="blog-heading">
@@ -47,5 +85,7 @@
         </div>
     </div>
 
+
+</div>
 
 </div>
