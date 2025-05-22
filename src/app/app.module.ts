@@ -30,6 +30,7 @@ import { StoryComponent } from './Component/story/story.component';
 import { ContactComponent } from './Component/contact/contact.component';
 import { BlogComponent } from './Component/blog/blog.component';
 import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { BlogDetailComponent } from './Component/blog-detail/blog-detail.compone
     FormsModule,
     ReactiveFormsModule,
     AutocompleteLibModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
    
   ],
   providers: [],
