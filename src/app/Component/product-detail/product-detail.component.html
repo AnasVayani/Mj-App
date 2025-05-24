@@ -22,7 +22,14 @@
         <!-- Left Side: Product Image & Thumbnails -->
         <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
             <div class="product-image">
+                <!-- <img [src]="selectedImage" class="img-fluid main-img" alt="Dress"> -->
+                <i class="ri-arrow-left-s-line nav-btn prev-btn" (click)="previousImage()"></i>
+
+                <!-- Main Image -->
                 <img [src]="selectedImage" class="img-fluid main-img" alt="Dress">
+
+                <!-- Next Button -->
+                <i class="ri-arrow-right-s-line nav-btn next-btn" (click)="nextImage()"></i>
             </div>
             <div class="thumbnails d-flex justify-content-center mt-3">
                 <img *ngFor="let img of product.imageUrl" [src]="img" class="thumb-img" alt="Thumb"
