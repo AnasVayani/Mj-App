@@ -92,6 +92,9 @@ export class ProfileComponent implements OnInit {
     this.getCurrentUser();
     this.getUserWishlist();
     this.getUserAddresses();
+    debugger
+    console.log('Default country value:', this.addressForm.get('country')?.value); 
+    
   }
 
   getAvatarUrl(name: string): string {
@@ -147,7 +150,7 @@ export class ProfileComponent implements OnInit {
     this.addressForm = this.fb.group({
       id: [''],
       name: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^\(\d{3}\) \d{3}-\d{4}$/)]],
+      phone: ['', [Validators.required]],
       address: ['', Validators.required],
       city: ['', Validators.required],
       country: ['', Validators.required],

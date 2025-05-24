@@ -189,24 +189,24 @@
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Country</label>
-                      <select class="form-control" formControlName="country"
+                      <select class="form-select" formControlName="country"
                         (change)="onCountryChange($any($event.target).value)">
-                        <option value="">Select Country</option>
+                        <option value=null  selected disabled>Select Country</option>
                         <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
                       </select>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">State</label>
-                      <select class="form-control" formControlName="state"
+                      <select class="form-select" formControlName="state"
                         (change)="onStateChange($any($event.target).value)">
-                        <option value="">Select State</option>
+                        <option value=null  selected disabled>Select State</option>
                         <option *ngFor="let state of states" [value]="state.id">{{ state.name }}</option>
                       </select>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">City</label>
-                      <select class="form-control" formControlName="city">
-                        <option value="">Select City</option>
+                      <select class="form-select" formControlName="city">
+                        <option value=null selected disabled>Select City</option>
                         <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
                       </select>
                     </div>
