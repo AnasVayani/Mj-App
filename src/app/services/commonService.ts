@@ -208,5 +208,29 @@ export class CommonService {
   addOrUpdateUserAddress(request: any) {
     return this.httpClient.post<any>(`${environment.apiUrl}/Auth/AddOrUpdateUserAddress`, request);
   }
+
+  getOrdersGrandTotal(userId: number | null, guestToken: string | null) {
+    if (!userId && !guestToken) {
+      return;
+    }
+    let params = new HttpParams();
+    if (userId !== null) {
+      params = params.set('userId', userId.toString());
+    }
+    if (guestToken !== null) {
+      params = params.set('guestToken', guestToken);
+    }
+
+    return this.httpClient.get<any>(`${environment.apiUrl}/Order/GetOrdersGrandTotal`, { params });
+  }
+
+  currentUserId() {
+    const user = localStorage.getItem('UserContext');
+    if (user == null || user == undefined) {
+      return null;
+    }
+    var parsedJson = JSON.parse(user);
+    return parsedJson?.id ?? null;
+  }
   
 }

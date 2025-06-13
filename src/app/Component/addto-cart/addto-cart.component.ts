@@ -56,8 +56,14 @@ export class AddtoCartComponent implements OnInit {
   }
 
   getCartItems() {
+    let userId = null
+    let userJson = localStorage.getItem('UserContext');
+    if (userJson) {
+      var user = JSON.parse(userJson)
+      userId = user.id
+    }
     let guestToken = localStorage.getItem('guestToken');
-    this.commonService.getCartItems(null, guestToken)?.subscribe({
+    this.commonService.getCartItems(userId, guestToken)?.subscribe({
       next: res => {
         this.cartItems = res
       },

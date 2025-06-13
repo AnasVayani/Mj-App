@@ -65,7 +65,7 @@ export class ProductDetailComponent {
     }
   }
 
-  
+
 
   selectSize(size: string) {
     this.selectedSize = size;
@@ -86,9 +86,15 @@ export class ProductDetailComponent {
 
   addToCart() {
     if (this.selectedSize) {
-      let guestToken = localStorage.getItem('guestToken');
+      let userId = null
+      let userJson = localStorage.getItem('UserContext');
+      if (userJson) {
+        var user = JSON.parse(userJson)
+        userId = user.id
+      }
+      let guestToken = userId ? null : localStorage.getItem('guestToken');
       const requestData = {
-        userId: null,
+        userId: userId,
         guestToken: guestToken,
         productId: this.product.id,
         quantity: this.productForm.value['quantity'],
@@ -149,5 +155,5 @@ export class ProductDetailComponent {
   getAvatarUrl(name: string): string {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
   }
-  
+
 }
