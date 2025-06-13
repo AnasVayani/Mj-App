@@ -67,7 +67,7 @@ export class CheckoutComponent implements OnInit {
   grandTotal: number = 0;
   deliveryCharges: number = 0;
   subTotal: number = 0;
-
+  cartItems: any
 
 
 
@@ -105,6 +105,7 @@ export class CheckoutComponent implements OnInit {
     this.getCountries();
     this.getUserAddress();
     this.getOrdersGrandTotal();
+    this.getCartItems();
     const payments = Square.payments('sandbox-sq0idb-iibA7s4khpuGVVaTqN8vbw', 'sandbox');
     const card = await payments.card();
     await card.attach('#card-container');
@@ -261,6 +262,19 @@ export class CheckoutComponent implements OnInit {
       },
       error: err => {
         console.log("Error on getOrdersGrandTotal");
+      }
+    })
+  }
+
+  getCartItems() {
+    const userId = this.commonService.currentUserId()
+    let guestToken = localStorage.getItem('guestToken');
+    this.commonService.getCartItems(userId, guestToken)?.subscribe({
+      next: res => {
+        this.cartItems = res
+      },
+      error: err => {
+        console.log("Error on getCartItems");
       }
     })
   }
