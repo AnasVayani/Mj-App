@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { fadeAnimation } from './helper/route-animations';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  animations:[fadeAnimation]
 })
 export class AppComponent implements OnInit {
   showHeaderFooter: boolean = true;
@@ -12,6 +15,9 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router) {
 
+  }
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet?.activatedRouteData?.['animation'];
   }
 
   ngOnInit() {
@@ -25,6 +31,7 @@ export class AppComponent implements OnInit {
         this.showHeaderFooter = event.url !== '/select-country';
         
         this.showHeaderFooter = !this.authRoutes.includes(event.url);
+         window.scrollTo(0, 0);
 
 
         // const isAuthenticated = !!localStorage.getItem('userToken'); // Adjust this based on your authentication logic
@@ -33,6 +40,7 @@ export class AppComponent implements OnInit {
         // }
       }
     });
+    
     const selectedCountry = localStorage.getItem('selectedCountry');
 
     // Redirect to country selection if no country is selected and the user is on home ('/')

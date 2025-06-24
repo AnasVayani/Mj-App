@@ -37,6 +37,33 @@
   width: 100%; /* Full width of the container */
   max-width: 450px; /* Adjust as needed */
   margin: 0 auto; /* Center it */
+  position: relative;
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    font-size: 2rem;
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    padding:0px 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    border: 1px solid #beb9b9;
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
+  }
+
+  .prev-btn {
+    left: 10px;
+  }
+
+  .next-btn {
+    right: 10px;
+  }
 }
 
 .main-img {
@@ -294,3 +321,5 @@ button:disabled {
 .form-control:focus{
     box-shadow: none !important;
 }
+
+

@@ -22,30 +22,58 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    data: { animation: '1' }
+    
   },
   {
     path: 'login',
     component: LoginComponent,
+    data: { animation: '12' }
   },
   {
     path: 'register',
     component: RegisterComponent,
+    data: { animation: '13' }
   },
   {
     path: 'forget-password',
     component: ForgetPasswordComponent,
+    data: { animation: '14' }
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: { animation: '15' }
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    data: { animation: '16' }
+  },
+  {
+    path: 'forget-password',
+    component: ForgetPasswordComponent,
+    data: { animation: '17' }
   },
   {
     path: 'select-country',
     component: SelectCountryComponent,
+    data: { animation: '2' }
   },
   {
     path: 'search',
     component: SearchComponent,
+    data: { animation: '3' }
   },
   {
     path: 'product',
     component: ProductComponent,
+      data: { animation: '4' }
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'profile',
@@ -55,32 +83,37 @@ const routes: Routes = [
   {
     path: 'product-detail',
     component: ProductDetailComponent,
+    data: { animation: '5' }
   },
   {
     path: 'cart',
     component: AddtoCartComponent,
+    data: { animation: '6' }
   },
   {
     path: 'checkout',
     component: CheckoutComponent,
+     data: { animation: '7' }
   },
-  {
-    path: 'our-story',
-    component: OurStoryComponent,
-  },
-  {
-    path: 'contact',
-    component: ContactComponent,
-  },
-  { path: 'blog', component: BlogComponent },
-  { path: 'blog/:slug', component: BlogDetailComponent },
   {
     path: 'our-story',
     component: StoryComponent,
+    data: { animation: '8' }
   },
   {
     path: 'contact-us',
     component: ContactComponent,
+    data: { animation: '9' }
+  },
+  {
+    path: 'blog',
+    component: BlogComponent,
+    data: { animation: '10' }
+  },
+  {
+    path: 'blog/:slug',
+    component: BlogDetailComponent,
+    data: { animation: '11' }
   },
 
   { path: '**', redirectTo: '' },

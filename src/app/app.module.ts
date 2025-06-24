@@ -36,6 +36,8 @@ import { ContactComponent } from './Component/contact/contact.component';
 import { BlogComponent } from './Component/blog/blog.component';
 import { BlogDetailComponent } from './Component/blog-detail/blog-detail.component';
 import { JwtInterceptor } from './helper/jwt.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -74,7 +76,8 @@ import { JwtInterceptor } from './helper/jwt.interceptor';
     FormsModule,
     ReactiveFormsModule,
     AutocompleteLibModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
    
   ],
   providers: [{

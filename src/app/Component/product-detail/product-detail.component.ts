@@ -10,7 +10,7 @@ import { CommonService } from 'src/app/services/commonService';
 })
 export class ProductDetailComponent {
   product: any;
-
+currentImageIndex: number = 0;
   reviews: any = [];
 
   reviewForm: FormGroup;
@@ -38,6 +38,7 @@ export class ProductDetailComponent {
     const navigation = this.router.getCurrentNavigation();
     this.product = navigation?.extras.state ? (navigation.extras.state as { product: any }).product : null;
     this.selectedImage = this.product.imageUrl[0]
+    this.currentImageIndex = 0;
     this.productForm = this.fb.group({
       size: [null],
       quantity: [1],
@@ -155,5 +156,18 @@ export class ProductDetailComponent {
   getAvatarUrl(name: string): string {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
   }
+  nextImage() {
+  if (this.product.imageUrl?.length > 0) {
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.product.imageUrl.length;
+    this.selectedImage = this.product.imageUrl[this.currentImageIndex];
+  }
+}
 
+previousImage() {
+  if (this.product.imageUrl?.length > 0) {
+    this.currentImageIndex = (this.currentImageIndex - 1 + this.product.imageUrl.length) % this.product.imageUrl.length;
+    this.selectedImage = this.product.imageUrl[this.currentImageIndex];
+  }
+  
+}
 }

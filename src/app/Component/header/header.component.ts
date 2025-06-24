@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { Modal } from 'bootstrap';
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   menCategories: Category[] = [];
   womenCategories: Category[] = [];
   SearchModal: Modal | null = null;
-
+@ViewChild('dropdownRef') dropdownRef!: ElementRef;
   mobileMenuActive = false;
   dropdownActive = false;
   searchQuery: string = '';
@@ -141,4 +141,19 @@ export class HeaderComponent implements OnInit {
     })
   }
 
+  openDropdownId: string | null = null;
+
+toggleDropdownn(id: string) {
+  this.openDropdownId = this.openDropdownId === id ? null : id;
+}
+
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent) {
+  const target = event.target as HTMLElement;
+  // Close dropdown only if click is outside any dropdown
+  if (!target.closest('.nav-item.dropdown')) {
+    this.openDropdownId = null;
+  }
+
+}
 }
