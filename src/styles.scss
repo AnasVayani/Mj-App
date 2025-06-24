@@ -25,6 +25,24 @@
   }
 }
 
+.form-control {
+  border-color: #000 !important;
+  &::placeholder {
+    color: #bdb5b5 !important
+      ;
+  }
+  &:focus {
+    box-shadow: none !important;
+    border-color: #000 !important;
+  }
+  &:disabled{
+    border-color: #bdb5b5 !important;
+    background: #ebe9e9 !important;
+
+  }
+}
+
+
 .cursor-pointer{
-  cursor: pointer !important;
+  cursor: pointer;
 }

@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Modal } from 'bootstrap';
+import { CommonService } from 'src/app/services/commonService';
+
+declare var Square: any;
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
 })
-export class CheckoutComponent implements OnInit{
+
+export class CheckoutComponent implements OnInit {
   currentStep = 1;
   checkoutForm: FormGroup;
   paymentForm: FormGroup;
@@ -16,22 +20,14 @@ export class CheckoutComponent implements OnInit{
 
   private modalInstance!: Modal;
 
-  addresses = [
-    {
-      id: 1,
-      name: 'Robert Fox',
-      address: '4517 Washington Ave, Manchester, Kentucky 39459',
-      selected: true,
-    },
-    {
-      id: 2,
-      name: 'John Willions',
-      address: '3891 Ranchview Dr, Richardson, California 62639',
-      selected: false,
-    },
-  ];
+  addresses: {
+    id: number;
+    name: string;
+    address: string;
+    selected: boolean;
+  }[] = [];
   selectedAddress: any = null;
-
+  isUserLoggedIn = this.commonService.isLoggedIn();
 
   estimatedDelivery = '22 Feb 2022';
 
@@ -65,12 +61,18 @@ export class CheckoutComponent implements OnInit{
     type: 'Debit Card',
     maskedNumber: '.... .... .... ..89',
   };
+  countries: any;
+  states: any;
+  cities: any;
+  grandTotal: number = 0;
+  deliveryCharges: number = 0;
+  subTotal: number = 0;
+  cartItems: any
 
 
 
 
-
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private commonService: CommonService) {
     this.checkoutForm = this.fb.group({
       name: ['', Validators.required],
       mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
@@ -99,7 +101,24 @@ export class CheckoutComponent implements OnInit{
       paymentMethod: ['creditCard', Validators.required], // Default selection
     });
   }
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.getCountries();
+    this.getUserAddress();
+    this.getOrdersGrandTotal();
+    this.getCartItems();
+    const payments = Square.payments('sandbox-sq0idb-iibA7s4khpuGVVaTqN8vbw', 'sandbox');
+    const card = await payments.card();
+    await card.attach('#card-container');
+    const button = document.getElementById('card-button');
+    button?.addEventListener('click', async () => {
+      const result = await card.tokenize();
+
+      if (result.status === 'OK') {
+        this.sendToBackend(result.token);
+      } else {
+        console.error('Tokenization failed:', result.errors);
+      }
+    });
     // debugger
     const modalElement = document.getElementById('orderConfirmationModal');
     if (modalElement) {
@@ -154,5 +173,109 @@ export class CheckoutComponent implements OnInit{
 
   editPayment() {
     console.log('Edit Payment Clicked');
+  }
+
+  sendToBackend(token: string) {
+    var request = {
+      PaymentToken: token,
+      OrderId: 1
+    }
+    this.commonService.paymentCheckout(request).subscribe({
+      next: res => {
+        alert("payment completed")
+      },
+      error: err => {
+        alert("payment failed")
+      }
+    })
+  }
+
+  getUserAddress() {
+    if (this.isUserLoggedIn) {
+      this.commonService.getUserAddresses().subscribe({
+        next: res => {
+          const len = res.length;
+          if (len >= 2) {
+            this.addresses = res.slice(len - 2); 
+          } else if (len === 1) {
+            this.addresses = [res[0]]; 
+          } else {
+            this.addresses = [];
+          }
+        },
+        error: err => {
+          console.log("Error on getUserAddress");
+        }
+      })
+    }
+  }
+
+  getCountries() {
+    this.commonService.getCountries().subscribe({
+      next: res => {
+        this.countries = res
+      },
+      error: err => {
+        console.log("Error on getCountries");
+      }
+    })
+  }
+
+  getStates(countryId: number) {
+    this.commonService.getStates(countryId).subscribe({
+      next: res => {
+        this.states = res
+      },
+      error: err => {
+        console.log("Error on getStates");
+      }
+    })
+  }
+
+  getCities(stateId: number) {
+    this.commonService.getCities(stateId).subscribe({
+      next: res => {
+        this.cities = res
+      },
+      error: err => {
+        console.log("Error on getCities");
+      }
+    })
+  }
+
+  onStateChange(stateId: any | null) {
+    this.getCities(stateId)
+  }
+
+  onCountryChange(countryId: any | null) {
+    this.getStates(countryId)
+  }
+
+  getOrdersGrandTotal() {
+    const userId = this.commonService.currentUserId()
+    const guestToken = localStorage.getItem('guestToken')
+    this.commonService.getOrdersGrandTotal(userId, guestToken)?.subscribe({
+      next: res => {
+        this.grandTotal = res.subTotal + res.deliveryCharges
+        this.deliveryCharges = res.deliveryCharges
+        this.subTotal = res.subTotal
+      },
+      error: err => {
+        console.log("Error on getOrdersGrandTotal");
+      }
+    })
+  }
+
+  getCartItems() {
+    const userId = this.commonService.currentUserId()
+    let guestToken = localStorage.getItem('guestToken');
+    this.commonService.getCartItems(userId, guestToken)?.subscribe({
+      next: res => {
+        this.cartItems = res
+      },
+      error: err => {
+        console.log("Error on getCartItems");
+      }
+    })
   }
 }

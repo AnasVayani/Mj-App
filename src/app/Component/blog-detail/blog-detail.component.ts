@@ -1,3 +1,96 @@
+// import { Component, OnInit } from '@angular/core';
+// import { ActivatedRoute } from '@angular/router';
+
+// @Component({
+//   selector: 'app-blog-detail',
+//   templateUrl: './blog-detail.component.html',
+//   styleUrls: ['./blog-detail.component.scss'],
+// })
+// export class BlogDetailComponent implements OnInit {
+//   blogs: any = {
+//     'embracing-tradition-with-modern-flair': {
+//       title: "Embracing Tradition with Modern Flair",
+//       bannerImage: 'assets/banner/banner.png',
+//       content: [
+//         { type: 'heading1', text: 'Introduction' },
+//         { type: 'paragraph1', text: 'The shalwar kameez, a quintessential attire in South Asian fashion, has gracefully evolved over the years.' },
+//         { type: 'heading2', text: 'Modern Adaptations' },
+//         { type: 'paragraph2', text: 'Fashion designers are merging traditional styles with modern aesthetics to cater to younger generations.' },
+//         { type: 'list', items: ['Slimmer cuts and fitted designs', 'Fusion with Western styles', 'Sustainable fabric choices'] },
+
+//       ],
+//     },
+
+//     'cultural-significance-pakistani-attire': {
+//       title: 'The Cultural Significance of Traditional Pakistani Attire',
+//       bannerImage: 'assets/banner/banner.png',
+//       content: [
+//         { type: 'heading', text: 'Why Traditional Attire Matters' },
+//         { type: 'paragraph', text: 'Traditional Pakistani attire, like the shalwar kameez, holds deep cultural value and identity.' },
+//         { type: 'list', items: ['Represents heritage', 'Comfortable in all seasons', 'Enhances cultural pride'] },
+//         { type: 'paragraph', text: 'Embracing tradition helps keep cultural roots alive in modern times.' },
+//       ],
+//     },
+
+//     'evolution-of-mens-shalwar-kameez': {
+//       title: "The Evolution of Men's Shalwar Kameez: Trends to Watch in 2025",
+//       bannerImage: 'assets/banner/banner.png',
+//       content: [
+//         { type: 'heading', text: 'Introduction' },
+//         { type: 'paragraph', text: 'The shalwar kameez, a staple in South Asian attire, has undergone significant transformations over the years.' },
+//         { type: 'heading', text: 'Trends in 2025' },
+//         { type: 'list', items: ['Slim-fit designs', 'Embroidered collars', 'Fusion with modern cuts'] },
+//         { type: 'paragraph', text: 'The shalwar kameez continues to evolve while retaining its cultural essence.' },
+//       ],
+//     },
+
+//     'styling-mens-shalwar-kameez-for-various-occasions': {
+//       title: "Styling Men's Shalwar Kameez for Various Occasions",
+//       bannerImage: 'assets/banner/banner.png',
+//       content: [
+//         { type: 'heading', text: 'Casual Wear' },
+//         { type: 'paragraph', text: 'For casual outings, a simple cotton shalwar kameez paired with loafers works best.' },
+//         { type: 'heading', text: 'Formal Occasions' },
+//         { type: 'list', items: ['Silk or embroidered designs', 'Classic waistcoats', 'Polished leather shoes'] },
+//         { type: 'paragraph', text: 'The versatility of the shalwar kameez makes it suitable for a wide range of occasions.' },
+//       ],
+//     },
+
+//     'art-of-accessorizing-mens-shalwar-kameez': {
+//       title: "The Art of Accessorizing Men's Shalwar Kameez: Elevate Your Traditional Attire",
+//       bannerImage: 'assets/banner/banner.png',
+//       content: [
+//         { type: 'heading', text: 'Essential Accessories' },
+//         { type: 'paragraph', text: 'A shalwar kameez outfit can be enhanced with the right accessories.' },
+//         { type: 'list', items: ['Embroidered shawls', 'Classic waistcoats', 'Stylish khussa shoes'] },
+//         { type: 'paragraph', text: 'Accessories add a touch of personality and cultural depth to traditional wear.' },
+//       ],
+//     },
+
+//     'influence-of-regional-styles': {
+//       title: "The Influence of Regional Styles on Men's Shalwar Kameez Designs",
+//       bannerImage: 'assets/banner/banner.png',
+//       content: [
+//         { type: 'heading', text: 'Regional Variations' },
+//         { type: 'paragraph', text: 'The shalwar kameez exhibits a rich tapestry of regional variations across Pakistan.' },
+//         { type: 'list', items: ['Sindhi Ajrak & embroidered waistcoats', 'Balochi wide-legged shalwar designs', 'Punjabi vibrant colored styles'] },
+//         { type: 'paragraph', text: 'These regional styles reflect the diversity and cultural richness of Pakistani fashion.' },
+//       ],
+//     },
+//   };
+
+//   blog: any = null;
+
+//   constructor(private route: ActivatedRoute) {}
+
+//   ngOnInit() {
+//     const slug = this.route.snapshot.paramMap.get('slug');
+//     if (slug && this.blogs[slug]) {
+//       this.blog = this.blogs[slug];
+//     }
+//   }
+// }
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -24,7 +117,7 @@ export class BlogDetailComponent implements OnInit {
     'embracing-tradition-with-modern-flair': {
       title:
         "Embracing Tradition with Modern Flair: The Evolution of Men's Shalwar Kameez in 2025",
-      bannerImage: 'assets/images/banner.png',
+      bannerImage: 'assets/banner/banner.png',
       content: [
         { type: 'heading', text: 'Introduction' },
         {
@@ -62,7 +155,7 @@ export class BlogDetailComponent implements OnInit {
     },
     'cultural-significance-pakistani-attire': {
       title: 'The Cultural Significance of Traditional Pakistani Attire',
-      bannerImage: 'assets/images/banner.png',
+      bannerImage: 'assets/banner/banner.png',
       content: [
         { type: 'heading', text: 'Introduction' },
         {
@@ -100,7 +193,7 @@ export class BlogDetailComponent implements OnInit {
     },
     'evolution-of-mens-shalwar-kameez': {
       title: "The Evolution of Men's Shalwar Kameez: Trends to Watch in 2025",
-      bannerImage: 'assets/images/banner.png',
+      bannerImage: 'assets/banner/banner.png',
       content: [
         { type: 'heading', text: 'Introduction' },
         {
@@ -137,7 +230,7 @@ export class BlogDetailComponent implements OnInit {
     },
     'styling-mens-shalwar-kameez-for-various-occasions': {
       title: "Styling Men's Shalwar Kameez for Various Occasions",
-      bannerImage: 'assets/images/banner.png',
+      bannerImage: 'assets/banner/banner.png',
       content: [
         { type: 'heading', text: 'Introduction' },
         {
@@ -179,7 +272,7 @@ export class BlogDetailComponent implements OnInit {
     'art-of-accessorizing-mens-shalwar-kameez': {
       title:
         "The Art of Accessorizing Men's Shalwar Kameez: Elevate Your Traditional Attire",
-      bannerImage: 'assets/images/banner.png',
+      bannerImage: 'assets/banner/banner.png',
       content: [
         { type: 'heading', text: 'Introduction' },
         {
@@ -248,7 +341,7 @@ export class BlogDetailComponent implements OnInit {
     },
     'influence-of-regional-styles': {
       title: "The Influence of Regional Styles on Men's Shalwar Kameez Designs",
-      bannerImage: 'assets/images/banner.png',
+      bannerImage: 'assets/banner/banner.png',
       content: [
         { type: 'heading', text: 'Introduction' },
         {

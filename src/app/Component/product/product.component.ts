@@ -165,4 +165,15 @@ export class ProductComponent {
   toggleLike(index: number) {
     // liked logic
   }
+
+  addToWishlist(productId: number) {
+    this.commonService.addToWishlist(productId).subscribe({
+      next: res => {
+        this.GetProducts();
+      },
+      error: err => {
+        alert("wishlist failed")
+      }
+    })
+  }
 }
