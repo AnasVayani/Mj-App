@@ -21,7 +21,8 @@ export class JwtInterceptor implements HttpInterceptor {
     '/api/Auth/AddOrUpdateUserAddress',
     '/api/Auth/GetUserAddresses',
     '/api/Auth/DeletedUserAddress',
-    '/api/Auth/GetOrdersGrandTotal'
+    '/api/Auth/GetOrdersGrandTotal',
+    'api/Order/GetCartItems'
   ];
   constructor() { }
 
