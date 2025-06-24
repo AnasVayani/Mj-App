@@ -68,6 +68,10 @@ const routes: Routes = [
     path: 'our-story',
     component: OurStoryComponent,
   },
+  {
+    path: 'contact',
+    component: ContactComponent,
+  },
   { path: 'blog', component: BlogComponent },
   { path: 'blog/:slug', component: BlogDetailComponent },
   {
