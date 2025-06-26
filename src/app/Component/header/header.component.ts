@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   filteredItems: any
   isLoggedIn: boolean = false;
   userName: any;
+  currency = this.commonService.getCurrency();
 
   constructor(private router: Router, private commonService: CommonService) {
 

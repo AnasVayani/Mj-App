@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Modal } from 'bootstrap';
+import { OrderRequest } from 'src/app/model/order-model';
 import { CommonService } from 'src/app/services/commonService';
 
 declare var Square: any;
@@ -15,7 +16,9 @@ export class CheckoutComponent implements OnInit {
   currentStep = 1;
   checkoutForm: FormGroup;
   paymentForm: FormGroup;
-  selectedPayment: string = 'creditCard'; // Default selected payment method
+  selectedPayment: string = 'cashOnDelivery'; // Default selected payment method
+  currency = this.commonService.getCurrency();
+  orderRequest: OrderRequest = new OrderRequest()
 
 
   private modalInstance!: Modal;
@@ -81,6 +84,7 @@ export class CheckoutComponent implements OnInit {
       city: ['', Validators.required],
       pinCode: ['', Validators.required],
       state: ['', Validators.required],
+      country: ['', Validators.required],
       default: [false],
     });
 
@@ -106,19 +110,6 @@ export class CheckoutComponent implements OnInit {
     this.getUserAddress();
     this.getOrdersGrandTotal();
     this.getCartItems();
-    const payments = Square.payments('sandbox-sq0idb-iibA7s4khpuGVVaTqN8vbw', 'sandbox');
-    const card = await payments.card();
-    await card.attach('#card-container');
-    const button = document.getElementById('card-button');
-    button?.addEventListener('click', async () => {
-      const result = await card.tokenize();
-
-      if (result.status === 'OK') {
-        this.sendToBackend(result.token);
-      } else {
-        console.error('Tokenization failed:', result.errors);
-      }
-    });
     // debugger
     const modalElement = document.getElementById('orderConfirmationModal');
     if (modalElement) {
@@ -127,10 +118,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   openModal() {
-    // debugger
-    if (this.modalInstance) {
-      this.modalInstance.show();
-    }
+    this.orderCheckOut()
   }
 
   selectAddress(index: number) {
@@ -176,18 +164,18 @@ export class CheckoutComponent implements OnInit {
   }
 
   sendToBackend(token: string) {
-    var request = {
-      PaymentToken: token,
-      OrderId: 1
-    }
-    this.commonService.paymentCheckout(request).subscribe({
-      next: res => {
-        alert("payment completed")
-      },
-      error: err => {
-        alert("payment failed")
-      }
-    })
+    // var request = {
+    //   PaymentToken: token,
+    //   OrderId: 1
+    // }
+    // this.commonService.paymentCheckout(request).subscribe({
+    //   next: res => {
+    //     alert("payment completed")
+    //   },
+    //   error: err => {
+    //     alert("payment failed")
+    //   }
+    // })
   }
 
   getUserAddress() {
@@ -277,5 +265,41 @@ export class CheckoutComponent implements OnInit {
         console.log("Error on getCartItems");
       }
     })
+  }
+
+  orderCheckOut() {
+    let currentUserId = this.commonService.currentUserId();
+    let guestToken = localStorage.getItem('guestToken')
+    if (currentUserId || guestToken) {
+      let checkoutForm = this.checkoutForm.value
+      this.orderRequest.customerName = checkoutForm.name
+      this.orderRequest.area = checkoutForm.area
+      this.orderRequest.phoneNo = checkoutForm.mobile
+      this.orderRequest.houseNo = checkoutForm.flat
+      this.orderRequest.stateId = checkoutForm.state
+      this.orderRequest.cityId = checkoutForm.city
+      this.orderRequest.countryId = checkoutForm.country
+      this.orderRequest.pinCode = checkoutForm.pinCode
+      this.orderRequest.userId = currentUserId
+      this.orderRequest.guestToken = guestToken
+      this.orderRequest.paymentMode = this.selectedPayment == 'cashOnDelivery' ? 1 : 2
+      this.commonService.orderCheckOut(this.orderRequest).subscribe({
+        next: res => {
+          if (this.selectedPayment == 'cashOnDelivery') {
+            if (this.modalInstance) {
+            this.modalInstance.show();
+          }
+          }
+          else {
+            if (res.paymentLink) {
+              window.location.href = res.paymentLink
+            }
+          }
+        },
+        error: err => {
+          console.log("error on orderCheckOut");
+        }
+      })
+    }
   }
 }

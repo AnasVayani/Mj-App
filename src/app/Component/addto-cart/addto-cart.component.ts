@@ -17,6 +17,7 @@ export class AddtoCartComponent implements OnInit {
   discountCode = '';
   discountAmount = 50;
   deliveryCharge = 5;
+  currency = this.commonService.getCurrency();
 
   increaseQuantity(index: number, id: number) {
     this.cartItems[index].cart.quantity++;

@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
   addressForm!: FormGroup;
   isEditMode = false;
   selectedIndex: number | null = null;
+  currency = this.commonService.getCurrency();
 
 
 

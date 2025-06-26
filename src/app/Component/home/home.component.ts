@@ -132,6 +132,7 @@ export class HomeComponent implements OnInit, AfterViewInit,OnDestroy {
   bestSelling: any = {}
   dealsSection: any = {}
   weeklyDeals: any;
+  currency = this.commonService.getCurrency();
 
   constructor(private router: Router, private commonService: CommonService) { }
   ngOnDestroy(): void {

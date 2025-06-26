@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { OrderRequest } from '../model/order-model';
 
 @Injectable({
   providedIn: 'root',
@@ -231,6 +232,18 @@ export class CommonService {
     }
     var parsedJson = JSON.parse(user);
     return parsedJson?.id ?? null;
+  }
+
+  getCurrency(): string {
+    var country = localStorage.getItem("selectedCountry")
+    if (country && country == "Pakistan") {
+      return "PKR"
+    }
+    return "USD"
+  }
+
+  orderCheckOut(model: OrderRequest) : Observable<any> {
+    return this.httpClient.post<any>(`${environment.apiUrl}/Order/CreateOrder`, model)
   }
   
 }

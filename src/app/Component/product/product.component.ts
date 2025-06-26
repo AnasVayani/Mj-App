@@ -44,6 +44,7 @@ export class ProductComponent {
   paramCategoryId: number = 0;
   totalCount: any;
   totalPagesCount: number = 0;
+  currency = this.commonService.getCurrency();
 
   constructor(private router:Router, private commonService : CommonService,  private route: ActivatedRoute,) {
     this.checkScreenSize();

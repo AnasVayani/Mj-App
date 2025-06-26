@@ -6,47 +6,34 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CommonService } from '../services/commonService';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  private readonly secureApiUrls = [
-    '/api/Auth/GetUserWishlist',
-    '/api/Auth/AddToWishlist',
-    '/api/Product/GetProducts',
-    '/api/Auth/EditUserDetails',
-    '/api/Auth/GetCurrentUser',
-    '/api/Auth/GetCountries',
-    '/api/Auth/GetCities',
-    '/api/Auth/GetStates',
-    '/api/Auth/AddOrUpdateUserAddress',
-    '/api/Auth/GetUserAddresses',
-    '/api/Auth/DeletedUserAddress',
-    '/api/Auth/GetOrdersGrandTotal',
-    'api/Order/GetCartItems'
-  ];
-  constructor() { }
+
+  constructor(private commonService: CommonService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const user = localStorage.getItem('UserContext');
-    if (user == null || user == undefined) {
-      return next.handle(request);
-    }
-    var parsedJson = JSON.parse(user);
-    const token = parsedJson.token
+    const currency = this.commonService.getCurrency();
 
-    const shouldAttachToken = this.secureApiUrls.some(url =>
-      request.url.includes(url)
-    );
+    let headers: { [name: string]: string } = {
+      'X-Currency': currency // ✅ Add currency header
+    };
 
-    if (token && shouldAttachToken) {
-      const cloned = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      return next.handle(cloned);
+    if (user) {
+      const parsedJson = JSON.parse(user);
+      const token = parsedJson?.token;
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
     }
 
-    return next.handle(request);
+    const clonedRequest = request.clone({
+      setHeaders: headers
+    });
+
+    return next.handle(clonedRequest);
   }
 }

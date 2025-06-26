@@ -95,7 +95,7 @@
                             <span *ngFor="let color of product.colour | splitTrim" class="rounded-circle d-inline-block"
                               [ngStyle]="{ backgroundColor: color }" style="width: 15px; height: 15px;"></span>
                           </div>
-                          <strong>Rs {{ product.price }}</strong>
+                          <strong>{{currency}} {{ product.price }}</strong>
                         </div>
                       </div>
                     </div>

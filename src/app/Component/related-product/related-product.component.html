@@ -8,7 +8,7 @@
                     <h5 class="product-title">{{ product.name.split("–")[0].trim() }}</h5>
                     <p class="product-subtitle">{{ product.name.split("–")[1].trim() }}</p>
                     <p class="price">
-                        <span class="current-price me-2">PKR {{ product.price }}</span>
+                        <span class="current-price me-2">{{currency}} {{ product.price }}</span>
                         <!-- <span class="old-price">${{ product.oldPrice }}</span> -->
                     </p>
                 </div>

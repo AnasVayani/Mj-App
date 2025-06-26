@@ -47,7 +47,7 @@
         <!-- Order Summary -->
         <div class="col-lg-4">
             <div class="summary-box">
-                <p class="summary-item border-bottom pb-2"><strong>Subtotal:</strong> <span>PKR {{ getSubtotal().toFixed(2) }}</span></p>
+                <p class="summary-item border-bottom pb-2"><strong>Subtotal:</strong> <span>{{currency}} {{ getSubtotal().toFixed(2) }}</span></p>
 
                 <div class="discount-section">
                     <label for="discount">Enter Discount Code</label>
@@ -57,8 +57,8 @@
                     </div>
                 </div>
 
-                <p class="summary-item border-bottom pb-2"><strong>Delivery Charge:</strong> <span>PKR {{ deliveryCharge.toFixed(2) }}</span></p>
-                <p class="summary-item grand-total my-4"><strong>Grand Total:</strong> PKR {{ getGrandTotal().toFixed(2) }}</p>
+                <p class="summary-item border-bottom pb-2"><strong>Delivery Charge:</strong> <span>{{currency}} {{ deliveryCharge.toFixed(2) }}</span></p>
+                <p class="summary-item grand-total my-4"><strong>Grand Total:</strong> {{currency}} {{ getGrandTotal().toFixed(2) }}</p>
 
                 <button [routerLink]="['/checkout']" class="btn btn-dark w-100">Proceed to Checkout</button>
             </div>

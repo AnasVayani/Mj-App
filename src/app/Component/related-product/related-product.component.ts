@@ -10,6 +10,7 @@ import { CommonService } from 'src/app/services/commonService';
 export class RelatedProductComponent implements OnInit {
   @Input() color: string = '';
   relatedProducts: any;
+  currency = this.commonService.getCurrency();
 
   constructor(private commonService: CommonService, private router:Router) {
 
