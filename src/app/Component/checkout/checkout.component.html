@@ -54,17 +54,17 @@
                 <!-- <h2>Shipping Address</h2> -->
                 <div class="row" *ngIf="isUserLoggedIn">
                     <div *ngFor="let address of addresses; let i = index" class="col-md-6">
-                        <div class="address-card h-100 p-4" [class.selected]="address.selected"
+                        <div class="address-card h-100 p-4" [class.selected]="address.isDefault"
                             (click)="selectAddress(i)">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <h4 class="fw-semibold m-0">{{ address.name }}</h4>
                                 <input type="checkbox" class="form-check-input" [checked]="selectedAddress === i" />
                             </div>
                             <p>{{ address.address }}</p>
-                            <div class="d-flex gap-2 align-items-center justify-content-center btn-g">
+                            <!-- <div class="d-flex gap-2 align-items-center justify-content-center btn-g">
                                 <button class="btn btn-light w-100">Edit</button>
                                 <button class="btn btn-danger w-100">Delete</button>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                         <input type="checkbox" formControlName="default" class="form-check-input" />
                         <label class="form-check-label">Use as my default address</label>
                     </div>
-                    <button *ngIf="isUserLoggedIn" class="btn btn-dark mt-3 px-5 py-2"
+                    <button *ngIf="isUserLoggedIn" (click)="addOrUpdateUserAddress()" class="btn btn-dark mt-3 px-5 py-2"
                         [disabled]="checkoutForm.invalid">Add New
                         Address</button>
                     <button *ngIf="!isUserLoggedIn" (click)="nextStep()" class="btn btn-dark mt-3 px-5 py-2"
@@ -209,8 +209,8 @@
                         <h6 class="fw-bold">Shipping Address</h6>
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="mb-0 fw-semibold">{{ checkoutForm.value.name }}</p>
-                                <p class="text-muted mb-0">{{ checkoutForm.value.flat }} {{checkoutForm.value.area}}, {{checkoutForm.value.pinCode}}</p>
+                                <p class="mb-0 fw-semibold">{{ orderRequest.customerName }}</p>
+                                <p class="text-muted mb-0">{{ orderRequest.houseNo }} {{orderRequest.area}}, {{orderRequest.pinCode}}</p>
                             </div>
                             <!-- <button class="btn btn-light btn-sm edit-btn" (click)="editAddress()">
                                 <i class="ri-edit-line"></i>

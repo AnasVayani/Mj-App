@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { fadeAnimation } from './helper/route-animations';
+import { CommonService } from './services/commonService';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations:[fadeAnimation]
+  animations: [fadeAnimation]
 })
 export class AppComponent implements OnInit {
   showHeaderFooter: boolean = true;
-  private authRoutes = ['/login', '/register', '/forget-password','/select-country'];
+  private authRoutes = ['/login', '/register', '/forget-password', '/select-country'];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private commonService: CommonService) {
 
   }
   prepareRoute(outlet: RouterOutlet) {
@@ -21,17 +22,20 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    let guestToken = localStorage.getItem('guestToken');
-    if (!guestToken) {
-      guestToken = crypto.randomUUID();
-      localStorage.setItem('guestToken', guestToken);
+    if (!this.commonService.isLoggedIn()) {
+      let guestToken = localStorage.getItem('guestToken');
+      if (!guestToken) {
+        guestToken = crypto.randomUUID();
+        localStorage.setItem('guestToken', guestToken);
+      }
     }
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showHeaderFooter = event.url !== '/select-country';
-        
+
         this.showHeaderFooter = !this.authRoutes.includes(event.url);
-         window.scrollTo(0, 0);
+        window.scrollTo(0, 0);
 
 
         // const isAuthenticated = !!localStorage.getItem('userToken'); // Adjust this based on your authentication logic
@@ -40,7 +44,7 @@ export class AppComponent implements OnInit {
         // }
       }
     });
-    
+
     const selectedCountry = localStorage.getItem('selectedCountry');
 
     // Redirect to country selection if no country is selected and the user is on home ('/')

@@ -36,44 +36,7 @@ export class ProfileComponent implements OnInit {
   isEditCardMode = false;
   selectedCardIndex: number | null = null;
 
-  orders = [
-    {
-      id: 1,
-      image: 'assets/product/product-img.png',
-      name: 'Girls Pink Moana Printed Dress',
-      size: 'S',
-      qty: 1,
-      price: 80,
-      status: 'Delivered',
-    },
-    {
-      id: 2,
-      image: 'assets/product/product-img.png',
-      name: 'Women Textured Handheld Bag',
-      size: 'Regular',
-      qty: 1,
-      price: 80,
-      status: 'In Process',
-    },
-    {
-      id: 3,
-      image: 'assets/product/product-img.png',
-      name: 'Tailored Cotton Casual Shirt',
-      size: 'M',
-      qty: 1,
-      price: 40,
-      status: 'In Process',
-    },
-    {
-      id: 4,
-      image: 'assets/product/product-img.png',
-      name: 'Men’s Running Shoes',
-      size: '10',
-      qty: 1,
-      price: 120,
-      status: 'Shipped',
-    },
-  ];
+  orders: any = [];
   products: any[] = []
 
   profile: any = {}
@@ -93,6 +56,7 @@ export class ProfileComponent implements OnInit {
     this.getCurrentUser();
     this.getUserWishlist();
     this.getUserAddresses();
+    this.getUserOrders();
     debugger
     console.log('Default country value:', this.addressForm.get('country')?.value); 
     
@@ -237,8 +201,8 @@ export class ProfileComponent implements OnInit {
     this.activeTab = tab;
   }
   get filteredOrders() {
-    return this.orders.filter((order) =>
-      order.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    return this.orders.filter((order: any) =>
+      order.order.customerName.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
   }
 
@@ -361,6 +325,17 @@ export class ProfileComponent implements OnInit {
       },
       error: err => {
         console.log("Error on addOrUpdateUserAddress");
+      }
+    })
+  }
+
+  getUserOrders() {
+    this.commonService.getUserOrders().subscribe({
+      next: res => {
+        this.orders = res
+      },
+      error: err => {
+        console.log("Error on getUserOrders");
       }
     })
   }

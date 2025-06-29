@@ -23,9 +23,9 @@
           <li class="list-group-item" [class.active]="activeTab === 'addresses'" (click)="setActiveTab('addresses')">
             <i class="ri-map-pin-line"></i> Manage Addresses
           </li>
-          <li class="list-group-item" [class.active]="activeTab === 'cards'" (click)="setActiveTab('cards')">
+          <!-- <li class="list-group-item" [class.active]="activeTab === 'cards'" (click)="setActiveTab('cards')">
             <i class="ri-bank-card-line"></i> Saved Cards
-          </li>
+          </li> -->
 
         </ul>
       </div>
@@ -88,25 +88,25 @@
               <div class="order-card row align-items-center">
                 <div class="col-lg-8 col-md-7 col-12">
                   <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <img [src]="order.image" alt="Product Image" class="order-image">
+                    <img [src]="order.orderDetails[0]?.product?.imageUrl[0]" alt="Product Image" class="order-image">
                     <div class="order-details">
-                      <h5 class="m-0">{{ order.name }}</h5>
-                      <p class="m-0">Size: {{ order.size }}</p>
-                      <p class="m-0">Qty: {{ order.qty }}</p>
+                      <h5 class="m-0">{{ order.orderDetails[0]?.product?.name }}</h5>
+                      <p class="m-0">Size: {{ order.orderDetails[0]?.size }}</p>
+                      <p class="m-0">Qty: {{ order.orderDetails[0]?.quantity }}</p>
                     </div>
                   </div>
                   <div class="status-message d-flex align-items-center">
                     <span class="status-label" [ngClass]="{
-                                    'delivered': order.status === 'Delivered',
-                                    'in-process': order.status === 'In Process',
-                                    'shipped': order.status === 'Shipped'
-                                  }">{{ order.status }}</span>
-                    <span class="ms-2">Your product has been {{ order.status.toLowerCase() }}</span>
+                                    'delivered': order.order.orderStatusName === 'Delivered',
+                                    'in-process': order.order.orderStatusName === 'Processing',
+                                    'shipped': order.order.orderStatusName === 'Shipped'
+                                  }">{{ order.order.orderStatusName }}</span>
+                    <span class="ms-2">Your product has been {{ order.order.orderStatusName.toLowerCase() }}</span>
                   </div>
                 </div>
 
                 <div class="col-lg-4 col-md-5 col-12 text-md-end text-center mt-3 mt-md-0">
-                  <strong class="price">${{ order.price }}.00</strong>
+                  <strong class="price">{{order.order.currency}}{{ order.order.grandTotal }}.00</strong>
                   <div class="btn-group mt-2">
                     <button class="btn btn-outline-dark rounded">View Order</button>
                     <button class="btn btn-dark rounded" *ngIf="order.status !== 'In Process'">Write A Review</button>
@@ -240,7 +240,7 @@
 
 
 
-        <div *ngIf="activeTab==='cards'" class="p-2">
+        <!-- <div *ngIf="activeTab==='cards'" class="p-2">
           <button class="btn btn-dark" (click)="openCardModal()">+ Add New Card</button>
 
 
@@ -298,7 +298,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>

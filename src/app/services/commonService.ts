@@ -245,5 +245,9 @@ export class CommonService {
   orderCheckOut(model: OrderRequest) : Observable<any> {
     return this.httpClient.post<any>(`${environment.apiUrl}/Order/CreateOrder`, model)
   }
+
+  getUserOrders() {
+    return this.httpClient.get<any>(`${environment.apiUrl}/Order/GetUserOrders`);
+  }
   
 }

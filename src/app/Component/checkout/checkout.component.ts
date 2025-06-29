@@ -27,12 +27,17 @@ export class CheckoutComponent implements OnInit {
     id: number;
     name: string;
     address: string;
-    selected: boolean;
+    isDefault: boolean;
+    cityId: number;
+    stateId: number;
+    countryId: number;
+    pinCode: string;
+    phoneNumber: string;
   }[] = [];
   selectedAddress: any = null;
   isUserLoggedIn = this.commonService.isLoggedIn();
 
-  estimatedDelivery = '22 Feb 2022';
+  estimatedDelivery: string = '';
 
   orderItems = [
     {
@@ -110,6 +115,7 @@ export class CheckoutComponent implements OnInit {
     this.getUserAddress();
     this.getOrdersGrandTotal();
     this.getCartItems();
+    this.setDeilveryDate();
     // debugger
     const modalElement = document.getElementById('orderConfirmationModal');
     if (modalElement) {
@@ -125,12 +131,19 @@ export class CheckoutComponent implements OnInit {
     if (this.selectedAddress === index) {
       // If the same address is clicked again, unselect it
       this.selectedAddress = null;
-      this.addresses[index].selected = false;
+      this.addresses[index].isDefault = false;
     } else {
-      // Select the new address and unselect others
+      this.orderRequest.customerName = this.addresses[index].name
+      this.orderRequest.area = this.addresses[index].address
+      this.orderRequest.phoneNo = this.addresses[index].phoneNumber
+      this.orderRequest.houseNo = this.addresses[index].address.split(' ')[0]
+      this.orderRequest.stateId = this.addresses[index].stateId
+      this.orderRequest.cityId = this.addresses[index].cityId
+      this.orderRequest.countryId = this.addresses[index].countryId
+      this.orderRequest.pinCode = this.addresses[index].pinCode
       this.selectedAddress = index;
       this.addresses.forEach((address, i) => {
-        address.selected = i === index;
+        address.isDefault = i === index;
       });
     }
   }
@@ -184,12 +197,23 @@ export class CheckoutComponent implements OnInit {
         next: res => {
           const len = res.length;
           if (len >= 2) {
-            this.addresses = res.slice(len - 2); 
+            this.addresses = res.slice(len - 2);
           } else if (len === 1) {
-            this.addresses = [res[0]]; 
+            this.addresses = [res[0]];
           } else {
             this.addresses = [];
           }
+          const defaultIndex = this.addresses.findIndex(addr => addr.isDefault);
+          this.selectedAddress = defaultIndex !== -1 ? defaultIndex : null;
+          let address = this.addresses[this.selectedAddress];
+          this.orderRequest.customerName = address.name
+          this.orderRequest.area = address.address
+          this.orderRequest.phoneNo = address.phoneNumber
+          this.orderRequest.houseNo = address.address.split(' ')[0]
+          this.orderRequest.stateId = address.stateId
+          this.orderRequest.cityId = address.cityId
+          this.orderRequest.countryId = address.countryId
+          this.orderRequest.pinCode = address.pinCode
         },
         error: err => {
           console.log("Error on getUserAddress");
@@ -271,15 +295,17 @@ export class CheckoutComponent implements OnInit {
     let currentUserId = this.commonService.currentUserId();
     let guestToken = localStorage.getItem('guestToken')
     if (currentUserId || guestToken) {
-      let checkoutForm = this.checkoutForm.value
-      this.orderRequest.customerName = checkoutForm.name
-      this.orderRequest.area = checkoutForm.area
-      this.orderRequest.phoneNo = checkoutForm.mobile
-      this.orderRequest.houseNo = checkoutForm.flat
-      this.orderRequest.stateId = checkoutForm.state
-      this.orderRequest.cityId = checkoutForm.city
-      this.orderRequest.countryId = checkoutForm.country
-      this.orderRequest.pinCode = checkoutForm.pinCode
+      if (guestToken) {
+        let checkoutForm = this.checkoutForm.value
+        this.orderRequest.customerName = checkoutForm.name
+        this.orderRequest.area = checkoutForm.area
+        this.orderRequest.phoneNo = checkoutForm.mobile
+        this.orderRequest.houseNo = checkoutForm.flat
+        this.orderRequest.stateId = checkoutForm.state
+        this.orderRequest.cityId = checkoutForm.city
+        this.orderRequest.countryId = checkoutForm.country
+        this.orderRequest.pinCode = checkoutForm.pinCode
+      }
       this.orderRequest.userId = currentUserId
       this.orderRequest.guestToken = guestToken
       this.orderRequest.paymentMode = this.selectedPayment == 'cashOnDelivery' ? 1 : 2
@@ -287,8 +313,8 @@ export class CheckoutComponent implements OnInit {
         next: res => {
           if (this.selectedPayment == 'cashOnDelivery') {
             if (this.modalInstance) {
-            this.modalInstance.show();
-          }
+              this.modalInstance.show();
+            }
           }
           else {
             if (res.paymentLink) {
@@ -302,4 +328,42 @@ export class CheckoutComponent implements OnInit {
       })
     }
   }
+
+  addOrUpdateUserAddress() {
+    const formValues = this.checkoutForm.value;
+    const request = {
+      Id: 0,
+      Name: formValues.name,
+      Address: formValues.flat + ' ' + formValues.area,
+      PhoneNumber: formValues.mobile,
+      CityId: formValues.city,
+      PinCode: formValues.pinCode,
+      StateId: formValues.state,
+      CountryId: formValues.country,
+      IsDefault: formValues.default == null ? false : formValues.default,
+      UserId: 0
+    };
+    this.commonService.addOrUpdateUserAddress(request).subscribe({
+      next: res => {
+        this.getUserAddress()
+      },
+      error: err => {
+        console.log("Error on addOrUpdateUserAddress");
+      }
+    })
+  }
+
+  setDeilveryDate() {
+    const today = new Date();
+    const deliveryDate = new Date(today);
+    deliveryDate.setDate(today.getDate() + 7);
+
+    const day = deliveryDate.getDate().toString().padStart(2, '0');
+    const month = deliveryDate.toLocaleString('en-US', { month: 'short' });
+    const year = deliveryDate.getFullYear();
+
+    this.estimatedDelivery = `${day} ${month} ${year}`;
+
+  }
+
 }
