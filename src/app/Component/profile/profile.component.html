@@ -88,7 +88,7 @@
               <div class="order-card row align-items-center">
                 <div class="col-lg-8 col-md-7 col-12">
                   <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <img [src]="order.orderDetails[0]?.product?.imageUrl[0]" alt="Product Image" class="order-image">
+                    <img [src]=order.orderDetails[0]?.product?.imageUrl[0] alt="Product Image" class="order-image">
                     <div class="order-details">
                       <h5 class="m-0">{{ order.orderDetails[0]?.product?.name }}</h5>
                       <p class="m-0">Size: {{ order.orderDetails[0]?.size }}</p>
