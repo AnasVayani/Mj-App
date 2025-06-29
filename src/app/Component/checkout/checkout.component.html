@@ -208,9 +208,13 @@
                     <div class="section">
                         <h6 class="fw-bold">Shipping Address</h6>
                         <div class="d-flex justify-content-between">
-                            <div>
+                            <div *ngIf="isUserLoggedIn">
                                 <p class="mb-0 fw-semibold">{{ orderRequest.customerName }}</p>
                                 <p class="text-muted mb-0">{{ orderRequest.houseNo }} {{orderRequest.area}}, {{orderRequest.pinCode}}</p>
+                            </div>
+                            <div *ngIf="!isUserLoggedIn">
+                                <p class="mb-0 fw-semibold">{{ checkoutForm.value.name }}</p>
+                                <p class="text-muted mb-0">{{ checkoutForm.value.flat }} {{checkoutForm.value.area}}, {{checkoutForm.value.pinCode}}</p>
                             </div>
                             <!-- <button class="btn btn-light btn-sm edit-btn" (click)="editAddress()">
                                 <i class="ri-edit-line"></i>
