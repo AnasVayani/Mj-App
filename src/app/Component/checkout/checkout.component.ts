@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import { OrderRequest } from 'src/app/model/order-model';
 import { CommonService } from 'src/app/services/commonService';
+import Swal from 'sweetalert2';
 
 declare var Square: any;
 
@@ -324,6 +325,12 @@ export class CheckoutComponent implements OnInit {
         },
         error: err => {
           console.log("error on orderCheckOut");
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.error,
+            footer: '<a href="mailto:info@mjexclusive.com">Contact support</a>'
+          });
         }
       })
     }

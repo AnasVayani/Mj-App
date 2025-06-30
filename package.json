@@ -19,11 +19,13 @@
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
     "@popperjs/core": "^2.11.8",
+    "@sweetalert2/ngx-sweetalert2": "^13.0.0",
     "angular-ng-autocomplete": "^2.0.12",
     "bootstrap": "^5.3.3",
     "keen-slider": "^6.8.6",
     "ng-autocomplete": "^1.0.0",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.22.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

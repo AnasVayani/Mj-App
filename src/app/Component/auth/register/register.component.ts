@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/services/commonService';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -45,11 +46,39 @@ export class RegisterComponent  {
     }
     this.commonService.registerUser(request).subscribe({
       next: res => {
-          alert('Registered successfully')
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Registered successfully"
+          });
           this.router.navigate(["/login"])
       },
       error: err => {
-        alert('Registered failed')
+                  const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Registration failed"
+          });
       }
     })
   }

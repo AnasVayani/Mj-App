@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/services/commonService';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-detail',
@@ -10,7 +11,7 @@ import { CommonService } from 'src/app/services/commonService';
 })
 export class ProductDetailComponent {
   product: any;
-currentImageIndex: number = 0;
+  currentImageIndex: number = 0;
   reviews: any = [];
 
   reviewForm: FormGroup;
@@ -105,12 +106,39 @@ currentImageIndex: number = 0;
       };
       this.commonService.addToCart(requestData).subscribe({
         next: res => {
-          alert(
-            `Added to cart: Size ${this.selectedSize}, Quantity: ${this.quantity}`
-          );
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: `Added to cart: Size ${this.selectedSize}, Quantity: ${this.quantity}`
+          });
         },
         error: err => {
           console.log("Error on addToCart");
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: `Failed to add: Size ${this.selectedSize}, Quantity: ${this.quantity}`
+          });
         }
       })
     }
@@ -157,17 +185,17 @@ currentImageIndex: number = 0;
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
   }
   nextImage() {
-  if (this.product.imageUrl?.length > 0) {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.product.imageUrl.length;
-    this.selectedImage = this.product.imageUrl[this.currentImageIndex];
+    if (this.product.imageUrl?.length > 0) {
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.product.imageUrl.length;
+      this.selectedImage = this.product.imageUrl[this.currentImageIndex];
+    }
   }
-}
 
-previousImage() {
-  if (this.product.imageUrl?.length > 0) {
-    this.currentImageIndex = (this.currentImageIndex - 1 + this.product.imageUrl.length) % this.product.imageUrl.length;
-    this.selectedImage = this.product.imageUrl[this.currentImageIndex];
+  previousImage() {
+    if (this.product.imageUrl?.length > 0) {
+      this.currentImageIndex = (this.currentImageIndex - 1 + this.product.imageUrl.length) % this.product.imageUrl.length;
+      this.selectedImage = this.product.imageUrl[this.currentImageIndex];
+    }
+
   }
-  
-}
 }
