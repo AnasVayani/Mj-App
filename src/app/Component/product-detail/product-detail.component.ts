@@ -198,4 +198,10 @@ export class ProductDetailComponent {
     }
 
   }
+
+  isSizeAvailable(size: string): boolean {
+    const detail = this.product.productDetails.find((d: any) => d.size === size);
+    return detail ? detail.quantity > 0 : false;
+  }
+
 }

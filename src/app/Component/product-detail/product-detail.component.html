@@ -68,8 +68,9 @@
                 <label>Size:</label>
                 <div class="sizes">
                     <button *ngFor="let size of ['S', 'M', 'L', 'XL', 'XXL']" (click)="selectSize(size)"
-                        [class.selected]="selectedSize === size" class="size-btn">
-                        {{ size }}
+                        [class.selected]="selectedSize === size" [class.disabled]="!isSizeAvailable(size)"
+                        [disabled]="!isSizeAvailable(size)" class="size-btn">
+                        <span class="size-label">{{ size }}</span>
                     </button>
                 </div>
             </div>
